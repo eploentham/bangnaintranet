@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="daily_doctor_use_pharmacy_detail"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="datestart" isForPrompting="true" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2008-10-01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dateend" isForPrompting="true" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2008-10-31"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header1" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header2" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header3" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[SELECT     dbo.PHARMACY_T06.MNC_PH_CD, dbo.PATIENT_T01.MNC_DOT_CD, dbo.PHARMACY_M01.MNC_GRP_PH_CD,
+                      SUM(dbo.PHARMACY_T06.MNC_PH_QTY) AS MNC_PH_QTY, SUM(dbo.PHARMACY_T06.MNC_PH_QTY * dbo.PHARMACY_M05.MNC_PH_PRI01)
+                      AS TotalPrice, dbo.PATIENT_M26.MNC_DOT_FNAME, dbo.PATIENT_M26.MNC_DOT_LNAME,PHARMACY_M01.MNC_PH_TN 
+FROM         dbo.PHARMACY_T05 INNER JOIN
+                      dbo.PHARMACY_T06 ON dbo.PHARMACY_T05.MNC_DOC_CD = dbo.PHARMACY_T06.MNC_DOC_CD AND
+                      dbo.PHARMACY_T05.MNC_CFR_YR = dbo.PHARMACY_T06.MNC_CFR_YR AND
+                      dbo.PHARMACY_T05.MNC_CFR_NO = dbo.PHARMACY_T06.MNC_CFR_NO AND
+                      dbo.PHARMACY_T05.MNC_CFG_DAT = dbo.PHARMACY_T06.MNC_CFR_DAT INNER JOIN
+                      dbo.PATIENT_T01 ON dbo.PHARMACY_T05.MNC_HN_YR = dbo.PATIENT_T01.MNC_HN_YR AND
+                      dbo.PHARMACY_T05.MNC_HN_NO = dbo.PATIENT_T01.MNC_HN_NO AND dbo.PHARMACY_T05.MNC_PRE_NO = dbo.PATIENT_T01.MNC_PRE_NO AND
+                       dbo.PHARMACY_T05.MNC_DATE = dbo.PATIENT_T01.MNC_DATE INNER JOIN
+                      dbo.PHARMACY_M01 ON dbo.PHARMACY_T06.MNC_PH_CD = dbo.PHARMACY_M01.MNC_PH_CD INNER JOIN
+                      dbo.PHARMACY_M05 ON dbo.PHARMACY_T06.MNC_PH_CD = dbo.PHARMACY_M05.MNC_PH_CD INNER JOIN
+                      dbo.PATIENT_M26 ON dbo.PATIENT_T01.MNC_DOT_CD = dbo.PATIENT_M26.MNC_DOT_CD
+WHERE     (dbo.PHARMACY_T05.MNC_CFG_DAT BETWEEN $P{datestart} AND $P{dateend}) AND (dbo.PHARMACY_T05.MNC_DOC_CD = 'CRO') AND
+                      (dbo.PHARMACY_T05.MNC_CFR_STS <> 'C')
+GROUP BY dbo.PATIENT_M26.MNC_DOT_FNAME, dbo.PATIENT_M26.MNC_DOT_LNAME,dbo.PATIENT_T01.MNC_DOT_CD,
+                      PHARMACY_M01.MNC_PH_TN, dbo.PHARMACY_M01.MNC_GRP_PH_CD,dbo.PHARMACY_T06.MNC_PH_CD
+order by dbo.PATIENT_M26.MNC_DOT_FNAME, dbo.PATIENT_M26.MNC_DOT_LNAME,dbo.PATIENT_T01.MNC_DOT_CD,PHARMACY_M01.MNC_PH_TN,dbo.PHARMACY_T06.MNC_PH_CD]]></queryString>
+
+	<field name="MNC_PH_CD" class="java.lang.String"/>
+	<field name="MNC_DOT_CD" class="java.lang.String"/>
+	<field name="MNC_GRP_PH_CD" class="java.lang.String"/>
+	<field name="MNC_PH_QTY" class="java.lang.Double"/>
+	<field name="TotalPrice" class="java.lang.Double"/>
+	<field name="MNC_DOT_FNAME" class="java.lang.String"/>
+	<field name="MNC_DOT_LNAME" class="java.lang.String"/>
+	<field name="MNC_PH_TN" class="java.lang.String"/>
+
+	<variable name="sum_total" class="java.lang.Double" resetType="Group" resetGroup="mnc_dot_cd" calculation="Sum">
+		<variableExpression><![CDATA[$F{TotalPrice}]]></variableExpression>
+	</variable>
+
+		<group  name="mnc_dot_cd" isStartNewPage="true" >
+			<groupExpression><![CDATA[$F{MNC_DOT_CD}]]></groupExpression>
+			<groupHeader>
+			<band height="38"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="275"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{MNC_DOT_FNAME}+" "+$F{MNC_DOT_LNAME}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="18"
+						width="275"
+						height="19"
+						key="staticText-4"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isBold="true" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[รายการยา]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="285"
+						y="18"
+						width="100"
+						height="19"
+						key="staticText-5"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isBold="true" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[จำนวนยา]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="385"
+						y="18"
+						width="100"
+						height="19"
+						key="staticText-6"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isBold="true" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[มูลค่า]]></text>
+				</staticText>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="20"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="385"
+						y="0"
+						width="100"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_total}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="285"
+						y="-1"
+						width="75"
+						height="17"
+						key="staticText-7"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[รวม]]></text>
+				</staticText>
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="52"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="533"
+						height="16"
+						key="textField-1"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="6" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="16"
+						width="533"
+						height="16"
+						key="textField-2"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="32"
+						width="533"
+						height="16"
+						key="textField-3"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header3}]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="19"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="22"
+						y="0"
+						width="253"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{MNC_PH_TN}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="385"
+						y="0"
+						width="100"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{TotalPrice}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="285"
+						y="0"
+						width="100"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{MNC_PH_QTY}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="3"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="3"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

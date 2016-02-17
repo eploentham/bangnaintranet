@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="rpt_noti_repair_item"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="20"
+		 rightMargin="20"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="header1" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["โรงพยาบาลบางนา 1  1302  ถ. บางนา-ตราด  กม.3  แขวงบางนา  เขตบางนา  กรุงเทพฯ 10260  Tel : (662) 746-8630-8 Fax : (662) 398-9531"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header2" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["BANGNA GENERAL HOSPITAL1302 Bangna-Trad Road, Bangna,Bangkok Thailand 10260 Email :BANGNA1@BANGNA.CO.TH"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header3" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="noti_repair_id" isForPrompting="true" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[SELECT
+     noti_t_noti_repair."noti_repair_id" AS noti_t_noti_repair_noti_repair_id,
+     noti_t_noti_repair."attend_description" AS noti_t_noti_repair_attend_description,
+     noti_b_type_device."type_device_namet" AS noti_b_type_device_type_device_namet,
+     b_department_A."department_namet" AS b_department_A_department_namet,
+     noti_t_noti_repair."attend_user_id" AS noti_t_noti_repair_attend_user_id,
+     noti_b_brand."brand_namet" AS noti_b_brand_brand_namet,
+     noti_b_vendor."vendor_namet" AS noti_b_vendor_vendor_namet,
+     noti_t_noti_repair."symptoms" AS noti_t_noti_repair_symptoms,
+     noti_t_noti_repair."price_repair" AS noti_t_noti_repair_price_repair,
+     noti_t_noti_repair."attend_date" AS noti_t_noti_repair_attend_date,
+     noti_t_noti_repair."model" AS noti_t_noti_repair_model,
+     noti_t_noti_repair."serial_no" AS noti_t_noti_repair_serial_no,
+     noti_t_noti_repair."service_tab" AS noti_t_noti_repair_service_tab,
+     noti_t_noti_repair."vendor_remark" AS noti_t_noti_repair_vendor_remark,
+     noti_t_noti_repair."status_warranty" AS noti_t_noti_repair_status_warranty
+FROM
+     "public"."noti_b_type_device" noti_b_type_device INNER JOIN "public"."noti_t_noti_repair" noti_t_noti_repair ON noti_b_type_device."type_device_id" = noti_t_noti_repair."type_device_id"
+     INNER JOIN "public"."b_department" b_department_A ON noti_t_noti_repair."attend_department_id" = b_department_A."department_id"
+     INNER JOIN "public"."noti_b_brand" noti_b_brand ON noti_t_noti_repair."brand_id" = noti_b_brand."brand_id"
+     INNER JOIN "public"."noti_b_vendor" noti_b_vendor ON noti_t_noti_repair."vendor_id" = noti_b_vendor."vendor_id"
+where noti_t_noti_repair.noti_repair_id = $P{noti_repair_id}]]></queryString>
+
+	<field name="noti_t_noti_repair_noti_repair_id" class="java.lang.String"/>
+	<field name="noti_t_noti_repair_attend_description" class="java.lang.String"/>
+	<field name="noti_b_type_device_type_device_namet" class="java.lang.String"/>
+	<field name="b_department_a_department_namet" class="java.lang.String"/>
+	<field name="noti_t_noti_repair_attend_user_id" class="java.lang.String"/>
+	<field name="noti_b_brand_brand_namet" class="java.lang.String"/>
+	<field name="noti_b_vendor_vendor_namet" class="java.lang.String"/>
+	<field name="noti_t_noti_repair_symptoms" class="java.lang.String"/>
+	<field name="noti_t_noti_repair_price_repair" class="java.lang.Double"/>
+	<field name="noti_t_noti_repair_attend_date" class="java.lang.String"/>
+	<field name="noti_t_noti_repair_model" class="java.lang.String"/>
+	<field name="noti_t_noti_repair_serial_no" class="java.lang.String"/>
+	<field name="noti_t_noti_repair_service_tab" class="java.lang.String"/>
+	<field name="noti_t_noti_repair_vendor_remark" class="java.lang.String"/>
+	<field name="noti_t_noti_repair_status_warranty" class="java.lang.String"/>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="68"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="67"
+						y="23"
+						width="381"
+						height="21"
+						key="textField"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="67"
+						y="0"
+						width="381"
+						height="23"
+						key="textField"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="67"
+						y="44"
+						width="381"
+						height="22"
+						key="textField"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header3}]]></textFieldExpression>
+				</textField>
+				<image  evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="67"
+						height="67"
+						key="image-1"/>
+					<box></box>
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.lang.String"><![CDATA["http://172.1.1.3:8080/bangnaintranet/images/logo_report.jpg"]]></imageExpression>
+				</image>
+				<image  evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="448"
+						y="0"
+						width="107"
+						height="67"
+						key="image-2"/>
+					<box></box>
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.lang.String"><![CDATA["http://172.1.1.3:8080/bangnaintranet/images/logo_report1.jpg"]]></imageExpression>
+				</image>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="414"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="338"
+						y="0"
+						width="217"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["เลขที่ใบแจ้งซ่อม : "+$F{noti_t_noti_repair_noti_repair_id}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="168"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["วันที่แจ้งซ่อม: "+$F{noti_t_noti_repair_attend_date}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="20"
+						width="338"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["แผนกที่แจ้งซ่อม: "+$F{b_department_a_department_namet}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="40"
+						width="338"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ประเภทอุปกรณ์ที่แจ้งซ่อม: "+$F{noti_b_type_device_type_device_namet}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="24"
+						y="60"
+						width="531"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ยี่ห้อ: "+$F{noti_b_brand_brand_namet}+" รุ่น " +$F{noti_t_noti_repair_model} + " serialno "+ $F{noti_t_noti_repair_serial_no}+" service tab " +$F{noti_t_noti_repair_service_tab}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="24"
+						y="80"
+						width="531"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["อาการเสีย: "+$F{noti_t_noti_repair_attend_description}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="24"
+						y="100"
+						width="144"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[อนุมัติ                        ไม่อนุมัติ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="364"
+						y="100"
+						width="144"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[อนุมัติ                        ไม่อนุมัติ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="24"
+						y="146"
+						width="144"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ศูนย์คอมพิวเตอร์]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="364"
+						y="146"
+						width="144"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ผู้อนุมัติ]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="188"
+						width="364"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["บริษัทที่รับซ่อม: "+$F{noti_b_vendor_vendor_namet}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="24"
+						y="208"
+						width="531"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["สิ่งที่ส่งซ่อม: "+$F{noti_t_noti_repair_attend_date}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="228"
+						width="555"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ผลการซ่อม: "+$F{noti_t_noti_repair_symptoms}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="24"
+						y="248"
+						width="531"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["หมายเหตุบริษัทที่รับซ่อม: "+$F{noti_t_noti_repair_vendor_remark}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="24"
+						y="268"
+						width="168"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ซ่อมได้: "]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="234"
+						y="268"
+						width="220"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ค่าใช้จ่าย: "+$F{noti_t_noti_repair_price_repair}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="234"
+						y="288"
+						width="220"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ระยะเวลาในการซ่อม: "+$F{noti_t_noti_repair_attend_date}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="24"
+						y="308"
+						width="144"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ผู้ตรวจสอบการซ่อม]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="24"
+						y="372"
+						width="144"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ศูนย์คอมพิวเตอร์]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="234"
+						y="308"
+						width="220"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ผู้ตรวจสอบ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="234"
+						y="372"
+						width="220"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[แผนกที่แจ้งซ่อม]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="24"
+						y="392"
+						width="100"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[วันที่]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="234"
+						y="392"
+						width="100"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[วันที่]]></text>
+				</staticText>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="45"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="54"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="42"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="admin_case_detail"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<subDataset name="SubDataset1" >
+
+		<parameter name="datestart" isForPrompting="false" class="java.lang.String">
+			<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<parameter name="dateend" isForPrompting="false" class="java.lang.String">
+			<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<queryString><![CDATA[SELECT     dbo.LAB_T01.MNC_ORD_DOT, 
+		case dbo.FINANCE_M02.MNC_FN_STS
+                        when 'C' then 'เงินสด'
+                        when 'K' then 'กองทุน'
+                        when 'P' then 'UC'
+                        when 'R' then 'ลูกหนี้'
+                        when 'S' then 'ประกันสังคม' 
+			when 'A' then 'ลูกหนี้พิเศษ'
+			when 'G' then 'ลูกหนี้โรงพยาบาล'
+			else 'ppppp' end	as MNC_FN_STS,	
+		 dbo.PATIENT_M26.MNC_DOT_FNAME+ ' '+dbo.PATIENT_M26.MNC_DOT_LNAME as name, 
+                      SUM(dbo.LAB_M02.MNC_LB_PRI) AS MNC_LB_PRI
+FROM         dbo.LAB_T01 INNER JOIN
+                      dbo.LAB_T02 ON dbo.LAB_T01.MNC_REQ_YR = dbo.LAB_T02.MNC_REQ_YR AND dbo.LAB_T01.MNC_REQ_NO = dbo.LAB_T02.MNC_REQ_NO AND 
+                      dbo.LAB_T01.MNC_REQ_DAT = dbo.LAB_T02.MNC_REQ_DAT INNER JOIN
+                      dbo.LAB_M02 ON dbo.LAB_T02.MNC_LB_CD = dbo.LAB_M02.MNC_LB_CD INNER JOIN
+                      dbo.FINANCE_M02 ON dbo.LAB_T01.MNC_FN_TYP_CD = dbo.FINANCE_M02.MNC_FN_TYP_CD INNER JOIN
+                      dbo.PATIENT_M26 ON dbo.LAB_T01.MNC_DOT_CD = dbo.PATIENT_M26.MNC_DOT_CD
+WHERE     (dbo.LAB_T01.MNC_REQ_STS <> 'C') AND (dbo.LAB_T01.MNC_REQ_DAT between $P{datestart} and $P{dateend})
+GROUP BY dbo.LAB_T01.MNC_ORD_DOT, MNC_FN_STS, dbo.PATIENT_M26.MNC_DOT_FNAME, dbo.PATIENT_M26.MNC_DOT_LNAME]]></queryString>
+
+		<field name="MNC_ORD_DOT" class="java.lang.String"/>
+		<field name="MNC_FN_STS" class="java.lang.String"/>
+		<field name="name" class="java.lang.String"/>
+		<field name="MNC_LB_PRI" class="java.lang.Double"/>
+
+	</subDataset>
+
+	<parameter name="header1" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header2" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header3" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_case_id" isForPrompting="true" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["12600001"]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[SELECT
+     admin_t_case_detail."case_detail_id" AS admin_t_case_detail_case_detail_id,
+     admin_t_case_detail."patient_hn" AS admin_t_case_detail_patient_hn,
+     admin_t_case_detail."patient_fullnamet" AS admin_t_case_detail_patient_fullnamet,
+     admin_t_case_detail."visit_date" AS admin_t_case_detail_visit_date,
+     admin_t_case_detail."visit_time" AS admin_t_case_detail_visit_time,
+     admin_t_case_detail."branch_id" AS admin_t_case_detail_branch_id,
+     admin_t_case_detail."patient_vn" AS admin_t_case_detail_patient_vn,
+     admin_t_case_detail."department_namet" AS admin_t_case_detail_department_namet,
+     admin_t_case_detail."department_id" AS admin_t_case_detail_department_id,
+     admin_t_case_detail."visit_paid_id" AS admin_t_case_detail_visit_paid_id,
+     admin_t_case_detail."visit_paid_namet" AS admin_t_case_detail_visit_paid_namet,
+     admin_t_case_detail."visit_clinic_id" AS admin_t_case_detail_visit_clinic_id,
+     admin_t_case_detail."visit_clinic_namet" AS admin_t_case_detail_visit_clinic_namet,
+     admin_t_case_detail."case_id" AS admin_t_case_detail_case_id
+FROM
+     "admin_t_case_detail" admin_t_case_detail
+where admin_t_case_detail.case_id = $P{p_case_id}]]></queryString>
+
+	<field name="admin_t_case_detail_case_detail_id" class="java.lang.String"/>
+	<field name="admin_t_case_detail_patient_hn" class="java.lang.String"/>
+	<field name="admin_t_case_detail_patient_fullnamet" class="java.lang.String"/>
+	<field name="admin_t_case_detail_visit_date" class="java.lang.String"/>
+	<field name="admin_t_case_detail_visit_time" class="java.lang.String"/>
+	<field name="admin_t_case_detail_branch_id" class="java.lang.String"/>
+	<field name="admin_t_case_detail_patient_vn" class="java.lang.String"/>
+	<field name="admin_t_case_detail_department_namet" class="java.lang.String"/>
+	<field name="admin_t_case_detail_department_id" class="java.lang.String"/>
+	<field name="admin_t_case_detail_visit_paid_id" class="java.lang.String"/>
+	<field name="admin_t_case_detail_visit_paid_namet" class="java.lang.String"/>
+	<field name="admin_t_case_detail_visit_clinic_id" class="java.lang.String"/>
+	<field name="admin_t_case_detail_visit_clinic_namet" class="java.lang.String"/>
+	<field name="admin_t_case_detail_case_id" class="java.lang.String"/>
+
+	<variable name="row" class="java.lang.Integer" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[new java.lang.Integer(  ($V{row}.intValue()) +1 )]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{row}.valueOf( 0 )]]></initialValueExpression>
+	</variable>
+	<variable name="page_new" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$V{row}.intValue()<15 ? $V{page_new}.valueOf("1"):$V{page_new}.valueOf("2")]]></variableExpression>
+		<initialValueExpression><![CDATA[new String("1")]]></initialValueExpression>
+	</variable>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="78"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="40"
+						width="534"
+						height="19"
+						key="textField-3"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header3}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="40"
+						width="55"
+						height="19"
+						key="staticText-20"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[วันที่ :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="55"
+						y="40"
+						width="118"
+						height="18"
+						key="textField-7"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font pdfFontName="BROWAU.TTF" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{admin_t_case_detail_visit_date}.substring(8,10)+"-"+$F{admin_t_case_detail_visit_date}.substring(5,7)+"-"+$F{admin_t_case_detail_visit_date}.substring(0, 4 )]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="534"
+						height="16"
+						key="textField-1"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="16"
+						width="534"
+						height="26"
+						key="textField-2"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="16" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header2}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="100"
+						y="58"
+						width="195"
+						height="19"
+						key="staticText-9"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ชื่อ-นามสกุล]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="280"
+						y="58"
+						width="37"
+						height="19"
+						key="staticText-10"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[VN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="26"
+						y="58"
+						width="37"
+						height="19"
+						key="staticText-11"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="63"
+						y="58"
+						width="37"
+						height="19"
+						key="staticText-22"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[HN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="317"
+						y="58"
+						width="121"
+						height="19"
+						key="staticText-23"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ประเภทการรับชำระ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="438"
+						y="58"
+						width="96"
+						height="19"
+						key="staticText-24"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[แผนก]]></text>
+				</staticText>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="18"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="280"
+						y="0"
+						width="37"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="BROWAU.TTF" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{admin_t_case_detail_patient_vn}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="26"
+						y="0"
+						width="37"
+						height="18"
+						key="textField-4"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="BROWAU.TTF" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{admin_t_case_detail_visit_time}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="63"
+						y="0"
+						width="55"
+						height="18"
+						key="textField-5"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="BROWAU.TTF" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{admin_t_case_detail_patient_hn}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="118"
+						y="0"
+						width="162"
+						height="18"
+						key="textField-6"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font pdfFontName="BROWAU.TTF" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{admin_t_case_detail_patient_fullnamet}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="316"
+						y="0"
+						width="121"
+						height="18"
+						key="textField-8"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font pdfFontName="BROWAU.TTF" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{admin_t_case_detail_visit_paid_namet}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="438"
+						y="0"
+						width="96"
+						height="18"
+						key="textField-9"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font pdfFontName="BROWAU.TTF" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{admin_t_case_detail_department_namet}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="26"
+						height="18"
+						key="textField-10"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="BROWAU.TTF" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{row}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="21"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="232"
+						y="0"
+						width="300"
+						height="19"
+						key="staticText-18"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[FO-VU-003(แก้ไขครั้งที่ 01-01/05/44)]]></text>
+				</staticText>
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/bangna/!svn/ver/27/bangnaintranet/src/conf
+END
+persistence.xml
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/bangna/!svn/ver/27/bangnaintranet/src/conf/persistence.xml
+END
+MANIFEST.MF
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/bangna/!svn/ver/27/bangnaintranet/src/conf/MANIFEST.MF
+END
+public_bangnaintranet_2.dbschema
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/bangna/!svn/ver/27/bangnaintranet/src/conf/public_bangnaintranet_2.dbschema
+END
+public_bangnaintranet_1.dbschema
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/bangna/!svn/ver/27/bangnaintranet/src/conf/public_bangnaintranet_1.dbschema
+END
+public_bangnaintranet.dbschema
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/bangna/!svn/ver/27/bangnaintranet/src/conf/public_bangnaintranet.dbschema
+END

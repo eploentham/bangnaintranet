@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="lab_list_detail"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="842"
+		 pageHeight="595"
+		 columnWidth="782"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<subDataset name="SubDataset1" >
+
+		<parameter name="datestart" isForPrompting="false" class="java.lang.String">
+			<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<parameter name="dateend" isForPrompting="false" class="java.lang.String">
+			<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<queryString><![CDATA[SELECT     dbo.LAB_T01.MNC_ORD_DOT, 
+		case dbo.FINANCE_M02.MNC_FN_STS
+                        when 'C' then 'เงินสด'
+                        when 'K' then 'กองทุน'
+                        when 'P' then 'UC'
+                        when 'R' then 'ลูกหนี้'
+                        when 'S' then 'ประกันสังคม' 
+			when 'A' then 'ลูกหนี้พิเศษ'
+			when 'G' then 'ลูกหนี้โรงพยาบาล'
+			else 'ppppp' end	as MNC_FN_STS,	
+		 dbo.PATIENT_M26.MNC_DOT_FNAME+ ' '+dbo.PATIENT_M26.MNC_DOT_LNAME as name, 
+                      SUM(dbo.LAB_M02.MNC_LB_PRI) AS MNC_LB_PRI
+FROM         dbo.LAB_T01 INNER JOIN
+                      dbo.LAB_T02 ON dbo.LAB_T01.MNC_REQ_YR = dbo.LAB_T02.MNC_REQ_YR AND dbo.LAB_T01.MNC_REQ_NO = dbo.LAB_T02.MNC_REQ_NO AND 
+                      dbo.LAB_T01.MNC_REQ_DAT = dbo.LAB_T02.MNC_REQ_DAT INNER JOIN
+                      dbo.LAB_M02 ON dbo.LAB_T02.MNC_LB_CD = dbo.LAB_M02.MNC_LB_CD INNER JOIN
+                      dbo.FINANCE_M02 ON dbo.LAB_T01.MNC_FN_TYP_CD = dbo.FINANCE_M02.MNC_FN_TYP_CD INNER JOIN
+                      dbo.PATIENT_M26 ON dbo.LAB_T01.MNC_DOT_CD = dbo.PATIENT_M26.MNC_DOT_CD
+WHERE     (dbo.LAB_T01.MNC_REQ_STS <> 'C') AND (dbo.LAB_T01.MNC_REQ_DAT between $P{datestart} and $P{dateend})
+GROUP BY dbo.LAB_T01.MNC_ORD_DOT, MNC_FN_STS, dbo.PATIENT_M26.MNC_DOT_FNAME, dbo.PATIENT_M26.MNC_DOT_LNAME]]></queryString>
+
+		<field name="MNC_ORD_DOT" class="java.lang.String"/>
+		<field name="MNC_FN_STS" class="java.lang.String"/>
+		<field name="name" class="java.lang.String"/>
+		<field name="MNC_LB_PRI" class="java.lang.Double"/>
+
+	</subDataset>
+
+	<parameter name="header1" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header2" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header3" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_start" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["12400002"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_end" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_claim_id" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_sex_id" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_branch_namet" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_lab_id" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_lab_namet" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_claim_namet" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[select labm01.MNC_LB_CD, labm01.MNC_LB_DSC, labm01.MNC_LB_TYP_CD, labm01.MNC_LB_GRP_CD, labm01.MNC_LB_STS,
+labm02.MNC_LB_PRI01, labm02.MNC_LB_PRI02, labm02.MNC_LB_PRI03, labm02.MNC_FN_CD, labm02.MNC_LB_PRI, labm02.MNC_LB_COS,
+labm04.MNC_LB_RES, labm04.MNC_LB_RES_MIN, labm04.MNC_LB_RES_MAX, labm04.MNC_RES_UNT
+from lab_m01 labm01 left join lab_m02 labm02 on labm01.MNC_LB_CD = labm02.MNC_LB_CD
+left join lab_m04 labm04 on labm01.MNC_LB_CD = labm04.MNC_LB_CD]]></queryString>
+
+	<field name="MNC_LB_CD" class="java.lang.String"/>
+	<field name="MNC_LB_DSC" class="java.lang.String"/>
+	<field name="MNC_LB_TYP_CD" class="java.lang.String"/>
+	<field name="MNC_LB_GRP_CD" class="java.lang.String"/>
+	<field name="MNC_LB_STS" class="java.lang.String"/>
+	<field name="MNC_LB_PRI01" class="java.lang.Double"/>
+	<field name="MNC_LB_PRI02" class="java.lang.Double"/>
+	<field name="MNC_LB_PRI03" class="java.lang.Double"/>
+	<field name="MNC_FN_CD" class="java.lang.String"/>
+	<field name="MNC_LB_PRI" class="java.lang.Double"/>
+	<field name="MNC_LB_COS" class="java.lang.Double"/>
+	<field name="MNC_LB_RES" class="java.lang.String"/>
+	<field name="MNC_LB_RES_MIN" class="java.lang.Double"/>
+	<field name="MNC_LB_RES_MAX" class="java.lang.Double"/>
+	<field name="MNC_RES_UNT" class="java.lang.String"/>
+
+	<variable name="row" class="java.lang.Integer" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[new java.lang.Integer(  ($V{row}.intValue()) +1 )]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{row}.valueOf( 0 )]]></initialValueExpression>
+	</variable>
+	<variable name="page_new" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$V{row}.intValue()<15 ? $V{page_new}.valueOf("1"):$V{page_new}.valueOf("2")]]></variableExpression>
+		<initialValueExpression><![CDATA[new String("1")]]></initialValueExpression>
+	</variable>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="24"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="5"
+						width="73"
+						height="19"
+						key="staticText-1"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Lab Id]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="73"
+						y="5"
+						width="110"
+						height="19"
+						key="staticText-2"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Lab Namet]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="272"
+						y="5"
+						width="54"
+						height="19"
+						key="staticText-3"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[TYD]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="326"
+						y="5"
+						width="54"
+						height="19"
+						key="staticText-5"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[GRD]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="422"
+						y="5"
+						width="54"
+						height="19"
+						key="staticText-6"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[price1]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="476"
+						y="5"
+						width="54"
+						height="19"
+						key="staticText-7"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[price1]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="530"
+						y="5"
+						width="54"
+						height="19"
+						key="staticText-8"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[price1]]></text>
+				</staticText>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="18"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="73"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{MNC_LB_CD}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="272"
+						y="0"
+						width="54"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{MNC_LB_TYP_CD}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="73"
+						y="0"
+						width="199"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{MNC_LB_DSC}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="326"
+						y="0"
+						width="54"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{MNC_LB_GRP_CD}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="380"
+						y="0"
+						width="42"
+						height="18"
+						key="textField-1"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{MNC_LB_STS}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="422"
+						y="0"
+						width="54"
+						height="18"
+						key="textField-2"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{MNC_LB_PRI01}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="476"
+						y="0"
+						width="54"
+						height="18"
+						key="textField-3"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{MNC_LB_PRI02}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="530"
+						y="0"
+						width="54"
+						height="18"
+						key="textField-4"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{MNC_LB_PRI03}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="584"
+						y="0"
+						width="127"
+						height="18"
+						key="textField-5"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{MNC_LB_RES}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="3"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

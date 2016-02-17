@@ -1,0 +1,1772 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="doctor_checkup_form_12102_1"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<subDataset name="SubDataset1" >
+
+		<parameter name="datestart" isForPrompting="false" class="java.lang.String">
+			<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<parameter name="dateend" isForPrompting="false" class="java.lang.String">
+			<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<queryString><![CDATA[SELECT     dbo.LAB_T01.MNC_ORD_DOT, 
+		case dbo.FINANCE_M02.MNC_FN_STS
+                        when 'C' then 'เงินสด'
+                        when 'K' then 'กองทุน'
+                        when 'P' then 'UC'
+                        when 'R' then 'ลูกหนี้'
+                        when 'S' then 'ประกันสังคม' 
+			when 'A' then 'ลูกหนี้พิเศษ'
+			when 'G' then 'ลูกหนี้โรงพยาบาล'
+			else 'ppppp' end	as MNC_FN_STS,	
+		 dbo.PATIENT_M26.MNC_DOT_FNAME+ ' '+dbo.PATIENT_M26.MNC_DOT_LNAME as name, 
+                      SUM(dbo.LAB_M02.MNC_LB_PRI) AS MNC_LB_PRI
+FROM         dbo.LAB_T01 INNER JOIN
+                      dbo.LAB_T02 ON dbo.LAB_T01.MNC_REQ_YR = dbo.LAB_T02.MNC_REQ_YR AND dbo.LAB_T01.MNC_REQ_NO = dbo.LAB_T02.MNC_REQ_NO AND 
+                      dbo.LAB_T01.MNC_REQ_DAT = dbo.LAB_T02.MNC_REQ_DAT INNER JOIN
+                      dbo.LAB_M02 ON dbo.LAB_T02.MNC_LB_CD = dbo.LAB_M02.MNC_LB_CD INNER JOIN
+                      dbo.FINANCE_M02 ON dbo.LAB_T01.MNC_FN_TYP_CD = dbo.FINANCE_M02.MNC_FN_TYP_CD INNER JOIN
+                      dbo.PATIENT_M26 ON dbo.LAB_T01.MNC_DOT_CD = dbo.PATIENT_M26.MNC_DOT_CD
+WHERE     (dbo.LAB_T01.MNC_REQ_STS <> 'C') AND (dbo.LAB_T01.MNC_REQ_DAT between $P{datestart} and $P{dateend})
+GROUP BY dbo.LAB_T01.MNC_ORD_DOT, MNC_FN_STS, dbo.PATIENT_M26.MNC_DOT_FNAME, dbo.PATIENT_M26.MNC_DOT_LNAME]]></queryString>
+
+		<field name="MNC_ORD_DOT" class="java.lang.String"/>
+		<field name="MNC_FN_STS" class="java.lang.String"/>
+		<field name="name" class="java.lang.String"/>
+		<field name="MNC_LB_PRI" class="java.lang.Double"/>
+
+	</subDataset>
+
+	<parameter name="header1" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header2" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header3" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_checkup_id" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["12000001"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header4" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[SELECT
+     doctor_t_checkup."checkup_id" AS doctor_t_checkup_checkup_id,
+     doctor_t_checkup."checkup_date" AS doctor_t_checkup_checkup_date,
+     doctor_t_checkup."f_patient_prefix_id" AS doctor_t_checkup_f_patient_prefix_id,
+     doctor_t_checkup."patient_firstnamet" AS doctor_t_checkup_patient_firstnamet,
+     doctor_t_checkup."patient_lastnamet" AS doctor_t_checkup_patient_lastnamet,
+     doctor_t_checkup."patient_hn" AS doctor_t_checkup_patient_hn,
+     doctor_t_checkup."f_sex_id" AS doctor_t_checkup_f_sex_id,
+     doctor_t_checkup."patient_birthday" AS doctor_t_checkup_patient_birthday,
+     doctor_t_checkup."f_patient_prefix_namee" AS doctor_t_checkup_f_patient_prefix_namee,
+     doctor_t_checkup."patient_firstnamee" AS doctor_t_checkup_patient_firstnamee,
+     doctor_t_checkup."patient_lastnamee" AS doctor_t_checkup_patient_lastnamee,
+     doctor_t_checkup."checkup_active" AS doctor_t_checkup_checkup_active,
+     doctor_t_checkup."patient_age" AS doctor_t_checkup_patient_age,
+     doctor_t_checkup."f_patient_blood_group_id" AS doctor_t_checkup_f_patient_blood_group_id,
+     doctor_t_checkup."patient_pid" AS doctor_t_checkup_patient_pid,
+     doctor_t_checkup."passport_no" AS doctor_t_checkup_passport_no,
+     doctor_t_checkup."f_patient_marriage_status_id" AS doctor_t_checkup_f_patient_marriage_status_id,
+     doctor_t_checkup."patient_changwat" AS doctor_t_checkup_patient_changwat,
+     doctor_t_checkup."f_patient_nation_id" AS doctor_t_checkup_f_patient_nation_id,
+     doctor_t_checkup."asthma" AS doctor_t_checkup_asthma,
+     doctor_t_checkup."hypertension" AS doctor_t_checkup_hypertension,
+     doctor_t_checkup."hemoptysis" AS doctor_t_checkup_hemoptysis,
+     doctor_t_checkup."heart_diseases" AS doctor_t_checkup_heart_diseases,
+     doctor_t_checkup."diabetes_mellitus" AS doctor_t_checkup_diabetes_mellitus,
+     doctor_t_checkup."jaundice" AS doctor_t_checkup_jaundice,
+     doctor_t_checkup."epilepsy" AS doctor_t_checkup_epilepsy,
+     doctor_t_checkup."veneral_diseases" AS doctor_t_checkup_veneral_diseases,
+     doctor_t_checkup."acquired_immune" AS doctor_t_checkup_acquired_immune,
+     doctor_t_checkup."edema" AS doctor_t_checkup_edema,
+     doctor_t_checkup."yaws" AS doctor_t_checkup_yaws,
+     doctor_t_checkup."otorrhea" AS doctor_t_checkup_otorrhea,
+     doctor_t_checkup."hernia" AS doctor_t_checkup_hernia,
+     doctor_t_checkup."hemorrhoid" AS doctor_t_checkup_hemorrhoid,
+     doctor_t_checkup."accident" AS doctor_t_checkup_accident,
+     doctor_t_checkup."fractures" AS doctor_t_checkup_fractures,
+     doctor_t_checkup."surgical_operation" AS doctor_t_checkup_surgical_operation,
+     doctor_t_checkup."malaria" AS doctor_t_checkup_malaria,
+     doctor_t_checkup."height" AS doctor_t_checkup_height,
+     doctor_t_checkup."width" AS doctor_t_checkup_width,
+     doctor_t_checkup."blood_pressure" AS doctor_t_checkup_blood_pressure,
+     doctor_t_checkup."pulse" AS doctor_t_checkup_pulse,
+     doctor_t_checkup."eye_right" AS doctor_t_checkup_eye_right,
+     doctor_t_checkup."eye_left" AS doctor_t_checkup_eye_left,
+     doctor_t_checkup."glasses" AS doctor_t_checkup_glasses,
+     doctor_t_checkup."color_blindness" AS doctor_t_checkup_color_blindness,
+     doctor_t_checkup."general_appearance" AS doctor_t_checkup_general_appearance,
+     doctor_t_checkup."skin_scalp" AS doctor_t_checkup_skin_scalp,
+     doctor_t_checkup."lymph_nodes" AS doctor_t_checkup_lymph_nodes,
+     doctor_t_checkup."eyes" AS doctor_t_checkup_eyes,
+     doctor_t_checkup."ears" AS doctor_t_checkup_ears,
+     doctor_t_checkup."nose" AS doctor_t_checkup_nose,
+     doctor_t_checkup."female_lmp" AS doctor_t_checkup_female_lmp,
+     doctor_t_checkup."medical_explain" AS doctor_t_checkup_medical_explain
+FROM
+     "public"."doctor_t_checkup" doctor_t_checkup
+where doctor_t_checkup.checkup_id = $P{p_checkup_id}]]></queryString>
+
+	<field name="doctor_t_checkup_checkup_id" class="java.lang.String"/>
+	<field name="doctor_t_checkup_checkup_date" class="java.lang.String"/>
+	<field name="doctor_t_checkup_f_patient_prefix_id" class="java.lang.String"/>
+	<field name="doctor_t_checkup_patient_firstnamet" class="java.lang.String"/>
+	<field name="doctor_t_checkup_patient_lastnamet" class="java.lang.String"/>
+	<field name="doctor_t_checkup_patient_hn" class="java.lang.String"/>
+	<field name="doctor_t_checkup_f_sex_id" class="java.lang.String"/>
+	<field name="doctor_t_checkup_patient_birthday" class="java.lang.String"/>
+	<field name="doctor_t_checkup_f_patient_prefix_namee" class="java.lang.String"/>
+	<field name="doctor_t_checkup_patient_firstnamee" class="java.lang.String"/>
+	<field name="doctor_t_checkup_patient_lastnamee" class="java.lang.String"/>
+	<field name="doctor_t_checkup_checkup_active" class="java.lang.String"/>
+	<field name="doctor_t_checkup_patient_age" class="java.lang.String"/>
+	<field name="doctor_t_checkup_f_patient_blood_group_id" class="java.lang.String"/>
+	<field name="doctor_t_checkup_patient_pid" class="java.lang.String"/>
+	<field name="doctor_t_checkup_passport_no" class="java.lang.String"/>
+	<field name="doctor_t_checkup_f_patient_marriage_status_id" class="java.lang.String"/>
+	<field name="doctor_t_checkup_patient_changwat" class="java.lang.String"/>
+	<field name="doctor_t_checkup_f_patient_nation_id" class="java.lang.String"/>
+	<field name="doctor_t_checkup_asthma" class="java.lang.String"/>
+	<field name="doctor_t_checkup_hypertension" class="java.lang.String"/>
+	<field name="doctor_t_checkup_hemoptysis" class="java.lang.String"/>
+	<field name="doctor_t_checkup_heart_diseases" class="java.lang.String"/>
+	<field name="doctor_t_checkup_diabetes_mellitus" class="java.lang.String"/>
+	<field name="doctor_t_checkup_jaundice" class="java.lang.String"/>
+	<field name="doctor_t_checkup_epilepsy" class="java.lang.String"/>
+	<field name="doctor_t_checkup_veneral_diseases" class="java.lang.String"/>
+	<field name="doctor_t_checkup_acquired_immune" class="java.lang.String"/>
+	<field name="doctor_t_checkup_edema" class="java.lang.String"/>
+	<field name="doctor_t_checkup_yaws" class="java.lang.String"/>
+	<field name="doctor_t_checkup_otorrhea" class="java.lang.String"/>
+	<field name="doctor_t_checkup_hernia" class="java.lang.String"/>
+	<field name="doctor_t_checkup_hemorrhoid" class="java.lang.String"/>
+	<field name="doctor_t_checkup_accident" class="java.lang.String"/>
+	<field name="doctor_t_checkup_fractures" class="java.lang.String"/>
+	<field name="doctor_t_checkup_surgical_operation" class="java.lang.String"/>
+	<field name="doctor_t_checkup_malaria" class="java.lang.String"/>
+	<field name="doctor_t_checkup_height" class="java.lang.String"/>
+	<field name="doctor_t_checkup_width" class="java.lang.String"/>
+	<field name="doctor_t_checkup_blood_pressure" class="java.lang.String"/>
+	<field name="doctor_t_checkup_pulse" class="java.lang.String"/>
+	<field name="doctor_t_checkup_eye_right" class="java.lang.String"/>
+	<field name="doctor_t_checkup_eye_left" class="java.lang.String"/>
+	<field name="doctor_t_checkup_glasses" class="java.lang.String"/>
+	<field name="doctor_t_checkup_color_blindness" class="java.lang.String"/>
+	<field name="doctor_t_checkup_general_appearance" class="java.lang.String"/>
+	<field name="doctor_t_checkup_skin_scalp" class="java.lang.String"/>
+	<field name="doctor_t_checkup_lymph_nodes" class="java.lang.String"/>
+	<field name="doctor_t_checkup_eyes" class="java.lang.String"/>
+	<field name="doctor_t_checkup_ears" class="java.lang.String"/>
+	<field name="doctor_t_checkup_nose" class="java.lang.String"/>
+	<field name="doctor_t_checkup_female_lmp" class="java.lang.String"/>
+	<field name="doctor_t_checkup_medical_explain" class="java.lang.String"/>
+
+	<variable name="row" class="java.lang.Integer" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[new java.lang.Integer(  ($V{row}.intValue()) +1 )]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{row}.valueOf( 0 )]]></initialValueExpression>
+	</variable>
+	<variable name="page_new" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$V{row}.intValue()<15 ? $V{page_new}.valueOf("1"):$V{page_new}.valueOf("2")]]></variableExpression>
+		<initialValueExpression><![CDATA[new String("1")]]></initialValueExpression>
+	</variable>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="183"  isSplitAllowed="true" >
+				<image  isLazy="true" isUsingCache="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="0"
+						y="0"
+						width="80"
+						height="80"
+						key="image-1"/>
+					<box></box>
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.lang.String"><![CDATA["http://172.1.1.3:8080/bangnaintranet/images/logo_report_1.jpg"]]></imageExpression>
+				</image>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="80"
+						y="0"
+						width="455"
+						height="16"
+						key="textField-1"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="80"
+						y="19"
+						width="455"
+						height="16"
+						key="textField-2"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header2}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="80"
+						y="17"
+						width="455"
+						height="0"
+						key="line-1"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<rectangle>
+					<reportElement
+						x="452"
+						y="35"
+						width="78"
+						height="100"
+						key="rectangle-1"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="119"
+						y="101"
+						width="275"
+						height="16"
+						key="textField-3"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="12" isBold="true" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header3}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="119"
+						y="117"
+						width="275"
+						height="16"
+						key="textField-4"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="12" isBold="true" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header4}]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="617"  isSplitAllowed="true" >
+				<rectangle>
+					<reportElement
+						mode="Transparent"
+						x="0"
+						y="188"
+						width="534"
+						height="304"
+						key="rectangle-3"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="471"
+						y="102"
+						width="60"
+						height="22"
+						key="staticText-34"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[اعزب]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						mode="Transparent"
+						x="0"
+						y="0"
+						width="534"
+						height="154"
+						key="rectangle-2"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="380"
+						y="102"
+						width="60"
+						height="22"
+						key="staticText-33"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[متزوج]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="351"
+						y="102"
+						width="60"
+						height="20"
+						key="staticText-29"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[(   ) Married]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="367"
+						y="43"
+						width="60"
+						height="22"
+						key="staticText-17"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ذكر]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="24"
+						y="10"
+						width="52"
+						height="22"
+						key="staticText-2"/>
+					<box></box>
+					<textElement verticalAlignment="Top">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[التسلسل]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="2"
+						y="10"
+						width="31"
+						height="20"
+						key="staticText-4"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Ref.No]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="76"
+						y="10"
+						width="100"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_patient_hn}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="178"
+						y="10"
+						width="100"
+						height="20"
+						key="staticText-6"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Date of Examination]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="281"
+						y="12"
+						width="100"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_checkup_date}.substring(8,10)+"-"+$F{doctor_t_checkup_checkup_date}.substring(5,6)+"-"+$F{doctor_t_checkup_checkup_date}.substring(0,2)]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="194"
+						y="28"
+						width="74"
+						height="22"
+						key="staticText-7"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[تاريخ الفحص]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="2"
+						y="43"
+						width="31"
+						height="20"
+						key="staticText-8"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Name]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="32"
+						y="43"
+						width="31"
+						height="22"
+						key="staticText-9"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[الاسم]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="76"
+						y="43"
+						width="229"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_f_patient_prefix_namee}+" "+$F{doctor_t_checkup_patient_firstnamee}+" "+$F{doctor_t_checkup_patient_lastnamee}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="338"
+						y="10"
+						width="197"
+						height="22"
+						key="staticText-12"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[التاريخ/شهر/سنة (Date/ Month/ Year )]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="302"
+						y="43"
+						width="87"
+						height="20"
+						key="staticText-13"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Sex]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="324"
+						y="43"
+						width="87"
+						height="22"
+						key="staticText-14"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[الجنس]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="345"
+						y="43"
+						width="60"
+						height="20"
+						key="staticText-15"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[(   ) Male]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="442"
+						y="43"
+						width="60"
+						height="20"
+						key="staticText-16"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[(   ) Female]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="463"
+						y="43"
+						width="69"
+						height="22"
+						key="staticText-18"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[انثى ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="2"
+						y="72"
+						width="31"
+						height="20"
+						key="staticText-19"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Age]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="69"
+						y="72"
+						width="28"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_patient_age}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="24"
+						y="72"
+						width="31"
+						height="22"
+						key="staticText-20"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[العمر]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="104"
+						y="70"
+						width="58"
+						height="20"
+						key="staticText-21"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Years]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="178"
+						y="70"
+						width="60"
+						height="20"
+						key="staticText-22"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ID.No.]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="280"
+						y="72"
+						width="100"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_patient_pid}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="354"
+						y="70"
+						width="87"
+						height="20"
+						key="staticText-23"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Passport No.]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="473"
+						y="72"
+						width="59"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_passport_no}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="136"
+						y="70"
+						width="58"
+						height="22"
+						key="staticText-24"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[السنين]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="415"
+						y="70"
+						width="58"
+						height="22"
+						key="staticText-25"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[التسلسل]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="218"
+						y="70"
+						width="60"
+						height="22"
+						key="staticText-26"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[رقم البطاقة]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="2"
+						y="102"
+						width="69"
+						height="20"
+						key="staticText-27"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Date of birth]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="97"
+						y="102"
+						width="58"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_patient_birthday}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="178"
+						y="102"
+						width="87"
+						height="20"
+						key="staticText-28"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Marriage Status]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="441"
+						y="102"
+						width="60"
+						height="20"
+						key="staticText-30"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[(   ) Single]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="61"
+						y="102"
+						width="59"
+						height="22"
+						key="staticText-31"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[الميلاد]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="255"
+						y="102"
+						width="87"
+						height="22"
+						key="staticText-32"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[الحالة الزوجية]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="2"
+						y="132"
+						width="60"
+						height="20"
+						key="staticText-35"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Home Address]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="97"
+						y="132"
+						width="121"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_patient_changwat}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="205"
+						y="132"
+						width="158"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_f_patient_nation_id}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="33"
+						y="132"
+						width="59"
+						height="22"
+						key="staticText-36"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[العنوان]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="161"
+						width="535"
+						height="27"
+						key="staticText-38"/>
+					<box>					<pen lineWidth="0.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[التاريخ الطبيMEDICAL HISTORY     ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="183"
+						width="535"
+						height="27"
+						key="staticText-39"/>
+					<box>					<pen lineWidth="0.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[HAVE YOU EVER IN YOUR LIFE INCLUDING CHILDHOOD HAD ANY OF THE FOLLOWING]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="198"
+						width="535"
+						height="27"
+						key="staticText-40"/>
+					<box>					<pen lineWidth="0.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[هل اصبت باحد الامراض التالية بضمنها مرحلة الطفولة]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="231"
+						width="112"
+						height="20"
+						key="staticText-41"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[    نعم NO     لاYES]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="9"
+						y="251"
+						width="179"
+						height="20"
+						key="staticText-42"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[الربو Asthma (   )     (   )]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="9"
+						y="271"
+						width="228"
+						height="20"
+						key="staticText-43"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ ارتفاع الضغط Hypertension (   )     (   )]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="9"
+						y="291"
+						width="228"
+						height="20"
+						key="staticText-44"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[بصاق الدم Hemoptysis (   )     (   )]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="9"
+						y="311"
+						width="228"
+						height="20"
+						key="staticText-45"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[امراض القلب    Heart diseases (   )     (   )]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="9"
+						y="331"
+						width="228"
+						height="20"
+						key="staticText-46"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[السكري   Diabetes mellitus (   )     (   )]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="9"
+						y="351"
+						width="228"
+						height="20"
+						key="staticText-47"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[اليرقانJaundice (   )     (   )]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="9"
+						y="371"
+						width="228"
+						height="20"
+						key="staticText-48"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[الصرعEpilepsy (   )     (   )]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="9"
+						y="391"
+						width="293"
+						height="20"
+						key="staticText-49"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[امراض تناسلية   Veneral Diseases (   )     (   )]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="9"
+						y="411"
+						width="342"
+						height="20"
+						key="staticText-50"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[نقص المناعة الكتسبAcquired immune deficiency syndrome (   )     (   )]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="349"
+						y="231"
+						width="112"
+						height="20"
+						key="staticText-51"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[    نعم NO     لاYES]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="362"
+						y="251"
+						width="144"
+						height="20"
+						key="staticText-52"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[الاستسقاء Edema (   )     (   )]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="363"
+						y="271"
+						width="146"
+						height="20"
+						key="staticText-53"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[المصع   Yaws (   )     (   )]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="363"
+						y="291"
+						width="111"
+						height="20"
+						key="staticText-54"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[(   )     (   ) Otorrhea]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="362"
+						y="311"
+						width="146"
+						height="20"
+						key="staticText-55"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[الفتق Hernia (   )     (   )]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="363"
+						y="331"
+						width="158"
+						height="20"
+						key="staticText-56"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[البواسير Hemorrhoid (   )     (   )]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="362"
+						y="351"
+						width="146"
+						height="20"
+						key="staticText-57"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[حوادث Accident (   )     (   )]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="362"
+						y="371"
+						width="146"
+						height="20"
+						key="staticText-58"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[كسورFractures (   )     (   )]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="325"
+						y="391"
+						width="199"
+						height="20"
+						key="staticText-59"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[عمليات   Surgical Operation (   )     (   )]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="363"
+						y="411"
+						width="146"
+						height="20"
+						key="staticText-60"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ملارياMalaria (   )     (   )]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="70"
+						y="431"
+						width="225"
+						height="20"
+						key="staticText-61"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Female  L.M.P.              امراض نسائية]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="70"
+						y="451"
+						width="225"
+						height="20"
+						key="staticText-62"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Please explain all items answered "Yes"]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="70"
+						y="471"
+						width="225"
+						height="20"
+						key="staticText-63"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[  اذا كانت الاجابة نعم ، وضح ذلك     ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="31"
+						y="499"
+						width="487"
+						height="20"
+						key="staticText-64"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[I  certify  that  above  answers  are  true  and  complete  and  I  am  aware  that  any  material  falsification]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="43"
+						y="519"
+						width="487"
+						height="20"
+						key="staticText-65"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[or  omission  of  fact  result  in  my  immediate  discharge.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="205"
+						y="549"
+						width="145"
+						height="17"
+						key="staticText-66"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Examinee's  Signature]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="205"
+						y="566"
+						width="87"
+						height="17"
+						key="staticText-67"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[التوقيع]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="205"
+						y="597"
+						width="145"
+						height="17"
+						key="staticText-68"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="234"
+						y="597"
+						width="87"
+						height="17"
+						key="staticText-69"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[التاريخ]]></text>
+				</staticText>
+				<line direction="BottomUp">
+					<reportElement
+						x="42"
+						y="251"
+						width="16"
+						height="16"
+						key="line_asthma-1">
+							<printWhenExpression><![CDATA[new Boolean( $F{doctor_t_checkup_asthma}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch">
+					<pen lineWidth="3.0"/>
+</graphicElement>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="10"
+						y="251"
+						width="16"
+						height="16"
+						key="line_asthma-2">
+							<printWhenExpression><![CDATA[new Boolean( $F{doctor_t_checkup_asthma}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="10"
+						y="271"
+						width="16"
+						height="16"
+						key="line_asthma-3">
+							<printWhenExpression><![CDATA[new Boolean( $F{doctor_t_checkup_hypertension}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="42"
+						y="271"
+						width="16"
+						height="16"
+						key="line_asthma-4">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hypertension}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="10"
+						y="291"
+						width="16"
+						height="16"
+						key="line_asthma-5">
+							<printWhenExpression><![CDATA[new Boolean( $F{doctor_t_checkup_hemoptysis}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="42"
+						y="291"
+						width="16"
+						height="16"
+						key="line_asthma-6">
+							<printWhenExpression><![CDATA[new Boolean( $F{doctor_t_checkup_hemoptysis}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="10"
+						y="311"
+						width="16"
+						height="16"
+						key="line_asthma-7">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_heart_diseases}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="42"
+						y="311"
+						width="16"
+						height="16"
+						key="line_asthma-8">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_heart_diseases}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="10"
+						y="331"
+						width="16"
+						height="16"
+						key="line_asthma-9">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_diabetes_mellitus}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="41"
+						y="331"
+						width="16"
+						height="16"
+						key="line_asthma-10">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_diabetes_mellitus}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="10"
+						y="351"
+						width="16"
+						height="16"
+						key="line_asthma-11">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_jaundice}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="42"
+						y="351"
+						width="16"
+						height="16"
+						key="line_asthma-12">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_jaundice}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="10"
+						y="371"
+						width="16"
+						height="16"
+						key="line_asthma-13">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_epilepsy}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="42"
+						y="371"
+						width="16"
+						height="16"
+						key="line_asthma-14">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_epilepsy}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="10"
+						y="391"
+						width="16"
+						height="16"
+						key="line_asthma-15">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_veneral_diseases}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="42"
+						y="391"
+						width="16"
+						height="16"
+						key="line_asthma-16">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_veneral_diseases}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="10"
+						y="411"
+						width="16"
+						height="16"
+						key="line_asthma-17">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_acquired_immune}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="42"
+						y="411"
+						width="16"
+						height="16"
+						key="line_asthma-18">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_acquired_immune}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="363"
+						y="251"
+						width="16"
+						height="16"
+						key="line_asthma-19">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_edema}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="395"
+						y="251"
+						width="16"
+						height="16"
+						key="line_asthma-20">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_edema}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="364"
+						y="271"
+						width="16"
+						height="16"
+						key="line_asthma-21">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_yaws}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="396"
+						y="271"
+						width="16"
+						height="16"
+						key="line_asthma-22">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_yaws}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="364"
+						y="291"
+						width="16"
+						height="16"
+						key="line_asthma-23">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_otorrhea}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="396"
+						y="291"
+						width="16"
+						height="16"
+						key="line_asthma-24">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_otorrhea}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="363"
+						y="311"
+						width="16"
+						height="16"
+						key="line_asthma-25">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hernia}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="395"
+						y="311"
+						width="16"
+						height="16"
+						key="line_asthma-26">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hernia}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="364"
+						y="331"
+						width="16"
+						height="16"
+						key="line_asthma-27">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hemorrhoid}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="396"
+						y="331"
+						width="16"
+						height="16"
+						key="line_asthma-28">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hemorrhoid}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="363"
+						y="351"
+						width="16"
+						height="16"
+						key="line_asthma-29">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_accident}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="396"
+						y="351"
+						width="16"
+						height="16"
+						key="line_asthma-30">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_accident}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="363"
+						y="371"
+						width="16"
+						height="16"
+						key="line_asthma-31">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_fractures}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="396"
+						y="371"
+						width="16"
+						height="16"
+						key="line_asthma-32">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_fractures}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="326"
+						y="392"
+						width="16"
+						height="16"
+						key="line_asthma-33">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_surgical_operation}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="358"
+						y="392"
+						width="16"
+						height="16"
+						key="line_asthma-34">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_surgical_operation}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="364"
+						y="411"
+						width="16"
+						height="16"
+						key="line_asthma-35">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_malaria}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="396"
+						y="411"
+						width="16"
+						height="16"
+						key="line_asthma-36">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_malaria}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="364"
+						y="44"
+						width="16"
+						height="16"
+						key="line_asthma-37">
+							<printWhenExpression><![CDATA[new Boolean( $F{doctor_t_checkup_asthma}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="449"
+						y="44"
+						width="16"
+						height="16"
+						key="line_asthma-38">
+							<printWhenExpression><![CDATA[new Boolean( $F{doctor_t_checkup_asthma}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="453"
+						y="103"
+						width="16"
+						height="16"
+						key="line_asthma-39">
+							<printWhenExpression><![CDATA[new Boolean( $F{doctor_t_checkup_asthma}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="355"
+						y="103"
+						width="16"
+						height="16"
+						key="line_asthma-40">
+							<printWhenExpression><![CDATA[new Boolean( $F{doctor_t_checkup_asthma}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="268"
+						y="431"
+						width="265"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_female_lmp}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="268"
+						y="449"
+						width="266"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_medical_explain}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="314"
+						y="584"
+						width="204"
+						height="0"
+						key="line-2"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="345"
+						y="596"
+						width="100"
+						height="18"
+						key="textField-5"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_checkup_date}.substring(8,10)+"-"+$F{doctor_t_checkup_checkup_date}.substring(5,6)+"-"+$F{doctor_t_checkup_checkup_date}.substring(0,2)]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

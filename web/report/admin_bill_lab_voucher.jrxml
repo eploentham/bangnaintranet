@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="admin_bill_lab_voucher"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="header1" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header2" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header3" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_admin_bill_lab_id" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["11100001"]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[SELECT
+     admin_t_bill_lab."bill_lab_id" AS admin_t_bill_lab_bill_lab_id,
+     admin_t_bill_lab."bill_lab_description" AS admin_t_bill_lab_bill_lab_description,
+     admin_t_bill_lab."bill_lab_date" AS admin_t_bill_lab_bill_lab_date,
+     admin_t_bill_lab."total_record_approve" AS admin_t_bill_lab_total_record_approve,
+     admin_t_bill_lab."total_amount_approve" AS admin_t_bill_lab_total_amount_approve,
+     admin_t_bill_lab."bill_lab_year" AS admin_t_bill_lab_bill_lab_year,
+     admin_t_bill_lab."bill_lab_month" AS admin_t_bill_lab_bill_lab_month,
+     admin_t_bill_lab."bill_lab_period" AS admin_t_bill_lab_bill_lab_period,
+     admin_t_bill_lab."total_record_receive" AS admin_t_bill_lab_total_record_receive,
+     admin_t_bill_lab."total_amount_receive" AS admin_t_bill_lab_total_amount_receive,
+     admin_t_bill_lab."date_bill_make" AS admin_t_bill_lab_date_bill_make,
+     case admin_t_bill_lab.bill_lab_month when '01'then 'มกราคม'when '02'then 'กุมภาพันธ์'when '03'then 'มีนาคม'when '04'then 'เมษายน'when '05'then 'พฤษภาคม'when '06'then 'มิถุนายน'when '07'then 'กรกฏาคม'when '08'then 'สิงหาคม'when '09'then 'กันยายน'when '10'then 'ตุลาคม'when '11'then 'พฤศจิกายน'when '12'then 'ธันวาคม'else admin_t_bill_lab.bill_lab_month end as monthnamet,
+     case admin_t_bill_lab.bill_lab_period when '1'then 'งวดต้นเดือน'when '2'then 'งวดกลางเดือน'else admin_t_bill_lab."bill_lab_period" end as periodnamet,
+     admin_t_bill_lab."bill_lab_remark" AS admin_t_bill_lab_bill_lab_remark
+FROM
+     "public"."admin_t_bill_lab" admin_t_bill_lab
+WHERE
+     admin_t_bill_lab.bill_lab_id = $P{p_admin_bill_lab_id}]]></queryString>
+
+	<field name="admin_t_bill_lab_bill_lab_id" class="java.lang.String"/>
+	<field name="admin_t_bill_lab_bill_lab_description" class="java.lang.String"/>
+	<field name="admin_t_bill_lab_bill_lab_date" class="java.lang.String"/>
+	<field name="admin_t_bill_lab_total_record_approve" class="java.lang.Integer"/>
+	<field name="admin_t_bill_lab_total_amount_approve" class="java.lang.Double"/>
+	<field name="admin_t_bill_lab_bill_lab_year" class="java.lang.String"/>
+	<field name="admin_t_bill_lab_bill_lab_month" class="java.lang.String"/>
+	<field name="admin_t_bill_lab_bill_lab_period" class="java.lang.String"/>
+	<field name="admin_t_bill_lab_total_record_receive" class="java.lang.Integer"/>
+	<field name="admin_t_bill_lab_total_amount_receive" class="java.lang.Double"/>
+	<field name="admin_t_bill_lab_date_bill_make" class="java.lang.String"/>
+	<field name="monthnamet" class="java.lang.String"/>
+	<field name="periodnamet" class="java.lang.String"/>
+	<field name="admin_t_bill_lab_bill_lab_remark" class="java.lang.String"/>
+
+	<variable name="tax" class="java.lang.Double" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[new Double(  ($F{admin_t_bill_lab_total_amount_approve}.doubleValue())*3/100)]]></variableExpression>
+	</variable>
+
+		<group  name="bill_lab_id" isStartNewPage="true" >
+			<groupExpression><![CDATA[$F{admin_t_bill_lab_bill_lab_id}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="94"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="534"
+						height="16"
+						key="textField-1"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="16"
+						width="534"
+						height="16"
+						key="textField-2"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="32"
+						width="534"
+						height="16"
+						key="textField-3"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header3}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="388"
+						y="17"
+						width="146"
+						height="16"
+						key="staticText-5"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เลขที่ใบสำคัญ .........................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="388"
+						y="34"
+						width="146"
+						height="16"
+						key="staticText-6"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[วันที่จ่ายเงิน ............................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="388"
+						y="52"
+						width="146"
+						height="16"
+						key="staticText-7"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เช็คเลขที่ ...............................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="77"
+						width="256"
+						height="16"
+						key="staticText-8"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[รายละเอียดเอกสาร]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="256"
+						y="77"
+						width="184"
+						height="16"
+						key="staticText-10"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เลขที่บัญชี]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="440"
+						y="77"
+						width="95"
+						height="16"
+						key="staticText-11"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[จำนวนเงิน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="55"
+						width="292"
+						height="16"
+						key="staticText-12"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[จ่ายให้ บริษัทเพาว์ LAB]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="71"
+						width="534"
+						height="0"
+						key="line-4"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="93"
+						width="534"
+						height="0"
+						key="line-7"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="232"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="9"
+						y="13"
+						width="255"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ค่าตรวจ Lab เลขที่ใบรับวางบิล :"+$F{admin_t_bill_lab_bill_lab_id}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="9"
+						y="30"
+						width="293"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ประจำงวด "+$F{admin_t_bill_lab_bill_lab_year}+" "+$F{monthnamet}+" "+$F{periodnamet}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="439"
+						y="31"
+						width="94"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{admin_t_bill_lab_total_amount_approve}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="9"
+						y="48"
+						width="95"
+						height="16"
+						key="staticText-13"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ภาษี 3%]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="439"
+						y="50"
+						width="94"
+						height="18"
+						key="textField-4"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[new Double(  ($F{admin_t_bill_lab_total_amount_approve}.doubleValue())*3/100)]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="-23"
+						width="0"
+						height="248"
+						key="line-1"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="534"
+						y="-23"
+						width="0"
+						height="248"
+						key="line-2"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="272"
+						y="-23"
+						width="0"
+						height="173"
+						key="line-5"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="440"
+						y="-23"
+						width="0"
+						height="173"
+						key="line-6"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="150"
+						width="534"
+						height="0"
+						key="line-8"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="225"
+						width="534"
+						height="0"
+						key="line-9"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="9"
+						y="195"
+						width="165"
+						height="16"
+						key="staticText-14"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ผู้จัดทำ ...............................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="179"
+						y="195"
+						width="175"
+						height="16"
+						key="staticText-15"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ผู้ตรวจสอบ ...............................]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="174"
+						y="176"
+						width="0"
+						height="49"
+						key="line-10"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="354"
+						y="176"
+						width="0"
+						height="49"
+						key="line-11"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="360"
+						y="195"
+						width="174"
+						height="16"
+						key="staticText-16"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ผู้อนุมัติ ...............................]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="297"
+						y="-1"
+						width="0"
+						height="151"
+						key="line-15"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="285"
+						y="-1"
+						width="0"
+						height="151"
+						key="line-16"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="309"
+						y="-1"
+						width="0"
+						height="151"
+						key="line-17"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="321"
+						y="-1"
+						width="0"
+						height="151"
+						key="line-18"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="333"
+						y="-1"
+						width="0"
+						height="151"
+						key="line-19"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="345"
+						y="-1"
+						width="0"
+						height="151"
+						key="line-20"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="357"
+						y="-1"
+						width="0"
+						height="151"
+						key="line-21"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="369"
+						y="-1"
+						width="0"
+						height="151"
+						key="line-22"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="381"
+						y="0"
+						width="0"
+						height="151"
+						key="line-23"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="393"
+						y="0"
+						width="0"
+						height="151"
+						key="line-24"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="405"
+						y="0"
+						width="0"
+						height="151"
+						key="line-25"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="417"
+						y="0"
+						width="0"
+						height="151"
+						key="line-26"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="429"
+						y="0"
+						width="0"
+						height="151"
+						key="line-27"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="439"
+						y="129"
+						width="94"
+						height="18"
+						key="textField-5"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[new java.lang.Double(  ($F{admin_t_bill_lab_total_amount_approve}.doubleValue()) -($V{tax}.doubleValue()) )]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="176"
+						width="534"
+						height="0"
+						key="line-28"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="19"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="monthly_doctor_costs"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="842"
+		 pageHeight="595"
+		 columnWidth="782"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<subDataset name="SubDataset1" >
+
+		<parameter name="datestart" isForPrompting="false" class="java.lang.String">
+			<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<parameter name="dateend" isForPrompting="false" class="java.lang.String">
+			<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<queryString><![CDATA[SELECT     dbo.LAB_T01.MNC_ORD_DOT, 
+		case dbo.FINANCE_M02.MNC_FN_STS
+                        when 'C' then 'เงินสด'
+                        when 'K' then 'กองทุน'
+                        when 'P' then 'UC'
+                        when 'R' then 'ลูกหนี้'
+                        when 'S' then 'ประกันสังคม' 
+			when 'A' then 'ลูกหนี้พิเศษ'
+			when 'G' then 'ลูกหนี้โรงพยาบาล'
+			else 'ppppp' end	as MNC_FN_STS,	
+		 dbo.PATIENT_M26.MNC_DOT_FNAME+ ' '+dbo.PATIENT_M26.MNC_DOT_LNAME as name, 
+                      SUM(dbo.LAB_M02.MNC_LB_PRI) AS MNC_LB_PRI
+FROM         dbo.LAB_T01 INNER JOIN
+                      dbo.LAB_T02 ON dbo.LAB_T01.MNC_REQ_YR = dbo.LAB_T02.MNC_REQ_YR AND dbo.LAB_T01.MNC_REQ_NO = dbo.LAB_T02.MNC_REQ_NO AND 
+                      dbo.LAB_T01.MNC_REQ_DAT = dbo.LAB_T02.MNC_REQ_DAT INNER JOIN
+                      dbo.LAB_M02 ON dbo.LAB_T02.MNC_LB_CD = dbo.LAB_M02.MNC_LB_CD INNER JOIN
+                      dbo.FINANCE_M02 ON dbo.LAB_T01.MNC_FN_TYP_CD = dbo.FINANCE_M02.MNC_FN_TYP_CD INNER JOIN
+                      dbo.PATIENT_M26 ON dbo.LAB_T01.MNC_DOT_CD = dbo.PATIENT_M26.MNC_DOT_CD
+WHERE     (dbo.LAB_T01.MNC_REQ_STS <> 'C') AND (dbo.LAB_T01.MNC_REQ_DAT between $P{datestart} and $P{dateend})
+GROUP BY dbo.LAB_T01.MNC_ORD_DOT, MNC_FN_STS, dbo.PATIENT_M26.MNC_DOT_FNAME, dbo.PATIENT_M26.MNC_DOT_LNAME]]></queryString>
+
+		<field name="MNC_ORD_DOT" class="java.lang.String"/>
+		<field name="MNC_FN_STS" class="java.lang.String"/>
+		<field name="name" class="java.lang.String"/>
+		<field name="MNC_LB_PRI" class="java.lang.Double"/>
+
+	</subDataset>
+
+	<parameter name="header1" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header2" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header3" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[select * from r_month_doctor_costs]]></queryString>
+
+	<field name="dot_cd" class="java.lang.String"/>
+	<field name="dot_namet" class="java.lang.String"/>
+	<field name="uc_cnt" class="java.lang.Double"/>
+	<field name="uc_pharmacy_price" class="java.lang.Double"/>
+	<field name="uc_lab_price" class="java.lang.Double"/>
+	<field name="uc_pharmacy_avg" class="java.lang.Double"/>
+	<field name="uc_lab_avg" class="java.lang.Double"/>
+	<field name="pks_cnt" class="java.lang.Double"/>
+	<field name="pks_pharmacy_price" class="java.lang.Double"/>
+	<field name="pks_lab_price" class="java.lang.Double"/>
+	<field name="pks_pharmacy_avg" class="java.lang.Double"/>
+	<field name="pks_lab_avg" class="java.lang.Double"/>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="74"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="782"
+						height="16"
+						key="textField-1"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="16"
+						width="782"
+						height="16"
+						key="textField-2"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="32"
+						width="782"
+						height="16"
+						key="textField-3"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header3}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="207"
+						y="55"
+						width="41"
+						height="19"
+						key="staticText-1"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[จน UC]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="248"
+						y="55"
+						width="38"
+						height="19"
+						key="staticText-2"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[จน PKS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="286"
+						y="55"
+						width="63"
+						height="19"
+						key="staticText-3"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ค่ายา UC]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="349"
+						y="55"
+						width="63"
+						height="19"
+						key="staticText-4"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ค่ายา PKS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="412"
+						y="55"
+						width="63"
+						height="19"
+						key="staticText-5"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ค่า LAB UC]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="475"
+						y="55"
+						width="63"
+						height="19"
+						key="staticText-6"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ค่า LAB PKS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="538"
+						y="55"
+						width="63"
+						height="19"
+						key="staticText-7"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[avgค่ายาuc]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="601"
+						y="55"
+						width="63"
+						height="19"
+						key="staticText-8"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[avgค่ายาpks]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="664"
+						y="55"
+						width="58"
+						height="19"
+						key="staticText-9"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[avg lab uc]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="722"
+						y="55"
+						width="60"
+						height="19"
+						key="staticText-10"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[avg lab pks]]></text>
+				</staticText>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="18"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="5"
+						y="0"
+						width="54"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{dot_cd}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="59"
+						y="0"
+						width="148"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{dot_namet}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="207"
+						y="0"
+						width="41"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{uc_cnt}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="248"
+						y="0"
+						width="38"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{pks_cnt}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="286"
+						y="0"
+						width="63"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{uc_pharmacy_price}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="349"
+						y="0"
+						width="63"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{pks_pharmacy_price}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="412"
+						y="0"
+						width="63"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{uc_lab_price}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="538"
+						y="0"
+						width="63"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{uc_pharmacy_avg}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="601"
+						y="0"
+						width="63"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{pks_pharmacy_avg}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="475"
+						y="0"
+						width="63"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{pks_lab_price}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="664"
+						y="0"
+						width="58"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{uc_lab_avg}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="722"
+						y="0"
+						width="58"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{pks_lab_avg}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="26"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

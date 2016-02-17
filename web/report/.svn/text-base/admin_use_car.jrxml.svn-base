@@ -1,0 +1,706 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="admin_use_car"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<subDataset name="SubDataset1" >
+
+		<parameter name="datestart" isForPrompting="false" class="java.lang.String">
+			<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<parameter name="dateend" isForPrompting="false" class="java.lang.String">
+			<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<queryString><![CDATA[SELECT     dbo.LAB_T01.MNC_ORD_DOT, 
+		case dbo.FINANCE_M02.MNC_FN_STS
+                        when 'C' then 'เงินสด'
+                        when 'K' then 'กองทุน'
+                        when 'P' then 'UC'
+                        when 'R' then 'ลูกหนี้'
+                        when 'S' then 'ประกันสังคม' 
+			when 'A' then 'ลูกหนี้พิเศษ'
+			when 'G' then 'ลูกหนี้โรงพยาบาล'
+			else 'ppppp' end	as MNC_FN_STS,	
+		 dbo.PATIENT_M26.MNC_DOT_FNAME+ ' '+dbo.PATIENT_M26.MNC_DOT_LNAME as name, 
+                      SUM(dbo.LAB_M02.MNC_LB_PRI) AS MNC_LB_PRI
+FROM         dbo.LAB_T01 INNER JOIN
+                      dbo.LAB_T02 ON dbo.LAB_T01.MNC_REQ_YR = dbo.LAB_T02.MNC_REQ_YR AND dbo.LAB_T01.MNC_REQ_NO = dbo.LAB_T02.MNC_REQ_NO AND 
+                      dbo.LAB_T01.MNC_REQ_DAT = dbo.LAB_T02.MNC_REQ_DAT INNER JOIN
+                      dbo.LAB_M02 ON dbo.LAB_T02.MNC_LB_CD = dbo.LAB_M02.MNC_LB_CD INNER JOIN
+                      dbo.FINANCE_M02 ON dbo.LAB_T01.MNC_FN_TYP_CD = dbo.FINANCE_M02.MNC_FN_TYP_CD INNER JOIN
+                      dbo.PATIENT_M26 ON dbo.LAB_T01.MNC_DOT_CD = dbo.PATIENT_M26.MNC_DOT_CD
+WHERE     (dbo.LAB_T01.MNC_REQ_STS <> 'C') AND (dbo.LAB_T01.MNC_REQ_DAT between $P{datestart} and $P{dateend})
+GROUP BY dbo.LAB_T01.MNC_ORD_DOT, MNC_FN_STS, dbo.PATIENT_M26.MNC_DOT_FNAME, dbo.PATIENT_M26.MNC_DOT_LNAME]]></queryString>
+
+		<field name="MNC_ORD_DOT" class="java.lang.String"/>
+		<field name="MNC_FN_STS" class="java.lang.String"/>
+		<field name="name" class="java.lang.String"/>
+		<field name="MNC_LB_PRI" class="java.lang.Double"/>
+
+	</subDataset>
+
+	<parameter name="header1" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header2" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header3" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_use_car_id" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["12400002"]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[SELECT
+     admin_t_use_car."use_car_id" AS admin_t_use_car_use_car_id,
+     admin_t_use_car."car_id" AS admin_t_use_car_car_id,
+     admin_t_use_car."use_car_date" AS admin_t_use_car_use_car_date,
+     admin_t_use_car."department_id" AS admin_t_use_car_department_id,
+     admin_t_use_car."branch_id" AS admin_t_use_car_branch_id,
+     admin_t_use_car."use_category" AS admin_t_use_car_use_category,
+     admin_t_use_car."description" AS admin_t_use_car_description,
+     admin_t_use_car."qty" AS admin_t_use_car_qty,
+     admin_t_use_car."remark" AS admin_t_use_car_remark,
+     admin_t_use_car."user_id_use_car" AS admin_t_use_car_user_id_use_car,
+     admin_t_use_car."user_namet_use_car" AS admin_t_use_car_user_namet_use_car,
+     admin_t_use_car."user_id_approve" AS admin_t_use_car_user_id_approve,
+     admin_t_use_car."user_namet_approve" AS admin_t_use_car_user_namet_approve,
+     admin_t_use_car."approve_date" AS admin_t_use_car_approve_date,
+     admin_t_use_car."approve_time" AS admin_t_use_car_approve_time,
+     admin_t_use_car."user_id_driver" AS admin_t_use_car_user_id_driver,
+     admin_t_use_car."user_namet_driver" AS admin_t_use_car_user_namet_driver,
+     admin_t_use_car."destination" AS admin_t_use_car_destination,
+     admin_t_use_car."apply_date" AS admin_t_use_car_apply_date,
+     admin_t_use_car."use_car_time" AS admin_t_use_car_use_car_time,
+     admin_t_use_car."use_car_active" AS admin_t_use_car_use_car_active,
+     b_department."department_namet" AS b_department_department_namet,
+     admin_b_car."car_namet" AS admin_b_car_car_namet,
+     admin_b_car."car_plate" AS admin_b_car_car_plate,
+case use_category
+when '1' then 'รถทั่วไป' 
+when '2' then 'รถฉุกเฉิน'
+else 'ไม่ระบุ' end as use_category_namet
+FROM
+     "public"."admin_b_car" admin_b_car RIGHT OUTER JOIN "public"."admin_t_use_car" admin_t_use_car ON admin_b_car."car_id" = admin_t_use_car."car_id"
+     LEFT OUTER JOIN "public"."b_department" b_department ON admin_t_use_car."department_id" = b_department."department_id"
+where use_car_id = $P{p_use_car_id}]]></queryString>
+
+	<field name="admin_t_use_car_use_car_id" class="java.lang.String"/>
+	<field name="admin_t_use_car_car_id" class="java.lang.String"/>
+	<field name="admin_t_use_car_use_car_date" class="java.lang.String"/>
+	<field name="admin_t_use_car_department_id" class="java.lang.String"/>
+	<field name="admin_t_use_car_branch_id" class="java.lang.String"/>
+	<field name="admin_t_use_car_use_category" class="java.lang.String"/>
+	<field name="admin_t_use_car_description" class="java.lang.String"/>
+	<field name="admin_t_use_car_qty" class="java.lang.String"/>
+	<field name="admin_t_use_car_remark" class="java.lang.String"/>
+	<field name="admin_t_use_car_user_id_use_car" class="java.lang.String"/>
+	<field name="admin_t_use_car_user_namet_use_car" class="java.lang.String"/>
+	<field name="admin_t_use_car_user_id_approve" class="java.lang.String"/>
+	<field name="admin_t_use_car_user_namet_approve" class="java.lang.String"/>
+	<field name="admin_t_use_car_approve_date" class="java.lang.String"/>
+	<field name="admin_t_use_car_approve_time" class="java.lang.String"/>
+	<field name="admin_t_use_car_user_id_driver" class="java.lang.String"/>
+	<field name="admin_t_use_car_user_namet_driver" class="java.lang.String"/>
+	<field name="admin_t_use_car_destination" class="java.lang.String"/>
+	<field name="admin_t_use_car_apply_date" class="java.lang.String"/>
+	<field name="admin_t_use_car_use_car_time" class="java.lang.String"/>
+	<field name="admin_t_use_car_use_car_active" class="java.lang.String"/>
+	<field name="b_department_department_namet" class="java.lang.String"/>
+	<field name="admin_b_car_car_namet" class="java.lang.String"/>
+	<field name="admin_b_car_car_plate" class="java.lang.String"/>
+	<field name="use_category_namet" class="java.lang.String"/>
+
+	<variable name="row" class="java.lang.Integer" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[new java.lang.Integer(  ($V{row}.intValue()) +1 )]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{row}.valueOf( 0 )]]></initialValueExpression>
+	</variable>
+	<variable name="page_new" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$V{row}.intValue()<15 ? $V{page_new}.valueOf("1"):$V{page_new}.valueOf("2")]]></variableExpression>
+		<initialValueExpression><![CDATA[new String("1")]]></initialValueExpression>
+	</variable>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="53"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="534"
+						height="16"
+						key="textField-1"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="16"
+						width="534"
+						height="26"
+						key="textField-2"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="16" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="36"
+						width="534"
+						height="16"
+						key="textField-3"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header3}]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="316"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="92"
+						y="10"
+						width="238"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{admin_t_use_car_use_car_date}.substring($F{admin_t_use_car_use_car_date}.length()-2,$F{admin_t_use_car_use_car_date}.length())+"-"+$F{admin_t_use_car_use_car_date}.substring(5,7)+"-"+$F{admin_t_use_car_use_car_date}.substring(0,4)+" "+$F{admin_t_use_car_use_car_time}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="10"
+						width="146"
+						height="19"
+						key="staticText-1"/>
+					<box></box>
+					<textElement>
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[วันที่ใช้รถ:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="92"
+						y="28"
+						width="216"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{b_department_department_namet}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="28"
+						width="208"
+						height="19"
+						key="staticText-2"/>
+					<box></box>
+					<textElement>
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[แผนกที่ขอใช้รถ:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="433"
+						y="10"
+						width="100"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{admin_t_use_car_use_car_id}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="328"
+						y="10"
+						width="199"
+						height="19"
+						key="staticText-3"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เลขที่ใบขอรถ:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="92"
+						y="65"
+						width="442"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{admin_t_use_car_destination}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="65"
+						width="130"
+						height="19"
+						key="staticText-4"/>
+					<box></box>
+					<textElement>
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[สถานที่ไป:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="328"
+						y="28"
+						width="199"
+						height="19"
+						key="staticText-5"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ประเภทรถ:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="328"
+						y="46"
+						width="188"
+						height="19"
+						key="staticText-6"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ทะเบียนรถ:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="433"
+						y="46"
+						width="100"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{admin_b_car_car_plate}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="433"
+						y="28"
+						width="100"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{admin_b_car_car_namet}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="433"
+						y="28"
+						width="100"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{use_category_namet}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="92"
+						y="83"
+						width="442"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{admin_t_use_car_description}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="84"
+						width="130"
+						height="19"
+						key="staticText-7"/>
+					<box></box>
+					<textElement>
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[รายละเอียด:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="92"
+						y="101"
+						width="442"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{admin_t_use_car_remark}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="102"
+						width="136"
+						height="19"
+						key="staticText-8"/>
+					<box></box>
+					<textElement>
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[หมายเหตุ:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="257"
+						width="120"
+						height="18"
+						key="textField"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{admin_t_use_car_user_namet_use_car}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="278"
+						width="119"
+						height="19"
+						key="staticText-9"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เจ้าหน้าที่ผู้ขอรถ]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="122"
+						y="257"
+						width="133"
+						height="18"
+						key="textField"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{admin_t_use_car_user_namet_approve}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="258"
+						y="257"
+						width="133"
+						height="18"
+						key="textField"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{admin_t_use_car_user_namet_driver}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="122"
+						y="278"
+						width="133"
+						height="19"
+						key="staticText-10"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เจ้าหน้าที่ผู้อนุมัติ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="258"
+						y="278"
+						width="133"
+						height="19"
+						key="staticText-11"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[คนขับ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="151"
+						width="477"
+						height="19"
+						key="staticText-12"/>
+					<box></box>
+					<textElement>
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ส่วนนี้สำหรับเจ้าหน้าที่ยานพาหนะ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="170"
+						width="477"
+						height="19"
+						key="staticText-13"/>
+					<box></box>
+					<textElement>
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[รถออกจากโรงพยาบาล]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="189"
+						width="477"
+						height="19"
+						key="staticText-14"/>
+					<box></box>
+					<textElement>
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[รถกลับถึงโรงพยาบาล]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="336"
+						y="170"
+						width="198"
+						height="19"
+						key="staticText-15"/>
+					<box></box>
+					<textElement>
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา..................................น.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="336"
+						y="189"
+						width="198"
+						height="19"
+						key="staticText-16"/>
+					<box></box>
+					<textElement>
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา..................................น.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="208"
+						width="534"
+						height="48"
+						key="staticText-17"/>
+					<box></box>
+					<textElement>
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[หมายเหตุ:    กรุณาส่งใบขออนุญาตใช้รถที่แผนก EMD ล่วงหน้าอย่างน้อย 2 ชม. ยกเว้นกรณีฉุกเฉิน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="297"
+						width="528"
+						height="19"
+						key="staticText-18"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[FM-VCD-004(แก้ไขครั้งที่ 00-20/08/53)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="-1"
+						y="133"
+						width="534"
+						height="19"
+						key="staticText-19"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[..................................................................................................................................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="-1"
+						y="265"
+						width="120"
+						height="19"
+						key="staticText-20"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[..............................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="122"
+						y="264"
+						width="134"
+						height="19"
+						key="staticText-21"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[...............................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="258"
+						y="265"
+						width="134"
+						height="19"
+						key="staticText-22"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[................................]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="392"
+						y="256"
+						width="141"
+						height="18"
+						key="textField-4"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{admin_t_use_car_user_namet_driver}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="391"
+						y="266"
+						width="134"
+						height="19"
+						key="staticText-23"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[................................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="391"
+						y="278"
+						width="143"
+						height="19"
+						key="staticText-24"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เจ้าหน้าที่แผนกยานพาหนะ]]></text>
+				</staticText>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="3"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

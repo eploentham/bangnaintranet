@@ -1,0 +1,3827 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="doctor_checkup_form_12102_2"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<subDataset name="SubDataset1" >
+
+		<parameter name="datestart" isForPrompting="false" class="java.lang.String">
+			<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<parameter name="dateend" isForPrompting="false" class="java.lang.String">
+			<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<queryString><![CDATA[SELECT     dbo.LAB_T01.MNC_ORD_DOT, 
+		case dbo.FINANCE_M02.MNC_FN_STS
+                        when 'C' then 'เงินสด'
+                        when 'K' then 'กองทุน'
+                        when 'P' then 'UC'
+                        when 'R' then 'ลูกหนี้'
+                        when 'S' then 'ประกันสังคม' 
+			when 'A' then 'ลูกหนี้พิเศษ'
+			when 'G' then 'ลูกหนี้โรงพยาบาล'
+			else 'ppppp' end	as MNC_FN_STS,	
+		 dbo.PATIENT_M26.MNC_DOT_FNAME+ ' '+dbo.PATIENT_M26.MNC_DOT_LNAME as name, 
+                      SUM(dbo.LAB_M02.MNC_LB_PRI) AS MNC_LB_PRI
+FROM         dbo.LAB_T01 INNER JOIN
+                      dbo.LAB_T02 ON dbo.LAB_T01.MNC_REQ_YR = dbo.LAB_T02.MNC_REQ_YR AND dbo.LAB_T01.MNC_REQ_NO = dbo.LAB_T02.MNC_REQ_NO AND 
+                      dbo.LAB_T01.MNC_REQ_DAT = dbo.LAB_T02.MNC_REQ_DAT INNER JOIN
+                      dbo.LAB_M02 ON dbo.LAB_T02.MNC_LB_CD = dbo.LAB_M02.MNC_LB_CD INNER JOIN
+                      dbo.FINANCE_M02 ON dbo.LAB_T01.MNC_FN_TYP_CD = dbo.FINANCE_M02.MNC_FN_TYP_CD INNER JOIN
+                      dbo.PATIENT_M26 ON dbo.LAB_T01.MNC_DOT_CD = dbo.PATIENT_M26.MNC_DOT_CD
+WHERE     (dbo.LAB_T01.MNC_REQ_STS <> 'C') AND (dbo.LAB_T01.MNC_REQ_DAT between $P{datestart} and $P{dateend})
+GROUP BY dbo.LAB_T01.MNC_ORD_DOT, MNC_FN_STS, dbo.PATIENT_M26.MNC_DOT_FNAME, dbo.PATIENT_M26.MNC_DOT_LNAME]]></queryString>
+
+		<field name="MNC_ORD_DOT" class="java.lang.String"/>
+		<field name="MNC_FN_STS" class="java.lang.String"/>
+		<field name="name" class="java.lang.String"/>
+		<field name="MNC_LB_PRI" class="java.lang.Double"/>
+
+	</subDataset>
+
+	<parameter name="header1" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header2" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header3" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_checkup_id" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["11100225"]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[SELECT
+     doctor_t_checkup."checkup_id" AS doctor_t_checkup_checkup_id,
+     doctor_t_checkup."checkup_date" AS doctor_t_checkup_checkup_date,
+     doctor_t_checkup."hemorrhoid" AS doctor_t_checkup_hemorrhoid,
+     doctor_t_checkup."accident" AS doctor_t_checkup_accident,
+     doctor_t_checkup."fractures" AS doctor_t_checkup_fractures,
+     doctor_t_checkup."surgical_operation" AS doctor_t_checkup_surgical_operation,
+     doctor_t_checkup."malaria" AS doctor_t_checkup_malaria,
+     doctor_t_checkup."height" AS doctor_t_checkup_height,
+     doctor_t_checkup."width" AS doctor_t_checkup_width,
+     doctor_t_checkup."blood_pressure" AS doctor_t_checkup_blood_pressure,
+     doctor_t_checkup."pulse" AS doctor_t_checkup_pulse,
+     doctor_t_checkup."eye_right" AS doctor_t_checkup_eye_right,
+     doctor_t_checkup."eye_left" AS doctor_t_checkup_eye_left,
+     doctor_t_checkup."glasses" AS doctor_t_checkup_glasses,
+     doctor_t_checkup."color_blindness" AS doctor_t_checkup_color_blindness,
+     doctor_t_checkup."general_appearance" AS doctor_t_checkup_general_appearance,
+     doctor_t_checkup."skin_scalp" AS doctor_t_checkup_skin_scalp,
+     doctor_t_checkup."lymph_nodes" AS doctor_t_checkup_lymph_nodes,
+     doctor_t_checkup."eyes" AS doctor_t_checkup_eyes,
+     doctor_t_checkup."ears" AS doctor_t_checkup_ears,
+     doctor_t_checkup."nose" AS doctor_t_checkup_nose,
+     doctor_t_checkup."pharynx_tonsils" AS doctor_t_checkup_pharynx_tonsils,
+     doctor_t_checkup."thyroid_gland" AS doctor_t_checkup_thyroid_gland,
+     doctor_t_checkup."lungs" AS doctor_t_checkup_lungs,
+     doctor_t_checkup."heart" AS doctor_t_checkup_heart,
+     doctor_t_checkup."addition_comments" AS doctor_t_checkup_addition_comments,
+     doctor_t_checkup."abdomen" AS doctor_t_checkup_abdomen,
+     doctor_t_checkup."liver" AS doctor_t_checkup_liver,
+     doctor_t_checkup."spleen" AS doctor_t_checkup_spleen,
+     doctor_t_checkup."extenal_genitalia" AS doctor_t_checkup_extenal_genitalia,
+     doctor_t_checkup."rectal_exam" AS doctor_t_checkup_rectal_exam,
+     doctor_t_checkup."vertebrae" AS doctor_t_checkup_vertebrae,
+     doctor_t_checkup."locomotor" AS doctor_t_checkup_locomotor,
+     doctor_t_checkup."reflexes" AS doctor_t_checkup_reflexes,
+     doctor_t_checkup."mental_health_status" AS doctor_t_checkup_mental_health_status,
+     doctor_t_checkup."other" AS doctor_t_checkup_other,
+     doctor_t_checkup."hemoglobin" AS doctor_t_checkup_hemoglobin,
+     doctor_t_checkup."differentia_pmn" AS doctor_t_checkup_differentia_pmn,
+     doctor_t_checkup."differentia_baso" AS doctor_t_checkup_differentia_baso,
+     doctor_t_checkup."while_blood_cell" AS doctor_t_checkup_while_blood_cell,
+     doctor_t_checkup."hematocrit" AS doctor_t_checkup_hematocrit,
+     doctor_t_checkup."differential_lymp" AS doctor_t_checkup_differential_lymp,
+     doctor_t_checkup."differential_band" AS doctor_t_checkup_differential_band,
+     doctor_t_checkup."differential_blast" AS doctor_t_checkup_differential_blast,
+     doctor_t_checkup."differential_mono" AS doctor_t_checkup_differential_mono,
+     doctor_t_checkup."differential_eos" AS doctor_t_checkup_differential_eos,
+     doctor_t_checkup."hiv_gpa" AS doctor_t_checkup_hiv_gpa,
+     doctor_t_checkup."hiv_elisa" AS doctor_t_checkup_hiv_elisa,
+     doctor_t_checkup."hiv_western_blot" AS doctor_t_checkup_hiv_western_blot,
+     doctor_t_checkup."hepatitis" AS doctor_t_checkup_hepatitis,
+     doctor_t_checkup."hepatitis_vdrl" AS doctor_t_checkup_hepatitis_vdrl,
+     doctor_t_checkup."hepatitis_rpr" AS doctor_t_checkup_hepatitis_rpr,
+     doctor_t_checkup."hepatitis_tpha" AS doctor_t_checkup_hepatitis_tpha,
+     doctor_t_checkup."blood_film" AS doctor_t_checkup_blood_film,
+     doctor_t_checkup."blood_film_comment" AS doctor_t_checkup_blood_film_comment,
+     doctor_t_checkup."uri_color" AS doctor_t_checkup_uri_color,
+     doctor_t_checkup."uri_sp" AS doctor_t_checkup_uri_sp,
+     doctor_t_checkup."uri_ph" AS doctor_t_checkup_uri_ph,
+     doctor_t_checkup."uri_sugar" AS doctor_t_checkup_uri_sugar,
+     doctor_t_checkup."albumin" AS doctor_t_checkup_albumin,
+     doctor_t_checkup."blood" AS doctor_t_checkup_blood,
+     doctor_t_checkup."ketone" AS doctor_t_checkup_ketone,
+     doctor_t_checkup."bile" AS doctor_t_checkup_bile,
+     doctor_t_checkup."micro_wbc" AS doctor_t_checkup_micro_wbc,
+     doctor_t_checkup."rbc" AS doctor_t_checkup_rbc,
+     doctor_t_checkup."casts" AS doctor_t_checkup_casts,
+     doctor_t_checkup."epithelal_cell" AS doctor_t_checkup_epithelal_cell,
+     doctor_t_checkup."epithelal_other" AS doctor_t_checkup_epithelal_other,
+     doctor_t_checkup."urine" AS doctor_t_checkup_urine,
+     doctor_t_checkup."stool" AS doctor_t_checkup_stool,
+     doctor_t_checkup."chest_x_ray" AS doctor_t_checkup_chest_x_ray,
+     doctor_t_checkup."other_examinations" AS doctor_t_checkup_other_examinations,
+     doctor_t_checkup."anti_hcv" AS doctor_t_checkup_anti_hcv,
+     doctor_t_checkup."conclusion" AS doctor_t_checkup_conclusion,
+     doctor_t_checkup."doctor_id" AS doctor_t_checkup_doctor_id,
+     doctor_t_checkup."doctor_fullnamet" AS doctor_t_checkup_doctor_fullnamet,
+     doctor_t_checkup."doctor_fullnamee" AS doctor_t_checkup_doctor_fullnamee,
+     doctor_t_checkup."branch_id" AS doctor_t_checkup_branch_id,
+     doctor_t_checkup."female_lmp" AS doctor_t_checkup_female_lmp,
+     doctor_t_checkup."medical_explain" AS doctor_t_checkup_medical_explain,
+     doctor_t_checkup."otoscopic_exam" AS doctor_t_checkup_otoscopic_exam,
+     doctor_t_checkup."other_description" AS doctor_t_checkup_other_description,
+     doctor_t_checkup."hiv" AS doctor_t_checkup_hiv,
+     doctor_t_checkup."hepatitis_type" AS doctor_t_checkup_hepatitis_type,
+     doctor_t_checkup."checkup_time" AS doctor_t_checkup_checkup_time,
+     doctor_t_checkup."asthma" AS doctor_t_checkup_asthma,
+     doctor_t_checkup."f_patient_blood_group_id" AS doctor_t_checkup_f_patient_blood_group_id
+FROM
+     "public"."doctor_t_checkup" doctor_t_checkup
+where doctor_t_checkup.checkup_id = $P{p_checkup_id}]]></queryString>
+
+	<field name="doctor_t_checkup_checkup_id" class="java.lang.String"/>
+	<field name="doctor_t_checkup_checkup_date" class="java.lang.String"/>
+	<field name="doctor_t_checkup_hemorrhoid" class="java.lang.String"/>
+	<field name="doctor_t_checkup_accident" class="java.lang.String"/>
+	<field name="doctor_t_checkup_fractures" class="java.lang.String"/>
+	<field name="doctor_t_checkup_surgical_operation" class="java.lang.String"/>
+	<field name="doctor_t_checkup_malaria" class="java.lang.String"/>
+	<field name="doctor_t_checkup_height" class="java.lang.String"/>
+	<field name="doctor_t_checkup_width" class="java.lang.String"/>
+	<field name="doctor_t_checkup_blood_pressure" class="java.lang.String"/>
+	<field name="doctor_t_checkup_pulse" class="java.lang.String"/>
+	<field name="doctor_t_checkup_eye_right" class="java.lang.String"/>
+	<field name="doctor_t_checkup_eye_left" class="java.lang.String"/>
+	<field name="doctor_t_checkup_glasses" class="java.lang.String"/>
+	<field name="doctor_t_checkup_color_blindness" class="java.lang.String"/>
+	<field name="doctor_t_checkup_general_appearance" class="java.lang.String"/>
+	<field name="doctor_t_checkup_skin_scalp" class="java.lang.String"/>
+	<field name="doctor_t_checkup_lymph_nodes" class="java.lang.String"/>
+	<field name="doctor_t_checkup_eyes" class="java.lang.String"/>
+	<field name="doctor_t_checkup_ears" class="java.lang.String"/>
+	<field name="doctor_t_checkup_nose" class="java.lang.String"/>
+	<field name="doctor_t_checkup_pharynx_tonsils" class="java.lang.String"/>
+	<field name="doctor_t_checkup_thyroid_gland" class="java.lang.String"/>
+	<field name="doctor_t_checkup_lungs" class="java.lang.String"/>
+	<field name="doctor_t_checkup_heart" class="java.lang.String"/>
+	<field name="doctor_t_checkup_addition_comments" class="java.lang.String"/>
+	<field name="doctor_t_checkup_abdomen" class="java.lang.String"/>
+	<field name="doctor_t_checkup_liver" class="java.lang.String"/>
+	<field name="doctor_t_checkup_spleen" class="java.lang.String"/>
+	<field name="doctor_t_checkup_extenal_genitalia" class="java.lang.String"/>
+	<field name="doctor_t_checkup_rectal_exam" class="java.lang.String"/>
+	<field name="doctor_t_checkup_vertebrae" class="java.lang.String"/>
+	<field name="doctor_t_checkup_locomotor" class="java.lang.String"/>
+	<field name="doctor_t_checkup_reflexes" class="java.lang.String"/>
+	<field name="doctor_t_checkup_mental_health_status" class="java.lang.String"/>
+	<field name="doctor_t_checkup_other" class="java.lang.String"/>
+	<field name="doctor_t_checkup_hemoglobin" class="java.lang.String"/>
+	<field name="doctor_t_checkup_differentia_pmn" class="java.lang.String"/>
+	<field name="doctor_t_checkup_differentia_baso" class="java.lang.String"/>
+	<field name="doctor_t_checkup_while_blood_cell" class="java.lang.String"/>
+	<field name="doctor_t_checkup_hematocrit" class="java.lang.String"/>
+	<field name="doctor_t_checkup_differential_lymp" class="java.lang.String"/>
+	<field name="doctor_t_checkup_differential_band" class="java.lang.String"/>
+	<field name="doctor_t_checkup_differential_blast" class="java.lang.String"/>
+	<field name="doctor_t_checkup_differential_mono" class="java.lang.String"/>
+	<field name="doctor_t_checkup_differential_eos" class="java.lang.String"/>
+	<field name="doctor_t_checkup_hiv_gpa" class="java.lang.String"/>
+	<field name="doctor_t_checkup_hiv_elisa" class="java.lang.String"/>
+	<field name="doctor_t_checkup_hiv_western_blot" class="java.lang.String"/>
+	<field name="doctor_t_checkup_hepatitis" class="java.lang.String"/>
+	<field name="doctor_t_checkup_hepatitis_vdrl" class="java.lang.String"/>
+	<field name="doctor_t_checkup_hepatitis_rpr" class="java.lang.String"/>
+	<field name="doctor_t_checkup_hepatitis_tpha" class="java.lang.String"/>
+	<field name="doctor_t_checkup_blood_film" class="java.lang.String"/>
+	<field name="doctor_t_checkup_blood_film_comment" class="java.lang.String"/>
+	<field name="doctor_t_checkup_uri_color" class="java.lang.String"/>
+	<field name="doctor_t_checkup_uri_sp" class="java.lang.String"/>
+	<field name="doctor_t_checkup_uri_ph" class="java.lang.String"/>
+	<field name="doctor_t_checkup_uri_sugar" class="java.lang.String"/>
+	<field name="doctor_t_checkup_albumin" class="java.lang.String"/>
+	<field name="doctor_t_checkup_blood" class="java.lang.String"/>
+	<field name="doctor_t_checkup_ketone" class="java.lang.String"/>
+	<field name="doctor_t_checkup_bile" class="java.lang.String"/>
+	<field name="doctor_t_checkup_micro_wbc" class="java.lang.String"/>
+	<field name="doctor_t_checkup_rbc" class="java.lang.String"/>
+	<field name="doctor_t_checkup_casts" class="java.lang.String"/>
+	<field name="doctor_t_checkup_epithelal_cell" class="java.lang.String"/>
+	<field name="doctor_t_checkup_epithelal_other" class="java.lang.String"/>
+	<field name="doctor_t_checkup_urine" class="java.lang.String"/>
+	<field name="doctor_t_checkup_stool" class="java.lang.String"/>
+	<field name="doctor_t_checkup_chest_x_ray" class="java.lang.String"/>
+	<field name="doctor_t_checkup_other_examinations" class="java.lang.String"/>
+	<field name="doctor_t_checkup_anti_hcv" class="java.lang.String"/>
+	<field name="doctor_t_checkup_conclusion" class="java.lang.String"/>
+	<field name="doctor_t_checkup_doctor_id" class="java.lang.String"/>
+	<field name="doctor_t_checkup_doctor_fullnamet" class="java.lang.String"/>
+	<field name="doctor_t_checkup_doctor_fullnamee" class="java.lang.String"/>
+	<field name="doctor_t_checkup_branch_id" class="java.lang.String"/>
+	<field name="doctor_t_checkup_female_lmp" class="java.lang.String"/>
+	<field name="doctor_t_checkup_medical_explain" class="java.lang.String"/>
+	<field name="doctor_t_checkup_otoscopic_exam" class="java.lang.String"/>
+	<field name="doctor_t_checkup_other_description" class="java.lang.String"/>
+	<field name="doctor_t_checkup_hiv" class="java.lang.String"/>
+	<field name="doctor_t_checkup_hepatitis_type" class="java.lang.String"/>
+	<field name="doctor_t_checkup_checkup_time" class="java.lang.String"/>
+	<field name="doctor_t_checkup_asthma" class="java.lang.String"/>
+	<field name="doctor_t_checkup_f_patient_blood_group_id" class="java.lang.String"/>
+
+	<variable name="row" class="java.lang.Integer" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[new java.lang.Integer(  ($V{row}.intValue()) +1 )]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{row}.valueOf( 0 )]]></initialValueExpression>
+	</variable>
+	<variable name="page_new" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$V{row}.intValue()<15 ? $V{page_new}.valueOf("1"):$V{page_new}.valueOf("2")]]></variableExpression>
+		<initialValueExpression><![CDATA[new String("1")]]></initialValueExpression>
+	</variable>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="802"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="369"
+						y="631"
+						width="71"
+						height="20"
+						key="staticText-139"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Casts]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="213"
+						y="550"
+						width="85"
+						height="20"
+						key="staticText-115"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[TPHA  Test]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="213"
+						y="531"
+						width="86"
+						height="20"
+						key="staticText-114"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[RPR  Test]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="280"
+						y="297"
+						width="146"
+						height="20"
+						key="staticText-60"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Reflexes الاستجابة]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="280"
+						y="279"
+						width="146"
+						height="20"
+						key="staticText-59"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Locomotor الحركة]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="280"
+						y="261"
+						width="146"
+						height="20"
+						key="staticText-58"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Vertebrae الفقرات]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="280"
+						y="242"
+						width="238"
+						height="20"
+						key="staticText-57"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Rectal exam المعي                      (NOT  EXAMINED)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="280"
+						y="225"
+						width="238"
+						height="20"
+						key="staticText-56"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Extenal genitalia الاعضاء التناسلية  (NOT  EXAMINED)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="280"
+						y="172"
+						width="146"
+						height="20"
+						key="staticText-53"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Liver الكبد]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="280"
+						y="207"
+						width="238"
+						height="20"
+						key="staticText-55"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Hernia الفتق                                 (NOT  EXAMINED)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="26"
+						width="76"
+						height="20"
+						key="staticText-4"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ الطول Height]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="126"
+						y="26"
+						width="74"
+						height="20"
+						key="staticText-6"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[الوزن Weight ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="49"
+						width="76"
+						height="20"
+						key="staticText-8"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Vision:Right]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="61"
+						y="49"
+						width="62"
+						height="22"
+						key="staticText-9"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[النظر:يمين]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="244"
+						y="26"
+						width="160"
+						height="22"
+						key="staticText-12"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Blood Pressure ضغط الدم]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="139"
+						y="49"
+						width="87"
+						height="20"
+						key="staticText-13"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[يسار Left]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="384"
+						y="26"
+						width="52"
+						height="22"
+						key="staticText-14"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[mm.Hg.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="290"
+						y="49"
+						width="160"
+						height="20"
+						key="staticText-15"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[With glassesعدسات/نظارات]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="415"
+						y="49"
+						width="116"
+						height="20"
+						key="staticText-16"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[من دون نظار ت Without  glasses]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="289"
+						y="49"
+						width="16"
+						height="16"
+						key="ellipse-1"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="417"
+						y="49"
+						width="16"
+						height="16"
+						key="ellipse-2"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="0"
+						y="73"
+						width="126"
+						height="20"
+						key="staticText-19"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Color blindness  عمى الوان]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="165"
+						y="73"
+						width="141"
+						height="22"
+						key="staticText-20"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Blood group فصيلة الدم]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="232"
+						y="49"
+						width="58"
+						height="20"
+						key="staticText-21"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[العينانEyes]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="83"
+						y="26"
+						width="36"
+						height="20"
+						key="staticText-22"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ cms.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="444"
+						y="26"
+						width="45"
+						height="22"
+						key="staticText-24"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Pulse]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="212"
+						y="26"
+						width="30"
+						height="22"
+						key="staticText-26"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Kg.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="314"
+						y="413"
+						width="69"
+						height="20"
+						key="staticText-27"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Mono]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="7"
+						y="119"
+						width="73"
+						height="22"
+						key="staticText-31"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ITEMS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="142"
+						y="119"
+						width="76"
+						height="22"
+						key="staticText-34"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[NORMAL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="501"
+						y="26"
+						width="32"
+						height="22"
+						key="staticText-36"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ /min]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="535"
+						height="27"
+						key="staticText-38"/>
+					<box>					<pen lineWidth="0.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[عبأ من قبل الطبيب PHYSICAL EXAMINATION(To be filled in by physician]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="96"
+						width="535"
+						height="27"
+						key="staticText-39"/>
+					<box>					<pen lineWidth="0.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[CHECK EACH ITEM APPROPRIATE COLUMN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="7"
+						y="153"
+						width="158"
+						height="20"
+						key="staticText-42"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[General appearance المظهر العام]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="7"
+						y="172"
+						width="160"
+						height="20"
+						key="staticText-43"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Skin,Scalp المظهر العام]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="7"
+						y="189"
+						width="111"
+						height="20"
+						key="staticText-44"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Lymph nodes اللمف]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="7"
+						y="207"
+						width="160"
+						height="20"
+						key="staticText-45"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Eyes العينان]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="7"
+						y="225"
+						width="160"
+						height="20"
+						key="staticText-46"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Ears: الاذنان]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="7"
+						y="243"
+						width="160"
+						height="20"
+						key="staticText-47"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[- Otoscopic Exam.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="7"
+						y="261"
+						width="160"
+						height="20"
+						key="staticText-48"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Nose الانف]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="7"
+						y="279"
+						width="160"
+						height="20"
+						key="staticText-49"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Pharynx&Tonsils البلعوم واللوزتين]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="7"
+						y="297"
+						width="160"
+						height="20"
+						key="staticText-50"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Thyroid gland الغدة الدرقية]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="169"
+						y="153"
+						width="16"
+						height="16"
+						key="ellipse-5"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="227"
+						y="153"
+						width="16"
+						height="16"
+						key="ellipse-6"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="169"
+						y="171"
+						width="16"
+						height="16"
+						key="ellipse-7"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="227"
+						y="171"
+						width="16"
+						height="16"
+						key="ellipse-8"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="169"
+						y="189"
+						width="16"
+						height="16"
+						key="ellipse-9"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="227"
+						y="189"
+						width="16"
+						height="16"
+						key="ellipse-10"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="169"
+						y="207"
+						width="16"
+						height="16"
+						key="ellipse-11"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="227"
+						y="207"
+						width="16"
+						height="16"
+						key="ellipse-12"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="169"
+						y="225"
+						width="16"
+						height="16"
+						key="ellipse-13"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="227"
+						y="225"
+						width="16"
+						height="16"
+						key="ellipse-14"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="169"
+						y="243"
+						width="16"
+						height="16"
+						key="ellipse-15"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="227"
+						y="243"
+						width="16"
+						height="16"
+						key="ellipse-16"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="169"
+						y="261"
+						width="16"
+						height="16"
+						key="ellipse-17"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="227"
+						y="261"
+						width="16"
+						height="16"
+						key="ellipse-18"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="169"
+						y="279"
+						width="16"
+						height="16"
+						key="ellipse-19"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="227"
+						y="279"
+						width="16"
+						height="16"
+						key="ellipse-20"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="169"
+						y="297"
+						width="16"
+						height="16"
+						key="ellipse-21"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="227"
+						y="297"
+						width="16"
+						height="16"
+						key="ellipse-22"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="434"
+						y="157"
+						width="16"
+						height="16"
+						key="ellipse-23"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="492"
+						y="157"
+						width="16"
+						height="16"
+						key="ellipse-24"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="434"
+						y="175"
+						width="16"
+						height="16"
+						key="ellipse-25"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="492"
+						y="175"
+						width="16"
+						height="16"
+						key="ellipse-26"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="434"
+						y="193"
+						width="16"
+						height="16"
+						key="ellipse-27"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="492"
+						y="193"
+						width="16"
+						height="16"
+						key="ellipse-28"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="434"
+						y="265"
+						width="16"
+						height="16"
+						key="ellipse-35"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="492"
+						y="265"
+						width="16"
+						height="16"
+						key="ellipse-36"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="434"
+						y="283"
+						width="16"
+						height="16"
+						key="ellipse-37"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="492"
+						y="283"
+						width="16"
+						height="16"
+						key="ellipse-38"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="434"
+						y="301"
+						width="16"
+						height="16"
+						key="ellipse-39"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="492"
+						y="301"
+						width="16"
+						height="16"
+						key="ellipse-40"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="280"
+						y="153"
+						width="111"
+						height="20"
+						key="staticText-52"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Abdomen البطن]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="280"
+						y="189"
+						width="111"
+						height="20"
+						key="staticText-54"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Spleen الطحال]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="393"
+						width="139"
+						height="20"
+						key="staticText-61"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Hemoglobin هيموغلوبين]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="413"
+						width="225"
+						height="20"
+						key="staticText-62"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Differential  :  PMN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="67"
+						y="433"
+						width="145"
+						height="17"
+						key="staticText-68"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Baso]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="200"
+						y="119"
+						width="73"
+						height="22"
+						key="staticText-70"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ABNORMAL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="7"
+						y="315"
+						width="160"
+						height="20"
+						key="staticText-74"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Lungs الرئتين]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="169"
+						y="315"
+						width="16"
+						height="16"
+						key="ellipse-41"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="227"
+						y="315"
+						width="16"
+						height="16"
+						key="ellipse-42"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="7"
+						y="333"
+						width="160"
+						height="20"
+						key="staticText-75"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Heart القلب]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="169"
+						y="333"
+						width="16"
+						height="16"
+						key="ellipse-43"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="227"
+						y="333"
+						width="16"
+						height="16"
+						key="ellipse-44"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="280"
+						y="315"
+						width="160"
+						height="20"
+						key="staticText-76"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Mental health status الحالة العقلية]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="433"
+						y="319"
+						width="16"
+						height="16"
+						key="ellipse-45"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="491"
+						y="319"
+						width="16"
+						height="16"
+						key="ellipse-46"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="280"
+						y="333"
+						width="160"
+						height="20"
+						key="staticText-77"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Other……….  اخرى]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="433"
+						y="337"
+						width="16"
+						height="16"
+						key="ellipse-47"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="491"
+						y="337"
+						width="16"
+						height="16"
+						key="ellipse-48"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="7"
+						y="130"
+						width="73"
+						height="22"
+						key="staticText-78"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ البيانات]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="142"
+						y="130"
+						width="76"
+						height="22"
+						key="staticText-79"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ طبيعي]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="200"
+						y="130"
+						width="73"
+						height="22"
+						key="staticText-80"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ غير طبيعي]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="289"
+						y="119"
+						width="73"
+						height="22"
+						key="staticText-81"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ITEMS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="404"
+						y="123"
+						width="76"
+						height="22"
+						key="staticText-82"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[NORMAL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="462"
+						y="123"
+						width="73"
+						height="22"
+						key="staticText-83"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ABNORMAL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="289"
+						y="130"
+						width="73"
+						height="22"
+						key="staticText-84"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ البيانات]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="404"
+						y="134"
+						width="76"
+						height="22"
+						key="staticText-85"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ طبيعي]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="462"
+						y="134"
+						width="73"
+						height="22"
+						key="staticText-86"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ غير طبيعي]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="23"
+						y="355"
+						width="177"
+						height="20"
+						key="staticText-87"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ADDITIONAL COMMENTS اضافات]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="377"
+						width="535"
+						height="15"
+						key="staticText-88"/>
+					<box>					<pen lineWidth="0.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="139"
+						y="413"
+						width="87"
+						height="17"
+						key="staticText-89"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[%]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="139"
+						y="433"
+						width="87"
+						height="17"
+						key="staticText-90"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[%]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="185"
+						y="413"
+						width="69"
+						height="20"
+						key="staticText-91"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Lymp]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="259"
+						y="413"
+						width="36"
+						height="17"
+						key="staticText-93"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[%]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="376"
+						y="413"
+						width="36"
+						height="17"
+						key="staticText-94"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[%]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="433"
+						y="413"
+						width="69"
+						height="20"
+						key="staticText-95"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Eos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="185"
+						y="433"
+						width="69"
+						height="20"
+						key="staticText-97"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Band]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="259"
+						y="433"
+						width="36"
+						height="17"
+						key="staticText-98"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[%]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="314"
+						y="433"
+						width="69"
+						height="20"
+						key="staticText-99"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Blast]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="376"
+						y="433"
+						width="36"
+						height="17"
+						key="staticText-100"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[%]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="455"
+						width="225"
+						height="20"
+						key="staticText-101"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Serological test for anti HIV  فحص نقص المناعة]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="212"
+						y="452"
+						width="78"
+						height="20"
+						key="staticText-103"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[GPA  Test]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="217"
+						y="453"
+						width="16"
+						height="16"
+						key="ellipse-50"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="218"
+						y="471"
+						width="16"
+						height="16"
+						key="ellipse-51"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="213"
+						y="470"
+						width="78"
+						height="20"
+						key="staticText-104"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[RPR  Test]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="218"
+						y="490"
+						width="16"
+						height="16"
+						key="ellipse-52"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="213"
+						y="489"
+						width="114"
+						height="20"
+						key="staticText-105"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Western Blot Test]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="339"
+						y="453"
+						width="87"
+						height="20"
+						key="staticText-106"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Positive ايجابي]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="439"
+						y="453"
+						width="92"
+						height="20"
+						key="staticText-107"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Negative سلبي]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="446"
+						y="453"
+						width="16"
+						height="16"
+						key="ellipse-53"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="344"
+						y="454"
+						width="16"
+						height="16"
+						key="ellipse-54"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="339"
+						y="471"
+						width="87"
+						height="20"
+						key="staticText-108"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Positive ايجابي]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="439"
+						y="471"
+						width="92"
+						height="20"
+						key="staticText-109"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Negative سلبي]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="446"
+						y="471"
+						width="16"
+						height="16"
+						key="ellipse-55"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="344"
+						y="472"
+						width="16"
+						height="16"
+						key="ellipse-56"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="339"
+						y="490"
+						width="87"
+						height="20"
+						key="staticText-110"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Positive ايجابي]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="439"
+						y="490"
+						width="92"
+						height="20"
+						key="staticText-111"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Negative سلبي]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="446"
+						y="490"
+						width="16"
+						height="16"
+						key="ellipse-57"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="344"
+						y="491"
+						width="16"
+						height="16"
+						key="ellipse-58"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="0"
+						y="513"
+						width="225"
+						height="20"
+						key="staticText-112"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Hepatitis B Surfase Antigen Test :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="212"
+						y="510"
+						width="86"
+						height="20"
+						key="staticText-113"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[VDRL  Test]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="217"
+						y="511"
+						width="16"
+						height="16"
+						key="ellipse-59"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="217"
+						y="532"
+						width="16"
+						height="16"
+						key="ellipse-60"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="217"
+						y="551"
+						width="16"
+						height="16"
+						key="ellipse-61"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="339"
+						y="511"
+						width="87"
+						height="20"
+						key="staticText-116"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Positive ايجابي]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="439"
+						y="511"
+						width="92"
+						height="20"
+						key="staticText-117"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Negative سلبي]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="446"
+						y="511"
+						width="16"
+						height="16"
+						key="ellipse-62"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="344"
+						y="512"
+						width="16"
+						height="16"
+						key="ellipse-63"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="339"
+						y="532"
+						width="87"
+						height="20"
+						key="staticText-118"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Positive ايجابي]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="439"
+						y="532"
+						width="92"
+						height="20"
+						key="staticText-119"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Negative سلبي]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="446"
+						y="532"
+						width="16"
+						height="16"
+						key="ellipse-64"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="344"
+						y="533"
+						width="16"
+						height="16"
+						key="ellipse-65"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="339"
+						y="551"
+						width="87"
+						height="20"
+						key="staticText-120"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Positive ايجابي]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="439"
+						y="551"
+						width="92"
+						height="20"
+						key="staticText-121"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Negative سلبي]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="446"
+						y="551"
+						width="16"
+						height="16"
+						key="ellipse-66"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="344"
+						y="552"
+						width="16"
+						height="16"
+						key="ellipse-67"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="0"
+						y="532"
+						width="225"
+						height="20"
+						key="staticText-122"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[فحص الصفراء      فحص السفلس]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="573"
+						width="225"
+						height="20"
+						key="staticText-123"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Blood film for malaria  فحص الملاريا]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="244"
+						y="570"
+						width="171"
+						height="20"
+						key="staticText-124"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Positive  Species…………..]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="217"
+						y="571"
+						width="16"
+						height="16"
+						key="ellipse-68"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="439"
+						y="571"
+						width="92"
+						height="20"
+						key="staticText-126"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Negative سلبي]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="446"
+						y="571"
+						width="16"
+						height="16"
+						key="ellipse-69"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="0"
+						y="593"
+						width="105"
+						height="20"
+						key="staticText-127"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Urinalysis  فحص البول]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="73"
+						y="593"
+						width="105"
+						height="20"
+						key="staticText-128"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[اللون:Color   ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="213"
+						y="593"
+						width="62"
+						height="20"
+						key="staticText-129"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Sp. gr.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="326"
+						y="593"
+						width="43"
+						height="20"
+						key="staticText-130"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[pH]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="425"
+						y="593"
+						width="71"
+						height="20"
+						key="staticText-131"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[السكر   Sugar]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="73"
+						y="611"
+						width="105"
+						height="20"
+						key="staticText-132"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Albumin  الزلال]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="213"
+						y="611"
+						width="62"
+						height="20"
+						key="staticText-133"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[الدم  Blood ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="314"
+						y="612"
+						width="71"
+						height="20"
+						key="staticText-134"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[الكيتون  Ketone]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="425"
+						y="611"
+						width="71"
+						height="20"
+						key="staticText-135"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[الصفراء   Bile ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="73"
+						y="629"
+						width="105"
+						height="20"
+						key="staticText-136"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Micro : WBC]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="212"
+						y="629"
+						width="62"
+						height="20"
+						key="staticText-137"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[RBC]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="314"
+						y="631"
+						width="71"
+						height="20"
+						key="staticText-138"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[/HPF.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="489"
+						y="631"
+						width="44"
+						height="20"
+						key="staticText-140"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ /HPF.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="647"
+						width="181"
+						height="20"
+						key="staticText-141"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[الخلايا الظهارية   Epithelal cell]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="291"
+						y="647"
+						width="71"
+						height="20"
+						key="staticText-142"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[/HPF.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="298"
+						y="647"
+						width="71"
+						height="20"
+						key="staticText-143"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Others]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="667"
+						width="305"
+						height="20"
+						key="staticText-144"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H" isStrikeThrough="false" />
+					</textElement>
+				<text><![CDATA[Urine Pregnancy test  (For female only)   فحص البول (للحوامل فقط)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="339"
+						y="667"
+						width="87"
+						height="20"
+						key="staticText-145"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Positive ايجابي]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="439"
+						y="667"
+						width="92"
+						height="20"
+						key="staticText-146"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Negative سلبي]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="446"
+						y="667"
+						width="16"
+						height="16"
+						key="ellipse-70"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="344"
+						y="668"
+						width="16"
+						height="16"
+						key="ellipse-71"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="0"
+						y="687"
+						width="305"
+						height="20"
+						key="staticText-147"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H" isStrikeThrough="false" />
+					</textElement>
+				<text><![CDATA[Stool Examination for parasites   فحص البراز:الطفيليات]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="339"
+						y="687"
+						width="87"
+						height="20"
+						key="staticText-148"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Positive ايجابي]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="439"
+						y="687"
+						width="92"
+						height="20"
+						key="staticText-149"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Negative سلبي]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="446"
+						y="687"
+						width="16"
+						height="16"
+						key="ellipse-72"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="344"
+						y="688"
+						width="16"
+						height="16"
+						key="ellipse-73"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="0"
+						y="707"
+						width="305"
+						height="20"
+						key="staticText-150"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H" isStrikeThrough="false" />
+					</textElement>
+				<text><![CDATA[Chest X-ray for tuberculosis   الاشعة السينية لمرض السل]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="339"
+						y="707"
+						width="87"
+						height="20"
+						key="staticText-151"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Positive ايجابي]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="439"
+						y="707"
+						width="92"
+						height="20"
+						key="staticText-152"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Negative سلبي]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="446"
+						y="707"
+						width="16"
+						height="16"
+						key="ellipse-74"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="344"
+						y="708"
+						width="16"
+						height="16"
+						key="ellipse-75"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="0"
+						y="727"
+						width="305"
+						height="20"
+						key="staticText-153"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H" isStrikeThrough="false" />
+					</textElement>
+				<text><![CDATA[Other  examinations  : ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="339"
+						y="727"
+						width="87"
+						height="20"
+						key="staticText-154"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Positive ايجابي]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="439"
+						y="727"
+						width="92"
+						height="20"
+						key="staticText-155"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Negative سلبي]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="446"
+						y="727"
+						width="16"
+						height="16"
+						key="ellipse-76"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="344"
+						y="728"
+						width="16"
+						height="16"
+						key="ellipse-77"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="0"
+						y="727"
+						width="305"
+						height="20"
+						key="staticText-156"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H" isStrikeThrough="false" />
+					</textElement>
+				<text><![CDATA[ANTI - HCV ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="747"
+						width="321"
+						height="20"
+						key="staticText-157"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H" isStrikeThrough="false" />
+					</textElement>
+				<text><![CDATA[CONCLUSION : Above  is  the  medical  report  of  Mr./Mrs./Miss]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="767"
+						width="243"
+						height="20"
+						key="staticText-158"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H" isStrikeThrough="false" />
+					</textElement>
+				<text><![CDATA[He / She is fit / not fit for employment ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="781"
+						width="243"
+						height="20"
+						key="staticText-159"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H" isStrikeThrough="false" />
+					</textElement>
+				<text><![CDATA[VALID FOR THREE MONTHS   صالحة لثلاثة شهور]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="244"
+						y="767"
+						width="77"
+						height="20"
+						key="staticText-162"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H" isStrikeThrough="false" />
+					</textElement>
+				<text><![CDATA[Signature]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="244"
+						y="781"
+						width="77"
+						height="20"
+						key="staticText-163"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H" isStrikeThrough="false" />
+					</textElement>
+				<text><![CDATA[التوقيع]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="462"
+						y="767"
+						width="71"
+						height="20"
+						key="staticText-165"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Physician]]></text>
+				</staticText>
+				<line direction="BottomUp">
+					<reportElement
+						x="227"
+						y="153"
+						width="16"
+						height="16"
+						key="line_asthma-1">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_general_appearance}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="169"
+						y="153"
+						width="16"
+						height="16"
+						key="line_asthma-2">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_general_appearance}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="169"
+						y="171"
+						width="16"
+						height="16"
+						key="line_asthma-3">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_skin_scalp}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="227"
+						y="171"
+						width="16"
+						height="16"
+						key="line_asthma-4">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_skin_scalp}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="169"
+						y="188"
+						width="16"
+						height="16"
+						key="line_asthma-5">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_lymph_nodes}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="227"
+						y="188"
+						width="16"
+						height="16"
+						key="line_asthma-6">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_lymph_nodes}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="169"
+						y="206"
+						width="16"
+						height="16"
+						key="line_asthma-7">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_eyes}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="227"
+						y="206"
+						width="16"
+						height="16"
+						key="line_asthma-8">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_eyes}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="169"
+						y="225"
+						width="16"
+						height="16"
+						key="line_asthma-9">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_ears}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="227"
+						y="225"
+						width="16"
+						height="16"
+						key="line_asthma-10">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_ears}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="169"
+						y="242"
+						width="16"
+						height="16"
+						key="line_asthma-11">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_otoscopic_exam}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="227"
+						y="242"
+						width="16"
+						height="16"
+						key="line_asthma-12">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_otoscopic_exam}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="169"
+						y="260"
+						width="16"
+						height="16"
+						key="line_asthma-13">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_nose}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="227"
+						y="260"
+						width="16"
+						height="16"
+						key="line_asthma-14">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_nose}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="169"
+						y="279"
+						width="16"
+						height="16"
+						key="line_asthma-15">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_pharynx_tonsils}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="227"
+						y="279"
+						width="16"
+						height="16"
+						key="line_asthma-16">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_pharynx_tonsils}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="169"
+						y="297"
+						width="16"
+						height="16"
+						key="line_asthma-17">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_thyroid_gland}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="227"
+						y="297"
+						width="16"
+						height="16"
+						key="line_asthma-18">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_thyroid_gland}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="170"
+						y="315"
+						width="16"
+						height="16"
+						key="line_asthma-19">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_lungs}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="228"
+						y="315"
+						width="16"
+						height="16"
+						key="line_asthma-20">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_lungs}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="170"
+						y="333"
+						width="16"
+						height="16"
+						key="line_asthma-21">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_heart}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="228"
+						y="333"
+						width="16"
+						height="16"
+						key="line_asthma-22">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_heart}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="435"
+						y="157"
+						width="16"
+						height="16"
+						key="line_asthma-23">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_abdomen}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="493"
+						y="157"
+						width="16"
+						height="16"
+						key="line_asthma-24">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_abdomen}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="434"
+						y="175"
+						width="16"
+						height="16"
+						key="line_asthma-25">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_liver}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="493"
+						y="176"
+						width="16"
+						height="16"
+						key="line_asthma-26">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_liver}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="434"
+						y="192"
+						width="16"
+						height="16"
+						key="line_asthma-27">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_spleen}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="493"
+						y="193"
+						width="16"
+						height="16"
+						key="line_asthma-28">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_spleen}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="434"
+						y="265"
+						width="16"
+						height="16"
+						key="line_asthma-29">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_vertebrae}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="492"
+						y="265"
+						width="16"
+						height="16"
+						key="line_asthma-30">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_vertebrae}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="434"
+						y="283"
+						width="16"
+						height="16"
+						key="line_asthma-31">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_locomotor}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="492"
+						y="283"
+						width="16"
+						height="16"
+						key="line_asthma-32">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_locomotor}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="434"
+						y="301"
+						width="16"
+						height="16"
+						key="line_asthma-33">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_reflexes}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="492"
+						y="301"
+						width="16"
+						height="16"
+						key="line_asthma-34">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_reflexes}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="433"
+						y="319"
+						width="16"
+						height="16"
+						key="line_asthma-35">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_mental_health_status}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="491"
+						y="319"
+						width="16"
+						height="16"
+						key="line_asthma-36">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_mental_health_status}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="433"
+						y="337"
+						width="16"
+						height="16"
+						key="line_asthma-37">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_other}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="491"
+						y="337"
+						width="16"
+						height="16"
+						key="line_asthma-38">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_other}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="290"
+						y="49"
+						width="16"
+						height="16"
+						key="line_asthma-39">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_glasses}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="417"
+						y="49"
+						width="16"
+						height="16"
+						key="line_asthma-40">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_glasses}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="446"
+						y="453"
+						width="16"
+						height="16"
+						key="line_asthma-43">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hiv_gpa}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="344"
+						y="454"
+						width="16"
+						height="16"
+						key="line_asthma-44">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hiv_gpa}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="446"
+						y="471"
+						width="16"
+						height="16"
+						key="line_asthma-45">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hiv_elisa}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="344"
+						y="472"
+						width="16"
+						height="16"
+						key="line_asthma-46">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hiv_elisa}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="446"
+						y="490"
+						width="16"
+						height="16"
+						key="line_asthma-47">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hiv_western_blot}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="344"
+						y="491"
+						width="16"
+						height="16"
+						key="line_asthma-48">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hiv_western_blot}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="446"
+						y="511"
+						width="16"
+						height="16"
+						key="line_asthma-49">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hepatitis_vdrl}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="344"
+						y="512"
+						width="16"
+						height="16"
+						key="line_asthma-50">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hepatitis_vdrl}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="446"
+						y="532"
+						width="16"
+						height="16"
+						key="line_asthma-51">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hepatitis_rpr}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="344"
+						y="533"
+						width="16"
+						height="16"
+						key="line_asthma-52">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hepatitis_rpr}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="446"
+						y="551"
+						width="16"
+						height="16"
+						key="line_asthma-53">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hepatitis_tpha}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="344"
+						y="552"
+						width="16"
+						height="16"
+						key="line_asthma-54">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hepatitis_tpha}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="219"
+						y="471"
+						width="16"
+						height="16"
+						key="line_asthma-55">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hiv}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="218"
+						y="453"
+						width="16"
+						height="16"
+						key="line_asthma-56">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hiv}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="218"
+						y="490"
+						width="16"
+						height="16"
+						key="line_asthma-57">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hiv}.equals( "3" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="217"
+						y="511"
+						width="16"
+						height="16"
+						key="line_asthma-58">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hematocrit}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="217"
+						y="571"
+						width="16"
+						height="16"
+						key="line_asthma-59">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_blood_film}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="218"
+						y="551"
+						width="16"
+						height="16"
+						key="line_asthma-60">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hematocrit}.equals( "3" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="218"
+						y="532"
+						width="16"
+						height="16"
+						key="line_asthma-61">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_hematocrit}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="345"
+						y="668"
+						width="16"
+						height="16"
+						key="line_asthma-62">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_urine}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="447"
+						y="667"
+						width="16"
+						height="16"
+						key="line_asthma-63">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_urine}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="446"
+						y="687"
+						width="16"
+						height="16"
+						key="line_asthma-64">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_stool}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="344"
+						y="688"
+						width="16"
+						height="16"
+						key="line_asthma-65">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_stool}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="446"
+						y="707"
+						width="16"
+						height="16"
+						key="line_asthma-66">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_chest_x_ray}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="344"
+						y="708"
+						width="16"
+						height="16"
+						key="line_asthma-67">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_chest_x_ray}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="446"
+						y="727"
+						width="16"
+						height="16"
+						key="line_asthma-68">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_other_examinations}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="345"
+						y="727"
+						width="16"
+						height="16"
+						key="line_asthma-69">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_other_examinations}.equals( "1" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="446"
+						y="571"
+						width="16"
+						height="16"
+						key="line_asthma-70">
+							<printWhenExpression><![CDATA[new Boolean($F{doctor_t_checkup_blood_film}.equals( "2" ))]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="65"
+						y="26"
+						width="22"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_height}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="185"
+						y="26"
+						width="28"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_width}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="346"
+						y="26"
+						width="39"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_blood_pressure}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="465"
+						y="26"
+						width="38"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_pulse}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="105"
+						y="49"
+						width="34"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_eye_right}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="185"
+						y="49"
+						width="47"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_eye_left}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="119"
+						y="73"
+						width="46"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_color_blindness}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="273"
+						y="73"
+						width="100"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_f_patient_blood_group_id}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="186"
+						y="355"
+						width="345"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_addition_comments}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="92"
+						y="413"
+						width="47"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_differentia_pmn}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="92"
+						y="433"
+						width="47"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_differentia_baso}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="105"
+						y="393"
+						width="34"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_hemoglobin}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="139"
+						y="393"
+						width="87"
+						height="17"
+						key="staticText-166"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[gm%]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="185"
+						y="393"
+						width="160"
+						height="20"
+						key="staticText-167"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[خلايا الدم البيضاء   While blood cell ]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="339"
+						y="393"
+						width="65"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_while_blood_cell}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="376"
+						y="393"
+						width="58"
+						height="17"
+						key="staticText-168"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[cells / cu.mm.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="433"
+						y="393"
+						width="58"
+						height="17"
+						key="staticText-169"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Hematocrit]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="518"
+						y="413"
+						width="13"
+						height="17"
+						key="staticText-170"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[%]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="518"
+						y="393"
+						width="13"
+						height="17"
+						key="staticText-171"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[%]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="489"
+						y="393"
+						width="29"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_hematocrit}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="489"
+						y="413"
+						width="29"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_differential_eos}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="352"
+						y="413"
+						width="24"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_differential_mono}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="352"
+						y="433"
+						width="24"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_differential_blast}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="226"
+						y="433"
+						width="33"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_differential_band}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="226"
+						y="413"
+						width="33"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_differential_lymp}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="323"
+						y="747"
+						width="210"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_conclusion}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="321"
+						y="781"
+						width="210"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_doctor_fullnamee}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="181"
+						y="593"
+						width="41"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_uri_color}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="499"
+						y="593"
+						width="32"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_uri_sugar}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="181"
+						y="613"
+						width="41"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_albumin}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="376"
+						y="593"
+						width="45"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_uri_ph}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="276"
+						y="593"
+						width="46"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_uri_sp}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="499"
+						y="613"
+						width="32"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_bile}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="389"
+						y="613"
+						width="40"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_ketone}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="444"
+						y="631"
+						width="40"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_casts}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="275"
+						y="629"
+						width="46"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_rbc}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="181"
+						y="629"
+						width="41"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_micro_wbc}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="273"
+						y="611"
+						width="38"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctor_t_checkup_blood}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

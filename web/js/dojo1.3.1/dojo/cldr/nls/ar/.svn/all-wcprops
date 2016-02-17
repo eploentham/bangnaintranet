@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/bangna/!svn/ver/27/bangnaintranet/web/js/dojo1.3.1/dojo/cldr/nls/ar
+END
+gregorian.js
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/bangna/!svn/ver/27/bangnaintranet/web/js/dojo1.3.1/dojo/cldr/nls/ar/gregorian.js
+END
+currency.js
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/bangna/!svn/ver/27/bangnaintranet/web/js/dojo1.3.1/dojo/cldr/nls/ar/currency.js
+END
+islamic-civil.js
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/bangna/!svn/ver/27/bangnaintranet/web/js/dojo1.3.1/dojo/cldr/nls/ar/islamic-civil.js
+END
+number.js
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/bangna/!svn/ver/27/bangnaintranet/web/js/dojo1.3.1/dojo/cldr/nls/ar/number.js
+END
+islamic.js
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/bangna/!svn/ver/27/bangnaintranet/web/js/dojo1.3.1/dojo/cldr/nls/ar/islamic.js
+END

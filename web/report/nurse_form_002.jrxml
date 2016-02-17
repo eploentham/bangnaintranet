@@ -1,0 +1,1857 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="nurse_form_002"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="842"
+		 pageHeight="595"
+		 columnWidth="814"
+		 columnSpacing="0"
+		 leftMargin="14"
+		 rightMargin="14"
+		 topMargin="14"
+		 bottomMargin="14"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<subDataset name="dataset1" >
+
+
+	</subDataset>
+
+	<parameter name="header1" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header2" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header3" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="rline1" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="rline2" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="rline3" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="rline4" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_name" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_age" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_hn" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_an" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_dept" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_room_bed" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[SELECT
+     b_branch."branch_id" AS b_branch_branch_id
+FROM
+     "public"."b_branch" b_branch
+Where branch_id = '103001']]></queryString>
+
+	<field name="b_branch_branch_id" class="java.lang.String"/>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="152"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="44"
+						width="814"
+						height="22"
+						key="textField"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header3}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="621"
+						y="44"
+						width="193"
+						height="22"
+						key="textField"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{rline3}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="620"
+						y="43"
+						width="194"
+						height="23"
+						key="staticText-129"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ประวัติแพ้ยา/อาการ    (   )ไม่มี              (   )มี คือ.....................]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="23"
+						width="814"
+						height="21"
+						key="textField"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="115"
+						y="0"
+						width="699"
+						height="23"
+						key="textField"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="620"
+						y="0"
+						width="193"
+						height="23"
+						key="textField"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{rline1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="621"
+						y="21"
+						width="193"
+						height="23"
+						key="textField"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{rline2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="621"
+						y="65"
+						width="193"
+						height="21"
+						key="textField"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{rline4}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="86"
+						width="802"
+						height="1"
+						key="line"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="86"
+						width="798"
+						height="1"
+						key="line"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="3"
+						y="86"
+						width="249"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ชื่อ-นามสกุล "+$P{p_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="252"
+						y="86"
+						width="68"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["อายุ "+$P{p_age}+" ปี"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="320"
+						y="86"
+						width="162"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["HN "+$P{p_hn}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="405"
+						y="86"
+						width="209"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["AN "+$P{p_an}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="468"
+						y="86"
+						width="227"
+						height="20"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["แผนก "+$P{p_dept}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="771"
+						y="110"
+						width="43"
+						height="40"
+						key="staticText"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ผู้บันทึก]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="1"
+						y="86"
+						width="813"
+						height="1"
+						key="line-25"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="106"
+						width="814"
+						height="1"
+						key="line-27"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="586"
+						y="86"
+						width="201"
+						height="19"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ห้อง/เตียง "+$P{p_room_bed}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="7"
+						y="110"
+						width="112"
+						height="40"
+						key="staticText-12"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ชื่อยา]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="120"
+						y="111"
+						width="62"
+						height="20"
+						key="staticText-13"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ขนาดยา]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="119"
+						y="132"
+						width="63"
+						height="20"
+						key="staticText-14"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Dose		]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="182"
+						y="130"
+						width="40"
+						height="22"
+						key="staticText-15"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Bottom">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ครั้งที่ใช้]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="182"
+						y="110"
+						width="40"
+						height="20"
+						key="staticText-16"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[จำนวน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="223"
+						y="111"
+						width="40"
+						height="39"
+						key="staticText-17"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[วิธีที่ให้]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="262"
+						y="111"
+						width="40"
+						height="39"
+						key="staticText-18"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[วันที่]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="303"
+						y="116"
+						width="125"
+						height="20"
+						key="staticText-19"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="430"
+						y="109"
+						width="163"
+						height="20"
+						key="staticText-20"/>
+					<box></box>
+					<textElement verticalAlignment="Top">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[(   )1 แพ้ยา   (   ) 2 Side effect]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="430"
+						y="132"
+						width="24"
+						height="20"
+						key="staticText-23"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ไม่มี]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="457"
+						y="132"
+						width="97"
+						height="20"
+						key="staticText-24"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[มี / อาการ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="554"
+						y="109"
+						width="47"
+						height="41"
+						key="staticText-25"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ผู้บันทึก]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="601"
+						y="111"
+						width="170"
+						height="39"
+						key="staticText-26"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ประเมินอาการผู้ป่วยหลังให้ยา]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="428"
+						y="135"
+						width="126"
+						height="1"
+						key="line-161"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="429"
+						y="121"
+						width="163"
+						height="20"
+						key="staticText-162"/>
+					<box></box>
+					<textElement verticalAlignment="Top">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[(   )3 Interaction]]></text>
+				</staticText>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="356"  isSplitAllowed="true" >
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="-66"
+						width="0"
+						height="422"
+						key="line-144"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="119"
+						y="-46"
+						width="1"
+						height="402"
+						key="line-145"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="183"
+						y="-46"
+						width="1"
+						height="402"
+						key="line-146"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="222"
+						y="-46"
+						width="1"
+						height="402"
+						key="line-147"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="261"
+						y="-46"
+						width="1"
+						height="402"
+						key="line-148"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="302"
+						y="-46"
+						width="1"
+						height="402"
+						key="line-149"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="428"
+						y="-46"
+						width="1"
+						height="402"
+						key="line-150"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="455"
+						y="-17"
+						width="1"
+						height="373"
+						key="line-151"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="554"
+						y="-46"
+						width="1"
+						height="402"
+						key="line-152"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="601"
+						y="-46"
+						width="1"
+						height="402"
+						key="line-153"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="771"
+						y="-45"
+						width="1"
+						height="401"
+						key="line-154"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="814"
+						y="-66"
+						width="0"
+						height="422"
+						key="line-155"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="267"
+						width="814"
+						height="1"
+						key="line-157"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="176"
+						width="814"
+						height="1"
+						key="line-158"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="90"
+						width="814"
+						height="1"
+						key="line-159"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="2"
+						width="814"
+						height="1"
+						key="line-160"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="122"
+						y="8"
+						width="60"
+						height="20"
+						key="staticText-27"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ขนาด]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="122"
+						y="66"
+						width="60"
+						height="20"
+						key="staticText-28"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ทุก          ชม.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="122"
+						y="97"
+						width="60"
+						height="20"
+						key="staticText-29"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ขนาด]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="122"
+						y="150"
+						width="60"
+						height="20"
+						key="staticText-30"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ทุก          ชม.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="122"
+						y="184"
+						width="60"
+						height="20"
+						key="staticText-31"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ขนาด]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="122"
+						y="241"
+						width="60"
+						height="20"
+						key="staticText-32"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ทุก          ชม.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="122"
+						y="274"
+						width="60"
+						height="20"
+						key="staticText-35"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ขนาด]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="122"
+						y="332"
+						width="60"
+						height="20"
+						key="staticText-36"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ทุก          ชม.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="303"
+						y="2"
+						width="27"
+						height="20"
+						key="staticText-37"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[รับ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="303"
+						y="40"
+						width="27"
+						height="20"
+						key="staticText-38"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Bottom">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[คืน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="303"
+						y="90"
+						width="27"
+						height="20"
+						key="staticText-39"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[รับ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="303"
+						y="125"
+						width="27"
+						height="20"
+						key="staticText-40"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Bottom">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[คืน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="303"
+						y="177"
+						width="27"
+						height="20"
+						key="staticText-41"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[รับ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="304"
+						y="215"
+						width="27"
+						height="20"
+						key="staticText-42"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Bottom">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[คืน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="303"
+						y="268"
+						width="27"
+						height="20"
+						key="staticText-43"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[รับ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="303"
+						y="308"
+						width="27"
+						height="20"
+						key="staticText-44"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Bottom">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[คืน]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="331"
+						y="2"
+						width="1"
+						height="354"
+						key="line-162"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="347"
+						y="2"
+						width="1"
+						height="354"
+						key="line-163"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="363"
+						y="2"
+						width="1"
+						height="354"
+						key="line-164"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="379"
+						y="2"
+						width="1"
+						height="354"
+						key="line-165"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="395"
+						y="2"
+						width="1"
+						height="354"
+						key="line-166"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="411"
+						y="2"
+						width="1"
+						height="354"
+						key="line-167"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="457"
+						y="40"
+						width="68"
+						height="20"
+						key="staticText-45"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[(   ) 2]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="457"
+						y="17"
+						width="68"
+						height="20"
+						key="staticText-46"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[(   ) 1]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="457"
+						y="63"
+						width="68"
+						height="20"
+						key="staticText-47"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[(   ) 3]]></text>
+				</staticText>
+				<line direction="BottomUp">
+					<reportElement
+						x="331"
+						y="48"
+						width="16"
+						height="40"
+						key="line-216"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="347"
+						y="48"
+						width="16"
+						height="40"
+						key="line-217"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="363"
+						y="48"
+						width="16"
+						height="40"
+						key="line-218"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="379"
+						y="48"
+						width="16"
+						height="40"
+						key="line-219"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="395"
+						y="48"
+						width="16"
+						height="40"
+						key="line-220"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="412"
+						y="48"
+						width="16"
+						height="40"
+						key="line-221"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="303"
+						y="47"
+						width="125"
+						height="1"
+						key="line-222"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="331"
+						y="132"
+						width="16"
+						height="40"
+						key="line-223"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="347"
+						y="132"
+						width="16"
+						height="40"
+						key="line-224"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="363"
+						y="132"
+						width="16"
+						height="40"
+						key="line-225"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="379"
+						y="132"
+						width="16"
+						height="40"
+						key="line-226"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="395"
+						y="132"
+						width="16"
+						height="40"
+						key="line-227"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="412"
+						y="132"
+						width="16"
+						height="40"
+						key="line-228"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="303"
+						y="132"
+						width="125"
+						height="1"
+						key="line-229"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="331"
+						y="222"
+						width="16"
+						height="40"
+						key="line-230"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="347"
+						y="222"
+						width="16"
+						height="40"
+						key="line-231"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="363"
+						y="222"
+						width="16"
+						height="40"
+						key="line-232"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="379"
+						y="222"
+						width="16"
+						height="40"
+						key="line-233"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="395"
+						y="222"
+						width="16"
+						height="40"
+						key="line-234"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="412"
+						y="222"
+						width="16"
+						height="40"
+						key="line-235"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="303"
+						y="222"
+						width="125"
+						height="1"
+						key="line-236"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="331"
+						y="316"
+						width="16"
+						height="32"
+						key="line-237"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="347"
+						y="316"
+						width="16"
+						height="32"
+						key="line-238"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="363"
+						y="316"
+						width="16"
+						height="32"
+						key="line-239"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="379"
+						y="316"
+						width="16"
+						height="32"
+						key="line-240"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="395"
+						y="316"
+						width="16"
+						height="32"
+						key="line-241"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement
+						x="411"
+						y="316"
+						width="16"
+						height="32"
+						key="line-242"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="303"
+						y="315"
+						width="125"
+						height="1"
+						key="line-243"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="602"
+						y="3"
+						width="206"
+						height="14"
+						key="staticText-69"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="457"
+						y="125"
+						width="68"
+						height="20"
+						key="staticText-130"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[(   ) 2]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="457"
+						y="102"
+						width="68"
+						height="20"
+						key="staticText-131"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[(   ) 1]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="457"
+						y="148"
+						width="68"
+						height="20"
+						key="staticText-132"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[(   ) 3]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="457"
+						y="215"
+						width="68"
+						height="20"
+						key="staticText-133"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[(   ) 2]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="457"
+						y="192"
+						width="68"
+						height="20"
+						key="staticText-134"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[(   ) 1]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="457"
+						y="238"
+						width="68"
+						height="20"
+						key="staticText-135"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[(   ) 3]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="457"
+						y="308"
+						width="68"
+						height="20"
+						key="staticText-136"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[(   ) 2]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="457"
+						y="285"
+						width="68"
+						height="20"
+						key="staticText-137"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[(   ) 1]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="457"
+						y="331"
+						width="68"
+						height="20"
+						key="staticText-138"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[(   ) 3]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="17"
+						width="212"
+						height="14"
+						key="staticText-139"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="31"
+						width="212"
+						height="14"
+						key="staticText-140"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="45"
+						width="212"
+						height="14"
+						key="staticText-141"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="59"
+						width="212"
+						height="14"
+						key="staticText-142"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="73"
+						width="212"
+						height="14"
+						key="staticText-143"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="91"
+						width="212"
+						height="14"
+						key="staticText-144"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="105"
+						width="212"
+						height="14"
+						key="staticText-145"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="119"
+						width="212"
+						height="14"
+						key="staticText-146"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="133"
+						width="212"
+						height="14"
+						key="staticText-147"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="147"
+						width="212"
+						height="14"
+						key="staticText-148"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="161"
+						width="212"
+						height="14"
+						key="staticText-149"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="177"
+						width="212"
+						height="14"
+						key="staticText-150"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="191"
+						width="212"
+						height="14"
+						key="staticText-151"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="205"
+						width="212"
+						height="14"
+						key="staticText-152"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="219"
+						width="212"
+						height="14"
+						key="staticText-153"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="233"
+						width="212"
+						height="14"
+						key="staticText-154"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="247"
+						width="212"
+						height="14"
+						key="staticText-155"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="268"
+						width="212"
+						height="14"
+						key="staticText-156"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="282"
+						width="212"
+						height="14"
+						key="staticText-157"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="296"
+						width="212"
+						height="14"
+						key="staticText-158"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="310"
+						width="212"
+						height="14"
+						key="staticText-159"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="324"
+						width="212"
+						height="14"
+						key="staticText-160"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="602"
+						y="338"
+						width="212"
+						height="14"
+						key="staticText-161"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา      (   ) ดีขึ้น  (   )ยังมีอาการ.....................]]></text>
+				</staticText>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="58"  isSplitAllowed="true" >
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="0"
+						width="814"
+						height="1"
+						key="line"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="3"
+						y="0"
+						width="253"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[หมายเหตุ  : ลายเซ็นบน   หมายถึง   ผู้ปฏิบัติ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="47"
+						y="20"
+						width="181"
+						height="20"
+						key="staticText"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ลายเซ็นล่าง   หมายถึง  ผู้ตรวจสอบ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="261"
+						y="0"
+						width="68"
+						height="20"
+						key="staticText-1"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ตัวอย่างลายเซ็น]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="330"
+						y="6"
+						width="159"
+						height="20"
+						key="staticText-2"/>
+					<box></box>
+					<textElement verticalAlignment="Top">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[1...........................หมายถึง.......................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="330"
+						y="24"
+						width="159"
+						height="20"
+						key="staticText-3"/>
+					<box></box>
+					<textElement verticalAlignment="Top">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[2...........................หมายถึง.......................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="330"
+						y="37"
+						width="159"
+						height="20"
+						key="staticText-4"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[3...........................หมายถึง.......................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="493"
+						y="6"
+						width="180"
+						height="20"
+						key="staticText-5"/>
+					<box></box>
+					<textElement verticalAlignment="Top">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[4...........................หมายถึง.......................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="493"
+						y="24"
+						width="196"
+						height="20"
+						key="staticText-6"/>
+					<box></box>
+					<textElement verticalAlignment="Top">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[5...........................หมายถึง.......................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="493"
+						y="37"
+						width="196"
+						height="20"
+						key="staticText-7"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[6...........................หมายถึง.......................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="655"
+						y="6"
+						width="159"
+						height="20"
+						key="staticText-8"/>
+					<box></box>
+					<textElement verticalAlignment="Top">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[7...........................หมายถึง.......................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="655"
+						y="24"
+						width="159"
+						height="20"
+						key="staticText-9"/>
+					<box></box>
+					<textElement verticalAlignment="Top">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[8...........................หมายถึง.......................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="655"
+						y="37"
+						width="159"
+						height="20"
+						key="staticText-10"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[9...........................หมายถึง.......................]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="30"
+						width="181"
+						height="20"
+						key="staticText-11"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ทดลองใช้ 002 วันที่ 01/03/52]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="0"
+						width="814"
+						height="1"
+						key="line-156"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

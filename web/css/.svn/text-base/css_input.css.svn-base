@@ -1,0 +1,174 @@
+<style type="text/css">
+
+body,td,th {
+	font-family: MS Sans Serif;
+	color: #000000;
+}
+body {
+	font: normal 11px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #4f6b72;
+	background: #E6EAE9;
+}
+a:{	font-family: MS Sans Serif;}
+a:active{ color: #FFFF00}
+a:link {text-decoration: none; }
+a:hover{
+   color:#ff0303;
+   border-bottom:1px solid #000000;
+}
+
+input:focus {background-color:#FFFF66;}
+h1,h2,h3,h4,h5,h6 {
+	font-family: MS Sans Serif;
+}
+.style1 {
+	color: #FFFFFF;
+	font-weight: bold;
+	font-size: 12px;
+}
+.style12 {
+	color: #0000CC;
+	font-size: 12px;
+}
+.style14 {
+	color: #0000FF;
+	/*font-weight: bold;*/
+	font-size: 14px;
+}
+.style14w {
+	color: #FFFFFF;
+	/*font-weight: bold;*/
+	font-size: 14px;
+}
+.style14b {
+	color: #0000FF;
+	font-weight: bold;
+	font-size: 14px;
+	
+}
+.style16 {
+	color: #0000FF;
+	font-weight: bold;
+	font-size: 16px;
+}
+.style5 {
+	color: #FF0000;
+	font-weight: bold;
+	font-size: 20px;
+}
+.style6 {
+	color: #FF0000;
+	font-size: 20px;
+}
+.style7 {
+	color: #6C3600;
+	font-weight: bold;
+	font-size: 14px;
+}
+.style8 {
+	color: #FFFFFF;
+	font-size: 12px;
+}
+.style10 {
+	color: #FFFFFF;
+	font-weight: bold;
+	font-size: 12px;
+}
+.style18 {
+	font-size: 14px;
+	color: #3b7501;
+	font-weight: bold;
+}
+.style19 {color: #3b7501; font-size: 14px;}
+.style32 {
+	font-family: "MS Sans Serif";
+	font-size: 16px;
+	font-style: normal;
+	color: #660033;
+}
+.username {
+
+/* เซตภาพพื้นหลังให้กับ ช่องป้อนข้อมูล*/
+background-image: url(images/icon_user.gif);
+
+/*ไม่ต้องรีพีต เดี๋ยวมันเป็นภาพเรียงซ้อนกันเต็ม ช่อง*/
+background-repeat: no-repeat;
+
+/*กั้นหน้าซะหน่อย เวลาพิมพ์ ตัวหนังสือจะได้ไม่ทับลงบนภาพพื้นหลัง*/
+padding-left: 20px;
+}
+.password {
+background-image: url(images/bullet_key.png);
+background-repeat: no-repeat;
+padding-left: 20px;
+
+}
+.dateinput {
+
+/* เซตภาพพื้นหลังให้กับ ช่องป้อนข้อมูล*/
+background-image: url(images/cal.gif);
+
+/*ไม่ต้องรีพีต เดี๋ยวมันเป็นภาพเรียงซ้อนกันเต็ม ช่อง*/
+background-repeat: no-repeat;
+
+/*กั้นหน้าซะหน่อย เวลาพิมพ์ ตัวหนังสือจะได้ไม่ทับลงบนภาพพื้นหลัง*/
+padding-left: 16px;
+}
+th {
+	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica,
+	sans-serif;
+	color: #6D929B;
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	border-top: 1px solid #C1DAD7;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	text-align: left;
+	padding: 6px 6px 6px 12px;
+	background: #CAE8EA url(images/bg_header.jpg) no-repeat;
+        width:auto;
+}
+
+th.nobg {
+	border-top: 0;
+	border-left: 0;
+	border-right: 1px solid #C1DAD7;
+	background: none;
+}
+td {
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	background: #fff;
+	padding: 6px 2px 2px 2px;
+	color: #6D929B;
+}
+td.alt {
+	background: #F5FAFA;
+	color: #B4AA9D;
+}
+th.spec {
+	border-left: 1px solid #C1DAD7;
+	border-top: 0;
+	background: #fff url(images/bullet1.gif) no-repeat;
+	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica,
+	sans-serif;
+}
+
+th.specalt {
+	border-left: 1px solid #C1DAD7;
+	border-top: 0;
+	background: #f5fafa url(images/bullet2.gif) no-repeat;
+	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica,
+	sans-serif;
+	color: #B4AA9D;
+}
+
+input[type="text"] {
+font:bold 10px/12px verdana,arial,serif;
+padding:3px;
+padding-left: 16px;
+}
+
+
+</style>
+

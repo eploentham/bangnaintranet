@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="nurse_form_patient_grant_hiv_suggest"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="20"
+		 rightMargin="20"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="header1" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header2" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header3" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_name" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_age" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_hn" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_visit_date" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_visit_claim" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="p_home_no" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_soi" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_road" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_tombom" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_district" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_changwat" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_postcode" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_telephone" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="p_dept" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_an" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_room_bed" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[SELECT
+     b_branch."branch_id" AS b_branch_branch_id
+FROM
+     "public"."b_branch" b_branch
+Where branch_id = '103001']]></queryString>
+
+	<field name="b_branch_branch_id" class="java.lang.String"/>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="763"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="29"
+						y="3"
+						width="524"
+						height="24"
+						key="staticText-1"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="14" isBold="true" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[1)  ความรู้เกี่ยวกับเอดส์]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="60"
+						y="27"
+						width="493"
+						height="24"
+						key="staticText-45"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[โรคเอดส์เกิดจากการติดเชื้อเอดส์หรือเอสไอวี (HIV) ซึ่งเข้าสู่ร่างกายได้ 3 ทาง คือ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="40"
+						y="47"
+						width="513"
+						height="24"
+						key="staticText-46"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[1.1)  ทางเพศสัมพันธ์]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="40"
+						y="67"
+						width="513"
+						height="24"
+						key="staticText-47"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[1.2)  ทางเลือด เช่น ได้รับเลือดของคนที่เป็นโรค หรือใช้เข็มฉีดยาร่อมกับคนที่เป็นโรค]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="40"
+						y="87"
+						width="513"
+						height="24"
+						key="staticText-48"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[1.3)  จากแม่ไปสู่ลูกในขณะตั้งครรภ์  ขณะคลอด หรือจากการกินนมแม่]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="40"
+						y="111"
+						width="513"
+						height="24"
+						key="staticText-49"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[อาการของโรคในระยะต้น อาจมีแค่ต่อมน้ำเหลืองโตทั่วตัว ซึ่งผู้เป็นเอดส์ไม่รู้สึกผิดปดติเลย ต่อมาจึงมีอาการ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="131"
+						width="553"
+						height="24"
+						key="staticText-50"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[แสดงออกมากขึ้น เช่น มีเชื้อระในปาก เป็นงูสวัด ท้องเสียบ่อยๆ น้ำหนักตัวลด และในที่สุดจะมีอาการโรคเอดส์เต็มขั้น]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="151"
+						width="553"
+						height="24"
+						key="staticText-51"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เช่น เชื้อราขึ้นสมอง ปอดอักเสบรุ่นแรง เป็นมะเร็ง สมองเสื่อม ซึ่งอาการตั้งแต่ระยะต้นจนถึงเอดส์เต็มขั้น]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="171"
+						width="553"
+						height="24"
+						key="staticText-52"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[อาจใช้เวลานานหลายปี ผู้มีอาการขั้นสุดท้าย หากไม่ได้รับการรักษามักจะเสียชีวิตภายใน 2-3 ปี]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="196"
+						width="524"
+						height="24"
+						key="staticText-54"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="14" isBold="true" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[2) การตรวจเลือดเอดส์]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="60"
+						y="220"
+						width="493"
+						height="24"
+						key="staticText-55"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[วิธีการตรวจเอดส์ที่นิยมมากที่สุด คือ  การตรวจเลือด หากผลเลือดเป็นบวกแผลว่า วิธีการตรวจเอดส์ที่นิยมมากที่สุด]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="240"
+						width="553"
+						height="24"
+						key="staticText-56"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ คือ  การตรวจเลือด หากผลเลือดเป็นบวกแผลว่า มีเชื้อเอดส์ หากผลเลือดเป็นลบ แปลว่าตรวจไม่พบเชื้อเอดส์]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="60"
+						y="260"
+						width="493"
+						height="24"
+						key="staticText-58"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[การพบเลือดบวกไม่ได้แปลว่าจะต้องมีอาการเสมอไป  เพราะบางครั้งต้องใช้เวลานานหลายปี]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="281"
+						width="553"
+						height="24"
+						key="staticText-59"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[กว่าจะมีอาการป่วยขึ้นมา แต่ในที่สุดมักมีอาการ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="60"
+						y="301"
+						width="493"
+						height="24"
+						key="staticText-60"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ผลการตรวจเลือดเป็นลบก็ไม่ได้แปลว่าจะไม่มีเชื้อเสมอไป เพราะบางครั้งเพิ่งได้รับเชื้อ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="321"
+						width="553"
+						height="24"
+						key="staticText-61"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[มาไม่นานในช่วง 1-12 เดือนแรก เลือดจะยังเป็นลบอยู่ ต่อมาจึงกลายเป็นบวกดังนั้น หากได้ผลเลือด]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="341"
+						width="553"
+						height="24"
+						key="staticText-62"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เป็นลบ และมีเหตุควรสงสัยควรตรวจซ้ำอีก 3-6 เดือน ถ้าผลเป็นลบอีกจึงแน่ใจว่าไม่ได้ติดเชื้อ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="366"
+						width="524"
+						height="24"
+						key="staticText-63"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="14" isBold="true" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[3) ทำไมควรตรวจเอดส์]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="60"
+						y="387"
+						width="493"
+						height="24"
+						key="staticText-64"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[การรู้ตัวเองมีเชื้อหรือไม่ มีประโยชน์อย่างไร เช่น จะได้ป้องกันคนที่รัก เช่น สามี ภรรยา ลูกที่เกิดมาไม่ให้ ติดเชื้อเอดส์]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="411"
+						width="553"
+						height="24"
+						key="staticText-65"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ตามมา และจะได้ดูแลรักษาสุขภาพตัวเองไม่ให้โรคเอดส์ในตัวกำเริบ จะได้มีชีวิตยืนยาวอย่างแข็งแรง และมีคุณภาพดีที่สุด]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="436"
+						width="524"
+						height="24"
+						key="staticText-67"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="14" isBold="true" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[4) ผลกระทบจากการตรวจเอดส์]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="60"
+						y="459"
+						width="493"
+						height="24"
+						key="staticText-68"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ไม่ว่าผลการตรวจจะออกมาเป็นบวก หรือลบ  อาจส่งผลกระทบต่อผู้รับการตรวจได้ บางที่เพียงแค่มีคนรู้ว่าไปตรวจ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="479"
+						width="553"
+						height="24"
+						key="staticText-69"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[อาจไปเล่าลือให้เสียหายได้ ถ้าได้ผลออกมาเป็นบวก บางคนอาจรับสภาพไม่ได้ อาจคิดสั้น หมดหวังในชีวิต อาจทำให้ที่ทำงาน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="499"
+						width="553"
+						height="24"
+						key="staticText-70"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เลิกจ้าง บริษัทประกันบางแห่งไม่รับประกันถ้าไม่บอดผลตรวจเอดส์ หรือถ้าได้ผลบวก  แม้แต่ในรายที่ได้ผลออกมาเป็นลบ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="519"
+						width="553"
+						height="24"
+						key="staticText-72"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ก็อาจสร้างปัญหาได้ เช่น กรณีที่เพิ่งได้รับเชื้อมาแค่ 1-2 เดือน ตรวจเลือดแล้วไม่พบจึงไปมีเพศสัมพันธ์กับภรรยะหรือคนอื่นๆ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="539"
+						width="553"
+						height="24"
+						key="staticText-73"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[โดยไม่มีการป้องกันทำให้แพร่เชื้อออกไปก่อนที่จะรู่ตัวว่าตัวเองมีเชื้ออยู่]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="59"
+						y="588"
+						width="493"
+						height="24"
+						key="staticText-74"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ผู้รับการตรวจเอดส์มีสิทธิที่จะได้รับการปฏิบัติอย่างเหมาะสม ผู้รับการตรวจควรทราบถึงสิทธิก่อนการตรวจเอดส์ ดังนี้]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="608"
+						width="553"
+						height="24"
+						key="staticText-75"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[5.1 เว้นแต่กรณีฉุกเฉินหรือมีเหตุผลความจำเป็นอย่างยิ่ง ในการตรวจเอดส์ทุกครั้งแพทย์หรือเจ้าหน้าที่ทางการแพทย์จะต้อง]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="28"
+						y="564"
+						width="524"
+						height="24"
+						key="staticText-76"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="14" isBold="true" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[5) สิทธิของผู้รับการตรวจเอดส์]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="628"
+						width="553"
+						height="24"
+						key="staticText-77"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[อธิบายการตรวจ การแปลผลและผลกระทบให้แก่ผู้รับการตรวจจนเป็นที่เข้าใจ และจะตรวจได้ก็ต่อเมื่อผู้รับการตรวจหรือผู้ปกครอง]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="648"
+						width="553"
+						height="24"
+						key="staticText-78"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[(กรณีที่อายูน้อยกว่า 18 ปี) หรือยังไม่บรรลุนิติภาวะเซ็นยินยอมรับการตรวจแล้วเท่านั้น]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="1"
+						y="669"
+						width="553"
+						height="24"
+						key="staticText-79"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[5.2 ผู้รับการตรวจมีสิทธิซักถามเกี่ยวกับขั้นตอนและผลการตรวจ โดยแพทย์หรือเจ้าหน้าที่ทางการแพทย์จะต้องตอบคำถามและให้]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="693"
+						width="553"
+						height="24"
+						key="staticText-80"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[5.2 ผู้รับการตรวจมีสิทธิซักถามเกี่ยวกับขั้นตอนและผลการตรวจ โดยแพทย์หรือเจ้าหน้าที่ทางการแพทย์จะต้องตอบคำถามและให้]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="716"
+						width="553"
+						height="24"
+						key="staticText-81"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[5.2 ผู้รับการตรวจมีสิทธิซักถามเกี่ยวกับขั้นตอนและผลการตรวจ โดยแพทย์หรือเจ้าหน้าที่ทางการแพทย์จะต้องตอบคำถามและให้]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="1"
+						y="739"
+						width="553"
+						height="24"
+						key="staticText-82"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[5.2 ผู้รับการตรวจมีสิทธิซักถามเกี่ยวกับขั้นตอนและผลการตรวจ โดยแพทย์หรือเจ้าหน้าที่ทางการแพทย์จะต้องตอบคำถามและให้]]></text>
+				</staticText>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="2"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="20"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="303"
+						y="1"
+						width="251"
+						height="19"
+						key="staticText-44"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="false" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[FO-ND-182 (แก้ไขครั้งที่ 00 01/01/51)]]></text>
+				</staticText>
+			</band>
+		</summary>
+</jasperReport>

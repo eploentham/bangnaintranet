@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="patient_visit_day_sum_doctor"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="header1" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["โรงพยาบาล บางนา2"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date_start" isForPrompting="true" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2551-01-01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date_end" isForPrompting="true" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2551-10-01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header2" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["รายงาน admit คนไข้"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header3" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["ประจำวันที่ "+$P{date_start}+" ถึง " +$P{date_end}+" หลัง 18.00"]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[Select t01.mnc_hn_no, m01.MNC_FNAME_T, m01.MNC_LNAME_T, m02.MNC_PFIX_DSC, 
+t01.mnc_date, pm26.mnc_dot_fname, pm26.mnc_dot_lname, 
+pm26.mnc_dot_fname +' '+ pm26.mnc_dot_lname as doctorname, pt08.mnc_dot_cd_s
+From patient_t01 t01 inner join patient_t08 pt08 
+on t01.mnc_hn_no = pt08.mnc_hn_no and t01.mnc_date = pt08.mnc_date inner join
+patient_m26 pm26 on pm26.mnc_dot_cd = pt08.mnc_dot_cd_s
+and t01.mnc_pre_no = pt08.mnc_pre_no INNER JOIN
+     PATIENT_M01 m01 ON t01.MNC_HN_NO = m01.MNC_HN_NO INNER JOIN
+     PATIENT_M02 m02 ON m01.MNC_PFIX_CDT = m02.MNC_PFIX_CD 
+Where t01.mnc_sts <> 'C' and t01.mnc_date between $P{date_start} and $P{date_end}
+and t01.mnc_time >= 1800 
+Order by t01.mnc_date,pt08.mnc_dot_cd_s]]></queryString>
+
+	<field name="mnc_hn_no" class="java.lang.Integer"/>
+	<field name="MNC_FNAME_T" class="java.lang.String"/>
+	<field name="MNC_LNAME_T" class="java.lang.String"/>
+	<field name="MNC_PFIX_DSC" class="java.lang.String"/>
+	<field name="mnc_date" class="java.sql.Timestamp"/>
+	<field name="mnc_dot_fname" class="java.lang.String"/>
+	<field name="mnc_dot_lname" class="java.lang.String"/>
+	<field name="doctorname" class="java.lang.String"/>
+	<field name="mnc_dot_cd_s" class="java.lang.String"/>
+
+	<variable name="cnt_patient" class="java.lang.Integer" resetType="Group" resetGroup="mnc_date" calculation="Count">
+		<variableExpression><![CDATA[$F{mnc_hn_no}]]></variableExpression>
+	</variable>
+	<variable name="cnt_hn_no_doctor" class="java.lang.Integer" resetType="Group" resetGroup="dot_cd" calculation="Count">
+		<variableExpression><![CDATA[$F{mnc_hn_no}]]></variableExpression>
+	</variable>
+	<variable name="cnt_hn_no_day" class="java.lang.Integer" resetType="Group" resetGroup="mnc_date" calculation="Count">
+		<variableExpression><![CDATA[$F{mnc_hn_no}]]></variableExpression>
+	</variable>
+	<variable name="cnt" class="java.lang.Integer" resetType="Report" calculation="Count">
+		<variableExpression><![CDATA[$F{mnc_hn_no}]]></variableExpression>
+	</variable>
+
+		<group  name="mnc_date" >
+			<groupExpression><![CDATA[$F{mnc_date}]]></groupExpression>
+			<groupHeader>
+			<band height="22"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" pattern="dd/MM/yyyy" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="1"
+						y="0"
+						width="130"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$F{mnc_date}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="24"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="430"
+						y="5"
+						width="100"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{cnt_hn_no_day}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="237"
+						y="5"
+						width="162"
+						height="18"
+						key="textField-2"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["รวม วันที่ "+$F{mnc_date}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="dot_cd" >
+			<groupExpression><![CDATA[$F{mnc_dot_cd_s}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="19"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="34"
+						y="0"
+						width="253"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{doctorname}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="430"
+						y="0"
+						width="100"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{cnt_hn_no_doctor}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="3"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="3"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="75"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="1"
+						y="5"
+						width="534"
+						height="23"
+						key="textField"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="tahoma.ttf" size="18" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header1}]]></textFieldExpression>
+				</textField>
+				<line direction="BottomUp">
+					<reportElement
+						x="0"
+						y="2"
+						width="535"
+						height="0"
+						key="line"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="28"
+						width="535"
+						height="21"
+						key="textField"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="tahoma.ttf" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="49"
+						width="535"
+						height="22"
+						key="textField"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="tahoma.ttf" size="14" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header3}]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="24"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="325"
+						y="4"
+						width="170"
+						height="19"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Right">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Page " + $V{PAGE_NUMBER} + " of "]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="499"
+						y="4"
+						width="36"
+						height="19"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["" + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="3"
+						width="535"
+						height="0"
+						key="line"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="1"
+						y="5"
+						width="209"
+						height="19"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[new Date()]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="20"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="430"
+						y="-1"
+						width="100"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{cnt}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="237"
+						y="-1"
+						width="88"
+						height="18"
+						key="staticText-1"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[รวมทั้งหมด]]></text>
+				</staticText>
+			</band>
+		</summary>
+</jasperReport>

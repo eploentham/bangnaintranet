@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/bangna/!svn/ver/27/bangnaintranet/web/js/dojo1.3.1/dojox/xmpp
+END
+sasl.js
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/bangna/!svn/ver/27/bangnaintranet/web/js/dojo1.3.1/dojox/xmpp/sasl.js
+END
+util.js
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/bangna/!svn/ver/27/bangnaintranet/web/js/dojo1.3.1/dojox/xmpp/util.js
+END
+xmppSession.js
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/bangna/!svn/ver/27/bangnaintranet/web/js/dojo1.3.1/dojox/xmpp/xmppSession.js
+END
+ChatService.js
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/bangna/!svn/ver/27/bangnaintranet/web/js/dojo1.3.1/dojox/xmpp/ChatService.js
+END
+TransportSession.js
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/bangna/!svn/ver/27/bangnaintranet/web/js/dojo1.3.1/dojox/xmpp/TransportSession.js
+END
+PresenceService.js
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/bangna/!svn/ver/27/bangnaintranet/web/js/dojo1.3.1/dojox/xmpp/PresenceService.js
+END
+RosterService.js
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/bangna/!svn/ver/27/bangnaintranet/web/js/dojo1.3.1/dojox/xmpp/RosterService.js
+END
+UserService.js
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/bangna/!svn/ver/27/bangnaintranet/web/js/dojo1.3.1/dojox/xmpp/UserService.js
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/bangna/!svn/ver/27/bangnaintranet/web/js/dojo1.3.1/dojox/xmpp/README
+END

@@ -1,0 +1,619 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="admin_case_daily"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<subDataset name="SubDataset1" >
+
+		<parameter name="datestart" isForPrompting="false" class="java.lang.String">
+			<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<parameter name="dateend" isForPrompting="false" class="java.lang.String">
+			<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<queryString><![CDATA[SELECT     dbo.LAB_T01.MNC_ORD_DOT, 
+		case dbo.FINANCE_M02.MNC_FN_STS
+                        when 'C' then 'เงินสด'
+                        when 'K' then 'กองทุน'
+                        when 'P' then 'UC'
+                        when 'R' then 'ลูกหนี้'
+                        when 'S' then 'ประกันสังคม' 
+			when 'A' then 'ลูกหนี้พิเศษ'
+			when 'G' then 'ลูกหนี้โรงพยาบาล'
+			else 'ppppp' end	as MNC_FN_STS,	
+		 dbo.PATIENT_M26.MNC_DOT_FNAME+ ' '+dbo.PATIENT_M26.MNC_DOT_LNAME as name, 
+                      SUM(dbo.LAB_M02.MNC_LB_PRI) AS MNC_LB_PRI
+FROM         dbo.LAB_T01 INNER JOIN
+                      dbo.LAB_T02 ON dbo.LAB_T01.MNC_REQ_YR = dbo.LAB_T02.MNC_REQ_YR AND dbo.LAB_T01.MNC_REQ_NO = dbo.LAB_T02.MNC_REQ_NO AND 
+                      dbo.LAB_T01.MNC_REQ_DAT = dbo.LAB_T02.MNC_REQ_DAT INNER JOIN
+                      dbo.LAB_M02 ON dbo.LAB_T02.MNC_LB_CD = dbo.LAB_M02.MNC_LB_CD INNER JOIN
+                      dbo.FINANCE_M02 ON dbo.LAB_T01.MNC_FN_TYP_CD = dbo.FINANCE_M02.MNC_FN_TYP_CD INNER JOIN
+                      dbo.PATIENT_M26 ON dbo.LAB_T01.MNC_DOT_CD = dbo.PATIENT_M26.MNC_DOT_CD
+WHERE     (dbo.LAB_T01.MNC_REQ_STS <> 'C') AND (dbo.LAB_T01.MNC_REQ_DAT between $P{datestart} and $P{dateend})
+GROUP BY dbo.LAB_T01.MNC_ORD_DOT, MNC_FN_STS, dbo.PATIENT_M26.MNC_DOT_FNAME, dbo.PATIENT_M26.MNC_DOT_LNAME]]></queryString>
+
+		<field name="MNC_ORD_DOT" class="java.lang.String"/>
+		<field name="MNC_FN_STS" class="java.lang.String"/>
+		<field name="name" class="java.lang.String"/>
+		<field name="MNC_LB_PRI" class="java.lang.Double"/>
+
+	</subDataset>
+
+	<parameter name="header1" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header2" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header3" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_start" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2009-09-01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_date_end" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2009-09-30"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_branch_id" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["103001"]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[SELECT
+     admin_t_case."case_id" AS admin_t_case_case_id,
+     admin_t_case."case_date" AS admin_t_case_case_date,
+     admin_t_case."cnt_checkup" AS admin_t_case_cnt_checkup,
+     admin_t_case."cnt_pcu" AS admin_t_case_cnt_pcu,
+     admin_t_case."cnt_opd" AS admin_t_case_cnt_opd,
+     admin_t_case."cnt_er" AS admin_t_case_cnt_er,
+     admin_t_case."cnt_dental" AS admin_t_case_cnt_dental,
+     admin_t_case."cnt_cash" AS admin_t_case_cnt_cash,
+     admin_t_case."cnt_funds" AS admin_t_case_cnt_funds,
+     admin_t_case."cnt_company" AS admin_t_case_cnt_company,
+     admin_t_case."description" AS admin_t_case_description,
+     admin_t_case."remark" AS admin_t_case_remark,
+     admin_t_case."case_active" AS admin_t_case_case_active,
+     admin_t_case."branch_id" AS admin_t_case_branch_id,
+     admin_t_case."cnt_w_3_m" AS admin_t_case_cnt_w_3_m,
+     admin_t_case."cnt_w_3_w" AS admin_t_case_cnt_w_3_w,
+     admin_t_case."cnt_w_3_n" AS admin_t_case_cnt_w_3_n,
+     admin_t_case."cnt_w_4_s" AS admin_t_case_cnt_w_4_s,
+     admin_t_case."cnt_w_4_uc" AS admin_t_case_cnt_w_4_uc,
+     admin_t_case."cnt_w_6_uc" AS admin_t_case_cnt_w_6_uc,
+     admin_t_case."cnt_w_icu" AS admin_t_case_cnt_w_icu
+FROM
+     "public"."admin_t_case" admin_t_case
+WHERE
+     admin_t_case.case_date >= $P{p_date_start}
+     and admin_t_case.case_date <= $P{p_date_end} and admin_t_case.branch_id = $P{p_branch_id}
+ORDER BY
+     admin_t_case.case_date ASC]]></queryString>
+
+	<field name="admin_t_case_case_id" class="java.lang.String"/>
+	<field name="admin_t_case_case_date" class="java.lang.String"/>
+	<field name="admin_t_case_cnt_checkup" class="java.lang.Double"/>
+	<field name="admin_t_case_cnt_pcu" class="java.lang.Double"/>
+	<field name="admin_t_case_cnt_opd" class="java.lang.Double"/>
+	<field name="admin_t_case_cnt_er" class="java.lang.Double"/>
+	<field name="admin_t_case_cnt_dental" class="java.lang.Double"/>
+	<field name="admin_t_case_cnt_cash" class="java.lang.Double"/>
+	<field name="admin_t_case_cnt_funds" class="java.lang.Double"/>
+	<field name="admin_t_case_cnt_company" class="java.lang.Double"/>
+	<field name="admin_t_case_description" class="java.lang.String"/>
+	<field name="admin_t_case_remark" class="java.lang.String"/>
+	<field name="admin_t_case_case_active" class="java.lang.String"/>
+	<field name="admin_t_case_branch_id" class="java.lang.String"/>
+	<field name="admin_t_case_cnt_w_3_m" class="java.lang.Double"/>
+	<field name="admin_t_case_cnt_w_3_w" class="java.lang.Double"/>
+	<field name="admin_t_case_cnt_w_3_n" class="java.lang.Double"/>
+	<field name="admin_t_case_cnt_w_4_s" class="java.lang.Double"/>
+	<field name="admin_t_case_cnt_w_4_uc" class="java.lang.Double"/>
+	<field name="admin_t_case_cnt_w_6_uc" class="java.lang.Double"/>
+	<field name="admin_t_case_cnt_w_icu" class="java.lang.Double"/>
+
+	<variable name="row" class="java.lang.Integer" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[new java.lang.Integer(  ($V{row}.intValue()) +1 )]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{row}.valueOf( 0 )]]></initialValueExpression>
+	</variable>
+	<variable name="page_new" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$V{row}.intValue()<15 ? $V{page_new}.valueOf("1"):$V{page_new}.valueOf("2")]]></variableExpression>
+		<initialValueExpression><![CDATA[new String("1")]]></initialValueExpression>
+	</variable>
+	<variable name="sum_opd" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{admin_t_case_cnt_opd}]]></variableExpression>
+	</variable>
+	<variable name="sum_checkup" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{admin_t_case_cnt_checkup}]]></variableExpression>
+	</variable>
+	<variable name="sum_er" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{admin_t_case_cnt_er}]]></variableExpression>
+	</variable>
+	<variable name="sum_dental" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{admin_t_case_cnt_dental}]]></variableExpression>
+	</variable>
+	<variable name="sum_pcu" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{admin_t_case_cnt_pcu}]]></variableExpression>
+	</variable>
+	<variable name="sum_cash" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{admin_t_case_cnt_cash}]]></variableExpression>
+	</variable>
+	<variable name="sum_funds" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{admin_t_case_cnt_funds}]]></variableExpression>
+	</variable>
+	<variable name="sum_company" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{admin_t_case_cnt_company}]]></variableExpression>
+	</variable>
+	<variable name="sum_w3m" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{admin_t_case_cnt_w_3_m}]]></variableExpression>
+	</variable>
+	<variable name="sum_w3w" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{admin_t_case_cnt_w_3_w}]]></variableExpression>
+	</variable>
+	<variable name="sum_w3n" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{admin_t_case_cnt_w_3_n}]]></variableExpression>
+	</variable>
+	<variable name="sum_w4uc" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{admin_t_case_cnt_w_4_uc}]]></variableExpression>
+	</variable>
+	<variable name="sum_w4s" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{admin_t_case_cnt_w_4_s}]]></variableExpression>
+	</variable>
+	<variable name="sum_w6uc" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{admin_t_case_cnt_w_6_uc}]]></variableExpression>
+	</variable>
+	<variable name="sum_icu" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{admin_t_case_cnt_w_icu}]]></variableExpression>
+	</variable>
+
+		<group  name="case_id" >
+			<groupExpression><![CDATA[$F{admin_t_case_case_id}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="74"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="55"
+						width="51"
+						height="19"
+						key="staticText-20"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[วันที่]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="534"
+						height="16"
+						key="textField-1"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="16"
+						width="534"
+						height="26"
+						key="textField-2"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="16" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="36"
+						width="534"
+						height="16"
+						key="textField-3"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header3}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="246"
+						y="55"
+						width="32"
+						height="19"
+						key="staticText-10"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[OPD]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="278"
+						y="55"
+						width="32"
+						height="19"
+						key="staticText-11"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ER]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="193"
+						y="55"
+						width="53"
+						height="19"
+						key="staticText-21"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[checkup]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="310"
+						y="55"
+						width="32"
+						height="19"
+						key="staticText-22"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[PCU]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="396"
+						y="55"
+						width="36"
+						height="19"
+						key="staticText-23"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เงินสด]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="432"
+						y="55"
+						width="36"
+						height="19"
+						key="staticText-24"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[กท]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="468"
+						y="55"
+						width="36"
+						height="19"
+						key="staticText-25"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[บริษัท]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="342"
+						y="55"
+						width="32"
+						height="19"
+						key="staticText-26"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Den]]></text>
+				</staticText>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="18"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="51"
+						height="18"
+						key="textField-7"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font pdfFontName="BROWAU.TTF" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{admin_t_case_case_date}.substring(8,10)+"-"+$F{admin_t_case_case_date}.substring(5,7)+"-"+$F{admin_t_case_case_date}.substring(2, 4 )]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="310"
+						y="0"
+						width="32"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="BROWAU.TTF" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{admin_t_case_cnt_pcu}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="193"
+						y="0"
+						width="53"
+						height="18"
+						key="textField-4"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="BROWAU.TTF" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{admin_t_case_cnt_checkup}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="246"
+						y="0"
+						width="32"
+						height="18"
+						key="textField-5"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="BROWAU.TTF" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{admin_t_case_cnt_opd}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="279"
+						y="0"
+						width="32"
+						height="18"
+						key="textField-6"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="BROWAU.TTF" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{admin_t_case_cnt_er}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="396"
+						y="0"
+						width="36"
+						height="18"
+						key="textField-8"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="BROWAU.TTF" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{admin_t_case_cnt_cash}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="433"
+						y="0"
+						width="36"
+						height="18"
+						key="textField-9"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="BROWAU.TTF" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{admin_t_case_cnt_funds}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="469"
+						y="0"
+						width="36"
+						height="18"
+						key="textField-10"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="BROWAU.TTF" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{admin_t_case_cnt_company}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="342"
+						y="0"
+						width="32"
+						height="18"
+						key="textField-11"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="BROWAU.TTF" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{admin_t_case_cnt_dental}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="19"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="230"
+						y="0"
+						width="300"
+						height="19"
+						key="staticText-18"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="BrowalliaUPC" pdfFontName="BROWAU.TTF" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[FO-VU-003(แก้ไขครั้งที่ 01-01/05/44)]]></text>
+				</staticText>
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="20"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="246"
+						y="0"
+						width="32"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_opd}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="193"
+						y="0"
+						width="53"
+						height="18"
+						key="textField-12"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_checkup}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="278"
+						y="0"
+						width="32"
+						height="18"
+						key="textField-13"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_er}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="342"
+						y="0"
+						width="32"
+						height="18"
+						key="textField-14"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_dental}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="310"
+						y="0"
+						width="32"
+						height="18"
+						key="textField-15"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_pcu}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="396"
+						y="0"
+						width="36"
+						height="18"
+						key="textField-16"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_cash}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="432"
+						y="0"
+						width="36"
+						height="18"
+						key="textField-17"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_funds}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="468"
+						y="-1"
+						width="35"
+						height="18"
+						key="textField-18"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{sum_company}]]></textFieldExpression>
+				</textField>
+			</band>
+		</summary>
+</jasperReport>

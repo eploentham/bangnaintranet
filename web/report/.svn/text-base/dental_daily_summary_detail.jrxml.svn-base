@@ -1,0 +1,784 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="dental_daily_summary_detail"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="842"
+		 pageHeight="595"
+		 columnWidth="782"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<subDataset name="SubDataset1" >
+
+		<parameter name="datestart" isForPrompting="false" class="java.lang.String">
+			<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<parameter name="dateend" isForPrompting="false" class="java.lang.String">
+			<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<queryString><![CDATA[SELECT     dbo.LAB_T01.MNC_ORD_DOT, 
+		case dbo.FINANCE_M02.MNC_FN_STS
+                        when 'C' then 'เงินสด'
+                        when 'K' then 'กองทุน'
+                        when 'P' then 'UC'
+                        when 'R' then 'ลูกหนี้'
+                        when 'S' then 'ประกันสังคม' 
+			when 'A' then 'ลูกหนี้พิเศษ'
+			when 'G' then 'ลูกหนี้โรงพยาบาล'
+			else 'ppppp' end	as MNC_FN_STS,	
+		 dbo.PATIENT_M26.MNC_DOT_FNAME+ ' '+dbo.PATIENT_M26.MNC_DOT_LNAME as name, 
+                      SUM(dbo.LAB_M02.MNC_LB_PRI) AS MNC_LB_PRI
+FROM         dbo.LAB_T01 INNER JOIN
+                      dbo.LAB_T02 ON dbo.LAB_T01.MNC_REQ_YR = dbo.LAB_T02.MNC_REQ_YR AND dbo.LAB_T01.MNC_REQ_NO = dbo.LAB_T02.MNC_REQ_NO AND 
+                      dbo.LAB_T01.MNC_REQ_DAT = dbo.LAB_T02.MNC_REQ_DAT INNER JOIN
+                      dbo.LAB_M02 ON dbo.LAB_T02.MNC_LB_CD = dbo.LAB_M02.MNC_LB_CD INNER JOIN
+                      dbo.FINANCE_M02 ON dbo.LAB_T01.MNC_FN_TYP_CD = dbo.FINANCE_M02.MNC_FN_TYP_CD INNER JOIN
+                      dbo.PATIENT_M26 ON dbo.LAB_T01.MNC_DOT_CD = dbo.PATIENT_M26.MNC_DOT_CD
+WHERE     (dbo.LAB_T01.MNC_REQ_STS <> 'C') AND (dbo.LAB_T01.MNC_REQ_DAT between $P{datestart} and $P{dateend})
+GROUP BY dbo.LAB_T01.MNC_ORD_DOT, MNC_FN_STS, dbo.PATIENT_M26.MNC_DOT_FNAME, dbo.PATIENT_M26.MNC_DOT_LNAME]]></queryString>
+
+		<field name="MNC_ORD_DOT" class="java.lang.String"/>
+		<field name="MNC_FN_STS" class="java.lang.String"/>
+		<field name="name" class="java.lang.String"/>
+		<field name="MNC_LB_PRI" class="java.lang.Double"/>
+
+	</subDataset>
+
+	<parameter name="header1" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header2" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header3" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_dental_daily_id" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["11700025"]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[SELECT
+     dental_t_daily_summary."dental_daily_id" AS dental_t_daily_summary_dental_daily_id,
+     dental_t_daily_summary."dental_date" AS dental_t_daily_summary_dental_date,
+     dental_t_daily_summary."patient_cnt" AS dental_t_daily_summary_patient_cnt,
+     dental_t_daily_summary."patient_summary" AS dental_t_daily_summary_patient_summary,
+     dental_t_daily_summary."remark" AS dental_t_daily_summary_remark,
+     dental_t_daily_summary."dental_active" AS dental_t_daily_summary_dental_active,
+     dental_t_daily_summary."uc_treatment" AS dental_t_daily_summary_uc_treatment,
+     dental_t_daily_summary."uc_prevention" AS dental_t_daily_summary_uc_prevention,
+     dental_t_daily_summary."branch_id" AS dental_t_daily_summary_branch_id,
+     dental_t_daily_summary."patient_cnt_vn" AS dental_t_daily_summary_patient_cnt_vn,
+     dental_t_daily_summary_detail."dental_time" AS dental_t_daily_summary_detail_dental_time,
+     dental_t_daily_summary_detail."patient_hn_no" AS dental_t_daily_summary_detail_patient_hn_no,
+     dental_t_daily_summary_detail."patient_fullnamet" AS dental_t_daily_summary_detail_patient_fullnamet,
+     dental_t_daily_summary_detail."doctor_id" AS dental_t_daily_summary_detail_doctor_id,
+     dental_t_daily_summary_detail."doctor_namet" AS dental_t_daily_summary_detail_doctor_namet,
+     dental_t_daily_summary_detail."remark" AS dental_t_daily_summary_detail_remark,
+     dental_t_daily_summary_detail."paid_id" AS dental_t_daily_summary_detail_paid_id,
+     dental_t_daily_summary_detail."paid_namet" AS dental_t_daily_summary_detail_paid_namet,
+     dental_t_daily_summary_detail."price_service" AS dental_t_daily_summary_detail_price_service,
+     dental_t_daily_summary_detail."price_pharmacy" AS dental_t_daily_summary_detail_price_pharmacy,
+     dental_t_daily_summary_detail."price_x_ray" AS dental_t_daily_summary_detail_price_x_ray,
+     dental_t_daily_summary_detail."price_lab" AS dental_t_daily_summary_detail_price_lab,
+     dental_t_daily_summary_detail."price_discount" AS dental_t_daily_summary_detail_price_discount,
+     dental_t_daily_summary_detail."paid" AS dental_t_daily_summary_detail_paid,
+     dental_t_daily_summary_detail."credit" AS dental_t_daily_summary_detail_credit,
+     dental_t_daily_summary_detail."patient_vn_id" AS dental_t_daily_summary_detail_patient_vn_id,
+     dental_t_daily_summary_detail."cash" AS dental_t_daily_summary_detail_cash,
+     dental_t_daily_summary_detail."dental_category_id" AS dental_t_daily_summary_detail_dental_category_id,
+     dental_b_category."dental_category_namet" AS dental_b_category_dental_category_namet
+FROM
+     "dental_t_daily_summary" dental_t_daily_summary LEFT OUTER JOIN "public"."dental_t_daily_summary_detail" dental_t_daily_summary_detail ON dental_t_daily_summary."dental_daily_id" = dental_t_daily_summary_detail."dental_daily_id"
+     LEFT OUTER JOIN "public"."dental_b_category" dental_b_category ON dental_t_daily_summary_detail."dental_category_id" = dental_b_category."dental_category_id"
+WHERE
+     dental_t_daily_summary.dental_daily_id = $P{p_dental_daily_id}
+ORDER BY
+     dental_time ASC]]></queryString>
+
+	<field name="dental_t_daily_summary_dental_daily_id" class="java.lang.String"/>
+	<field name="dental_t_daily_summary_dental_date" class="java.lang.String"/>
+	<field name="dental_t_daily_summary_patient_cnt" class="java.lang.Double"/>
+	<field name="dental_t_daily_summary_patient_summary" class="java.lang.Double"/>
+	<field name="dental_t_daily_summary_remark" class="java.lang.String"/>
+	<field name="dental_t_daily_summary_dental_active" class="java.lang.String"/>
+	<field name="dental_t_daily_summary_uc_treatment" class="java.lang.Double"/>
+	<field name="dental_t_daily_summary_uc_prevention" class="java.lang.Double"/>
+	<field name="dental_t_daily_summary_branch_id" class="java.lang.String"/>
+	<field name="dental_t_daily_summary_patient_cnt_vn" class="java.lang.Double"/>
+	<field name="dental_t_daily_summary_detail_dental_time" class="java.lang.String"/>
+	<field name="dental_t_daily_summary_detail_patient_hn_no" class="java.lang.String"/>
+	<field name="dental_t_daily_summary_detail_patient_fullnamet" class="java.lang.String"/>
+	<field name="dental_t_daily_summary_detail_doctor_id" class="java.lang.String"/>
+	<field name="dental_t_daily_summary_detail_doctor_namet" class="java.lang.String"/>
+	<field name="dental_t_daily_summary_detail_remark" class="java.lang.String"/>
+	<field name="dental_t_daily_summary_detail_paid_id" class="java.lang.String"/>
+	<field name="dental_t_daily_summary_detail_paid_namet" class="java.lang.String"/>
+	<field name="dental_t_daily_summary_detail_price_service" class="java.lang.Double"/>
+	<field name="dental_t_daily_summary_detail_price_pharmacy" class="java.lang.Double"/>
+	<field name="dental_t_daily_summary_detail_price_x_ray" class="java.lang.Double"/>
+	<field name="dental_t_daily_summary_detail_price_lab" class="java.lang.Double"/>
+	<field name="dental_t_daily_summary_detail_price_discount" class="java.lang.Double"/>
+	<field name="dental_t_daily_summary_detail_paid" class="java.lang.Double"/>
+	<field name="dental_t_daily_summary_detail_credit" class="java.lang.Double"/>
+	<field name="dental_t_daily_summary_detail_patient_vn_id" class="java.lang.String"/>
+	<field name="dental_t_daily_summary_detail_cash" class="java.lang.Double"/>
+	<field name="dental_t_daily_summary_detail_dental_category_id" class="java.lang.String"/>
+	<field name="dental_b_category_dental_category_namet" class="java.lang.String"/>
+
+	<variable name="row" class="java.lang.Integer" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[new java.lang.Integer(  ($V{row}.intValue()) +1 )]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{row}.valueOf( 0 )]]></initialValueExpression>
+	</variable>
+	<variable name="page_new" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$V{row}.intValue()<15 ? $V{page_new}.valueOf("1"):$V{page_new}.valueOf("2")]]></variableExpression>
+		<initialValueExpression><![CDATA[new String("1")]]></initialValueExpression>
+	</variable>
+
+		<group  name="dental_date" >
+			<groupExpression><![CDATA[$F{dental_t_daily_summary_dental_date}]]></groupExpression>
+			<groupHeader>
+			<band height="19"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="169"
+						y="0"
+						width="108"
+						height="19"
+						key="staticText-1"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[จำนวนผู้มาใช้บริการ :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="315"
+						y="0"
+						width="61"
+						height="19"
+						key="staticText-2"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[จำนวน VN :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="416"
+						y="0"
+						width="60"
+						height="19"
+						key="staticText-3"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ยอดรายรับ :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="660"
+						y="0"
+						width="65"
+						height="19"
+						key="staticText-4"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[สถิติรักษา :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="165"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["วันที่ :"+$F{dental_t_daily_summary_dental_date}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="277"
+						y="0"
+						width="34"
+						height="19"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{dental_t_daily_summary_patient_cnt}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="378"
+						y="0"
+						width="38"
+						height="19"
+						key="textField"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{dental_t_daily_summary_patient_cnt_vn}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="476"
+						y="0"
+						width="68"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{dental_t_daily_summary_patient_summary}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="611"
+						y="0"
+						width="49"
+						height="19"
+						key="textField"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{dental_t_daily_summary_uc_treatment}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="725"
+						y="0"
+						width="52"
+						height="19"
+						key="textField"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{dental_t_daily_summary_uc_prevention}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="544"
+						y="0"
+						width="67"
+						height="19"
+						key="staticText-9"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[สถิติป้องกัน :]]></text>
+				</staticText>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="9"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="75"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="51"
+						width="30"
+						height="19"
+						key="staticText-5"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เวลา]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="30"
+						y="51"
+						width="37"
+						height="19"
+						key="staticText-6"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[HN NO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="67"
+						y="51"
+						width="120"
+						height="19"
+						key="staticText-8"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ชื่อผู้มาใช้บริการ]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="51"
+						width="780"
+						height="0"
+						key="line-1"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="1"
+						y="74"
+						width="779"
+						height="0"
+						key="line-2"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="184"
+						y="51"
+						width="34"
+						height="19"
+						key="staticText-10"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[VN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="221"
+						y="51"
+						width="39"
+						height="19"
+						key="staticText-11"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ประเภท]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="259"
+						y="51"
+						width="52"
+						height="19"
+						key="staticText-12"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ค่ารักษา]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="311"
+						y="51"
+						width="58"
+						height="19"
+						key="staticText-13"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[แพทย์]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="369"
+						y="51"
+						width="52"
+						height="19"
+						key="staticText-14"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[หัตถการ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="421"
+						y="51"
+						width="52"
+						height="19"
+						key="staticText-15"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[LAB]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="473"
+						y="51"
+						width="52"
+						height="19"
+						key="staticText-16"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[X-RAY]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="525"
+						y="51"
+						width="52"
+						height="19"
+						key="staticText-17"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[ส่วนลด]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="577"
+						y="51"
+						width="52"
+						height="19"
+						key="staticText-18"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[เงินสด]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="629"
+						y="51"
+						width="52"
+						height="19"
+						key="staticText-19"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[Credit]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="740"
+						y="51"
+						width="41"
+						height="19"
+						key="staticText-20"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[หมายเหตุ]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="782"
+						height="16"
+						key="textField-1"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="16"
+						width="782"
+						height="16"
+						key="textField-2"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="32"
+						width="782"
+						height="16"
+						key="textField-3"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="12" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header3}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="681"
+						y="51"
+						width="59"
+						height="19"
+						key="staticText-21"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<text><![CDATA[การรักษา]]></text>
+				</staticText>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="18"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="30"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{dental_t_daily_summary_detail_dental_time}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="30"
+						y="0"
+						width="37"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{dental_t_daily_summary_detail_patient_hn_no}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="67"
+						y="0"
+						width="120"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{dental_t_daily_summary_detail_patient_fullnamet}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="187"
+						y="0"
+						width="34"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{dental_t_daily_summary_detail_patient_vn_id}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="221"
+						y="0"
+						width="39"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{dental_t_daily_summary_detail_paid_namet}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="257"
+						y="0"
+						width="52"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{dental_t_daily_summary_detail_paid}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="310"
+						y="0"
+						width="58"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{dental_t_daily_summary_detail_doctor_namet}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="369"
+						y="0"
+						width="52"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{dental_t_daily_summary_detail_price_service}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="421"
+						y="0"
+						width="52"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{dental_t_daily_summary_detail_price_lab}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="473"
+						y="0"
+						width="52"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{dental_t_daily_summary_detail_price_x_ray}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="525"
+						y="0"
+						width="52"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{dental_t_daily_summary_detail_price_discount}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="629"
+						y="0"
+						width="52"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{dental_t_daily_summary_detail_credit}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="577"
+						y="0"
+						width="52"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{dental_t_daily_summary_detail_cash}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="740"
+						y="0"
+						width="41"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{dental_t_daily_summary_detail_remark}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="683"
+						y="0"
+						width="59"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{dental_b_category_dental_category_namet}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="7"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

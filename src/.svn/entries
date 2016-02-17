@@ -1,0 +1,34 @@
+10
+
+dir
+312
+http://172.25.4.185:1588/svn/bangna/bangnaintranet/src
+http://172.25.4.185:1588/svn/bangna
+
+
+
+2011-06-27T08:49:28.125000Z
+27
+ton
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+538f8250-7416-fc40-9e44-127fca25052c
+
+conf
+dir
+
+java
+dir
+

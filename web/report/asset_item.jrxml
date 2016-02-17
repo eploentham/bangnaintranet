@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="asset_item"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="842"
+		 pageHeight="595"
+		 columnWidth="782"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<subDataset name="SubDataset1" >
+
+		<parameter name="datestart" isForPrompting="false" class="java.lang.String">
+			<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<parameter name="dateend" isForPrompting="false" class="java.lang.String">
+			<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<queryString><![CDATA[SELECT     dbo.LAB_T01.MNC_ORD_DOT, 
+		case dbo.FINANCE_M02.MNC_FN_STS
+                        when 'C' then 'เงินสด'
+                        when 'K' then 'กองทุน'
+                        when 'P' then 'UC'
+                        when 'R' then 'ลูกหนี้'
+                        when 'S' then 'ประกันสังคม' 
+			when 'A' then 'ลูกหนี้พิเศษ'
+			when 'G' then 'ลูกหนี้โรงพยาบาล'
+			else 'ppppp' end	as MNC_FN_STS,	
+		 dbo.PATIENT_M26.MNC_DOT_FNAME+ ' '+dbo.PATIENT_M26.MNC_DOT_LNAME as name, 
+                      SUM(dbo.LAB_M02.MNC_LB_PRI) AS MNC_LB_PRI
+FROM         dbo.LAB_T01 INNER JOIN
+                      dbo.LAB_T02 ON dbo.LAB_T01.MNC_REQ_YR = dbo.LAB_T02.MNC_REQ_YR AND dbo.LAB_T01.MNC_REQ_NO = dbo.LAB_T02.MNC_REQ_NO AND 
+                      dbo.LAB_T01.MNC_REQ_DAT = dbo.LAB_T02.MNC_REQ_DAT INNER JOIN
+                      dbo.LAB_M02 ON dbo.LAB_T02.MNC_LB_CD = dbo.LAB_M02.MNC_LB_CD INNER JOIN
+                      dbo.FINANCE_M02 ON dbo.LAB_T01.MNC_FN_TYP_CD = dbo.FINANCE_M02.MNC_FN_TYP_CD INNER JOIN
+                      dbo.PATIENT_M26 ON dbo.LAB_T01.MNC_DOT_CD = dbo.PATIENT_M26.MNC_DOT_CD
+WHERE     (dbo.LAB_T01.MNC_REQ_STS <> 'C') AND (dbo.LAB_T01.MNC_REQ_DAT between $P{datestart} and $P{dateend})
+GROUP BY dbo.LAB_T01.MNC_ORD_DOT, MNC_FN_STS, dbo.PATIENT_M26.MNC_DOT_FNAME, dbo.PATIENT_M26.MNC_DOT_LNAME]]></queryString>
+
+		<field name="MNC_ORD_DOT" class="java.lang.String"/>
+		<field name="MNC_FN_STS" class="java.lang.String"/>
+		<field name="name" class="java.lang.String"/>
+		<field name="MNC_LB_PRI" class="java.lang.Double"/>
+
+	</subDataset>
+
+	<parameter name="header1" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header2" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header3" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[SELECT
+     *,
+     b_asset."asset_id" AS b_asset_asset_id,
+     b_asset."asset_namet" AS b_asset_asset_namet,
+     b_asset."asset_active" AS b_asset_asset_active,
+     b_asset."asset_status" AS b_asset_asset_status,
+     b_asset."brand_id" AS b_asset_brand_id,
+     b_asset."type_device_id" AS b_asset_type_device_id,
+     b_asset."department_id" AS b_asset_department_id,
+     b_asset."branch_id" AS b_asset_branch_id,
+     b_asset."vendor_id" AS b_asset_vendor_id,
+     b_asset."date_buy" AS b_asset_date_buy,
+     b_asset."warranty" AS b_asset_warranty,
+     b_asset."serial_no" AS b_asset_serial_no,
+     b_asset."service_tab" AS b_asset_service_tab,
+     b_asset."price" AS b_asset_price,
+     b_asset."model" AS b_asset_model,
+     b_asset."remark" AS b_asset_remark,
+     b_asset."warranty_status" AS b_asset_warranty_status,
+     b_branch."branch_namet" AS b_branch_branch_namet,
+     b_department."department_namet" AS b_department_department_namet,
+     noti_b_brand."brand_namet" AS noti_b_brand_brand_namet,
+     noti_b_type_device."type_device_namet" AS noti_b_type_device_type_device_namet,
+     noti_b_vendor."vendor_namet" AS noti_b_vendor_vendor_namet, case warranty_status 
+when '1' then 'ยังอยู่ในประกัน' 
+when '2' then 'หมดประกันแล้ว'
+else 'ไม่กำหนด' end as warrantynamet
+FROM
+     "public"."b_branch" b_branch RIGHT OUTER JOIN "b_asset" b_asset ON b_branch."branch_id" = b_asset."branch_id"
+     LEFT OUTER JOIN "public"."b_department" b_department ON b_asset."department_id" = b_department."department_id"
+     LEFT OUTER JOIN "public"."noti_b_brand" noti_b_brand ON b_asset."brand_id" = noti_b_brand."brand_id"
+     LEFT OUTER JOIN "public"."noti_b_type_device" noti_b_type_device ON b_asset."type_device_id" = noti_b_type_device."type_device_id"
+     LEFT OUTER JOIN "public"."noti_b_vendor" noti_b_vendor ON b_asset."vendor_id" = noti_b_vendor."vendor_id"
+where b_asset.asset_status = '1'
+order by b_asset.branch_id, b_asset.department_id, noti_b_type_device.sort1]]></queryString>
+
+	<field name="branch_id" class="java.lang.String"/>
+	<field name="branch_namet" class="java.lang.String"/>
+	<field name="file_importsso" class="java.lang.String"/>
+	<field name="branch_status" class="java.lang.String"/>
+	<field name="asset_id" class="java.lang.String"/>
+	<field name="asset_namet" class="java.lang.String"/>
+	<field name="asset_active" class="java.lang.String"/>
+	<field name="asset_status" class="java.lang.String"/>
+	<field name="brand_id" class="java.lang.String"/>
+	<field name="type_device_id" class="java.lang.String"/>
+	<field name="department_id" class="java.lang.String"/>
+	<field name="vendor_id" class="java.lang.String"/>
+	<field name="date_buy" class="java.lang.String"/>
+	<field name="warranty" class="java.lang.String"/>
+	<field name="serial_no" class="java.lang.String"/>
+	<field name="service_tab" class="java.lang.String"/>
+	<field name="price" class="java.lang.Double"/>
+	<field name="model" class="java.lang.String"/>
+	<field name="remark" class="java.lang.String"/>
+	<field name="warranty_status" class="java.lang.String"/>
+	<field name="description1" class="java.lang.String"/>
+	<field name="description2" class="java.lang.String"/>
+	<field name="description3" class="java.lang.String"/>
+	<field name="description4" class="java.lang.String"/>
+	<field name="description5" class="java.lang.String"/>
+	<field name="department_namet" class="java.lang.String"/>
+	<field name="department_active" class="java.lang.String"/>
+	<field name="sort1" class="java.lang.String"/>
+	<field name="telephone" class="java.lang.String"/>
+	<field name="brand_namet" class="java.lang.String"/>
+	<field name="active" class="java.lang.String"/>
+	<field name="type_device_namet" class="java.lang.String"/>
+	<field name="vendor_namet" class="java.lang.String"/>
+	<field name="tax_id" class="java.lang.String"/>
+	<field name="sale_full_namet" class="java.lang.String"/>
+	<field name="mobile" class="java.lang.String"/>
+	<field name="sale_mobile" class="java.lang.String"/>
+	<field name="b_asset_asset_id" class="java.lang.String"/>
+	<field name="b_asset_asset_namet" class="java.lang.String"/>
+	<field name="b_asset_asset_active" class="java.lang.String"/>
+	<field name="b_asset_asset_status" class="java.lang.String"/>
+	<field name="b_asset_brand_id" class="java.lang.String"/>
+	<field name="b_asset_type_device_id" class="java.lang.String"/>
+	<field name="b_asset_department_id" class="java.lang.String"/>
+	<field name="b_asset_branch_id" class="java.lang.String"/>
+	<field name="b_asset_vendor_id" class="java.lang.String"/>
+	<field name="b_asset_date_buy" class="java.lang.String"/>
+	<field name="b_asset_warranty" class="java.lang.String"/>
+	<field name="b_asset_serial_no" class="java.lang.String"/>
+	<field name="b_asset_service_tab" class="java.lang.String"/>
+	<field name="b_asset_price" class="java.lang.Double"/>
+	<field name="b_asset_model" class="java.lang.String"/>
+	<field name="b_asset_remark" class="java.lang.String"/>
+	<field name="b_asset_warranty_status" class="java.lang.String"/>
+	<field name="b_branch_branch_namet" class="java.lang.String"/>
+	<field name="b_department_department_namet" class="java.lang.String"/>
+	<field name="noti_b_brand_brand_namet" class="java.lang.String"/>
+	<field name="noti_b_type_device_type_device_namet" class="java.lang.String"/>
+	<field name="noti_b_vendor_vendor_namet" class="java.lang.String"/>
+	<field name="warrantynamet" class="java.lang.String"/>
+
+
+		<group  name="branch_id" isStartNewPage="true" >
+			<groupExpression><![CDATA[$F{branch_id}]]></groupExpression>
+			<groupHeader>
+			<band height="18"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="306"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isBold="true" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["สาขา :"+$F{branch_namet}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="2"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="department" >
+			<groupExpression><![CDATA[$F{department_id}]]></groupExpression>
+			<groupHeader>
+			<band height="18"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="10"
+						y="0"
+						width="279"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isBold="true" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["แผนก :"+$F{b_department_department_namet}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="2"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="type_device_id" >
+			<groupExpression><![CDATA[$F{type_device_id}]]></groupExpression>
+			<groupHeader>
+			<band height="20"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="20"
+						y="0"
+						width="256"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isBold="true" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{noti_b_type_device_type_device_namet}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="51"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="782"
+						height="16"
+						key="textField-1"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="16"
+						width="782"
+						height="16"
+						key="textField-2"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="32"
+						width="782"
+						height="16"
+						key="textField-3"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header3}]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="18"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="28"
+						y="0"
+						width="752"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{b_asset_asset_namet}+" ยี่ห้อ "+$F{noti_b_brand_brand_namet}+" รุ่น "+$F{b_asset_model}+" serial no "+$F{serial_no}+" service tab "+$F{service_tab} +" ผู้จัดจำหน่าย "+$F{vendor_namet}+" ราคา "+$F{price}.toString()+" วันที่ซื้อ "+$F{date_buy}+" "+$F{warrantynamet}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="19"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

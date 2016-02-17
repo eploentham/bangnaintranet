@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="doctor_dx_groupby_typepayment_night"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="date_start" isForPrompting="true" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2009-04-01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date_end" isForPrompting="true" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2009-04-30"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header1" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header2" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="header3" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="time_start" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="time_end" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="branch" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[SELECT FINANCE_M02.MNC_FN_STS, case FINANCE_M02.MNC_FN_STS
+when 'A' then 'ลน.พิเศษ'
+when 'C' then 'เงินสด'
+when 'K' then 'กองทุน'
+when 'P' then 'UC'
+when 'R' then 'ลูกหนี้'
+when 'S' then 'ปกส'
+else FINANCE_M02.MNC_FN_STS end as fn_sts, SUM(1) AS Total, PATIENT_M26.MNC_DOT_CD,PATIENT_M26_2.MNC_SPC_NO,  PATIENT_M26.MNC_DOT_FNAME, PATIENT_M26.MNC_DOT_LNAME
+FROM         PHARMACY_M16_1 INNER JOIN
+                      PATIENT_M26_2 ON PHARMACY_M16_1.MNC_SPC_NO = PATIENT_M26_2.MNC_SPC_NO INNER JOIN
+                      PATIENT_T01 INNER JOIN
+                      PATIENT_M26 ON PATIENT_T01.MNC_DOT_CD = PATIENT_M26.MNC_DOT_CD INNER JOIN
+                      FINANCE_M02 ON PATIENT_T01.MNC_FN_TYP_CD = FINANCE_M02.MNC_FN_TYP_CD ON
+                      PATIENT_M26_2.MNC_DOT_CD = PATIENT_M26.MNC_DOT_CD
+WHERE     (PATIENT_T01.MNC_DATE BETWEEN $P{date_start} AND  $P{date_end}) and patient_t01.mnc_sts <> 'C'
+	and (not PATIENT_T01.MNC_TIME BETWEEN 600 AND  2000)
+GROUP BY FINANCE_M02.MNC_FN_STS, PATIENT_M26.MNC_DOT_CD, PATIENT_M26_2.MNC_SPC_NO, PATIENT_M26.MNC_DOT_FNAME, PATIENT_M26.MNC_DOT_LNAME
+ORDER BY PATIENT_M26.MNC_DOT_CD, FINANCE_M02.MNC_FN_STS]]></queryString>
+
+	<field name="MNC_FN_STS" class="java.lang.String"/>
+	<field name="fn_sts" class="java.lang.String"/>
+	<field name="Total" class="java.lang.Integer"/>
+	<field name="MNC_DOT_CD" class="java.lang.String"/>
+	<field name="MNC_SPC_NO" class="java.lang.String"/>
+	<field name="MNC_DOT_FNAME" class="java.lang.String"/>
+	<field name="MNC_DOT_LNAME" class="java.lang.String"/>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="1"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="50"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="-1"
+						width="533"
+						height="16"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="6" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="15"
+						width="533"
+						height="16"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="31"
+						width="533"
+						height="16"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="8" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{header3}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="15"
+						width="198"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{branch}]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="20"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="2"
+						y="0"
+						width="209"
+						height="19"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-1"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[new Date()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="324"
+						y="0"
+						width="170"
+						height="19"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-2"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Page " + $V{PAGE_NUMBER} + " of "]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="498"
+						y="0"
+						width="36"
+						height="19"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-3"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" size="10" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["" + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="736"  isSplitAllowed="true" >
+				<crosstab >
+					<reportElement
+						x="0"
+						y="0"
+						width="533"
+						height="736"
+						key="crosstab-1"/>
+					<crosstabHeaderCell>						<cellContents mode="Transparent">
+					<box></box>
+						</cellContents>
+					</crosstabHeaderCell>					<rowGroup name="MNC_DOT_FNAME" width="133" totalPosition="End">
+						<bucket>
+							<bucketExpression class="java.lang.String"><![CDATA[$F{MNC_DOT_FNAME}+" " +$F{MNC_DOT_LNAME}]]></bucketExpression>
+						</bucket>
+						<crosstabRowHeader>
+						<cellContents mode="Transparent">
+					<box></box>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="132"
+						height="15"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{MNC_DOT_FNAME}]]></textFieldExpression>
+				</textField>
+						</cellContents>
+						</crosstabRowHeader>
+						<crosstabTotalRowHeader>
+						<cellContents mode="Transparent">
+					<box></box>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="131"
+						height="30"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["รวมทั้งหมด ตามประเภท"]]></textFieldExpression>
+				</textField>
+						</cellContents>
+						</crosstabTotalRowHeader>
+					</rowGroup>
+					<columnGroup name="MNC_FN_STS" height="25" totalPosition="End" headerPosition="Center">
+						<bucket>
+							<bucketExpression class="java.lang.String"><![CDATA[$F{fn_sts}]]></bucketExpression>
+						</bucket>
+						<crosstabColumnHeader>
+						<cellContents mode="Transparent">
+					<box></box>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="45"
+						height="25"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{MNC_FN_STS}]]></textFieldExpression>
+				</textField>
+						</cellContents>
+						</crosstabColumnHeader>
+						<crosstabTotalColumnHeader>
+						<cellContents mode="Transparent">
+					<box></box>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="54"
+						height="25"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["รวมทั้งหมด"]]></textFieldExpression>
+				</textField>
+						</cellContents>
+						</crosstabTotalColumnHeader>
+					</columnGroup>
+
+					<measure name="Total_Sum" class="java.lang.Integer" calculation="Sum">
+						<measureExpression><![CDATA[$F{Total}]]></measureExpression>
+					</measure>
+					<crosstabCell width="45" height="16">
+						<cellContents mode="Transparent">
+					<box></box>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="45"
+						height="15"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{Total_Sum}]]></textFieldExpression>
+				</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="54" height="16" columnTotalGroup="MNC_FN_STS">
+						<cellContents mode="Transparent">
+					<box></box>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="54"
+						height="15"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{Total_Sum}]]></textFieldExpression>
+				</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="45" height="30" rowTotalGroup="MNC_DOT_FNAME">
+						<cellContents mode="Transparent">
+					<box></box>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="45"
+						height="30"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{Total_Sum}]]></textFieldExpression>
+				</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="54" height="30" rowTotalGroup="MNC_DOT_FNAME" columnTotalGroup="MNC_FN_STS">
+						<cellContents mode="Transparent">
+					<box></box>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="54"
+						height="30"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Tahoma" pdfFontName="tahoma.ttf" isPdfEmbedded ="true" pdfEncoding ="Identity-H"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{Total_Sum}]]></textFieldExpression>
+				</textField>
+						</cellContents>
+					</crosstabCell>
+					<whenNoDataCell>						<cellContents mode="Transparent">
+					<box></box>
+						</cellContents>
+					</whenNoDataCell>					</crosstab>
+			</band>
+		</summary>
+</jasperReport>
